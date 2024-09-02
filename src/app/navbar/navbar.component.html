@@ -1,0 +1,75 @@
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">
+            <img src="pokeball.png" style="width: 2rem">
+        </a>
+
+        <!-- Shown on mobile view, hidden on larger screens -->
+        @if (!user) {
+        <button class="btn btn-primary discord-blue d-flex align-items-center d-lg-none" (click)="login()" style="cursor: pointer;">
+            <img src="discord-logo-white.png" alt="Discord logo" class="me-2" style="width: 1rem;">
+            <span>Login</span>
+        </button>
+         } @else {
+            <form class="d-flex d-lg-none align-items-center">
+                <img [src]="user.photos[0].value" alt="User's avatar" style="width: 2rem; border-radius: 1rem; margin-right: 0.5rem;">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ user.displayName }}</a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" routerLink="/user/profile" routerLinkActive="active">Profile</a>
+                        <!-- <a class="dropdown-item" routerLink="/user/settings">Settings</a> -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Logout</a>
+                    </div>
+                </li>
+            </form>
+         }
+
+        <!-- Toggler button for collapsing navbar -->
+        <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible navbar content -->
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/standings" routerLinkActive="active">Standings</a>
+                </li>
+                <li class="nav-item dropdown" routerLinkActive="active">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Races</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" routerLink="/races/upcoming" routerLinkActive="active">Upcoming</a>
+                        <a class="dropdown-item" routerLink="/races/past" routerLinkActive="active">Past</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" routerLink="/races/submit" routerLinkActive="active">Submit Race</a>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Hidden on mobile view, visible on larger screens -->
+            @if (!user) {
+                <button class="btn btn-primary discord-blue d-flex align-items-center d-none d-lg-flex" (click)="login()">
+                    <img src="discord-logo-white.png" alt="Discord logo" class="me-2" style="width: 1rem;">
+                    <span>Login</span>
+                </button>
+             } @else {
+                <form class="d-none d-lg-flex">
+                    <img [src]="user.photos[0].value" alt="User's avatar" style="width: 2rem; border-radius: 1rem; margin-right: 0.5rem;">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ user.displayName }}</a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" routerLink="/user/profile" routerLinkActive="active">Profile</a>
+                            <!-- <a class="dropdown-item" routerLink="/user/settings">Settings</a> -->
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Logout</a>
+                        </div>
+                    </li>
+                </form>
+             }
+        </div>
+    </div>
+</nav>
