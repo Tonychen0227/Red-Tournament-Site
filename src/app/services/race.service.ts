@@ -30,6 +30,13 @@ export class RaceService {
       );
   }
 
+  getCompletedRaces(): Observable<Race[]> {
+    return this.http.get<Race[]>(`${this.baseUrl}/completed`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   getRaceById(raceId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${raceId}`);
   }
@@ -47,7 +54,6 @@ export class RaceService {
         catchError(this.handleError)
       );
   }
-
 
   cancelRace(raceId: string): Observable<any> {
     // TODO: Cancel race endpoint

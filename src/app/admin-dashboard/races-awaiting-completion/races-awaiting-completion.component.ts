@@ -1,0 +1,173 @@
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { RaceService } from '../../services/race.service';
+import { Race, RaceResult } from '../../../interfaces/race';
+import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-races-awaiting-completion',
+  standalone: true,
+  imports: [
+    DatePipe,
+    FormsModule,
+    RouterLink
+  ],
+  templateUrl: './races-awaiting-completion.component.html',
+  styleUrl: './races-awaiting-completion.component.css'
+})
+export class RacesAwaitingCompletionComponent {
+  races: Race[] = [];
+  raceResults: { [key: string]: RaceResult[] } = {};
+
+  constructor(private raceService: RaceService,
+    private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    this.getRaces();
+  }
+
+  getRaces(): void {
+    this.raceService.getRacesReadyForCompletion().subscribe(
+      (races: Race[]) => {
+        this.races = races;
+        this.initializeResults();
+      },
+      (error) => {
+        console.error('Error fetching races:', error);
+      }
+    );
+  }
+
+  initializeResults(): void {
+    this.races.forEach((race) => {
+      this.raceResults[race._id] = [
+        { racer: race.racer1, status: 'Finished', finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 } },
+        { racer: race.racer2, status: 'Finished', finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 } },
+      ];
+
+      if (race.racer3) {
+        this.raceResults[race._id].push({
+          racer: race.racer3,
+          status: 'Finished',
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 },
+        });
+      }
+    });
+  }
+
+  clearRaceResults(raceId: string): void {
+    const race = this.races.find(r => r._id === raceId);
+  
+    if (race) {
+      this.raceResults[raceId] = [
+        {
+          racer: race.racer1,
+          status: 'Finished',
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }
+        },
+        {
+          racer: race.racer2,
+          status: 'Finished',
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }
+        },
+      ];
+  
+      if (race.racer3) {
+        this.raceResults[raceId].push({
+          racer: race.racer3,
+          status: 'Finished',
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }
+        });
+      }
+  
+      this.cdr.detectChanges();
+    }
+  }
+  
+
+  canSubmitRaceResults(raceId: string): boolean {
+    const raceResults = this.raceResults[raceId];
+
+    return raceResults.every(result => {
+
+      if (result.status === 'Finished') {
+        const { hours, minutes, seconds, milliseconds } = result.finishTime;
+        return !(hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 0);
+      }
+
+      return true;
+    });
+  }
+  
+  completeRace(raceId: string): void {
+    const raceResults = this.raceResults[raceId].map(result => {
+
+      if (result.status !== 'Finished') {
+        return {
+          ...result,
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }
+        };
+      }
+
+      return result;
+    });
+  
+    this.raceService.completeRace(raceId, raceResults).subscribe(
+      (response) => {
+        console.log('Race completed successfully', response);
+      },
+      (error) => {
+        console.error('Error completing race:', error);
+      }
+    );
+  }
+  
+  validateHours(value: number, raceId: string, racerIndex: number): void {
+    if (value < 0) {
+      this.raceResults[raceId][racerIndex].finishTime.hours = 2;
+    } else if (value > 2) {
+      this.raceResults[raceId][racerIndex].finishTime.hours = 0;
+    } else {
+      this.raceResults[raceId][racerIndex].finishTime.hours = value;
+    }
+
+    this.cdr.detectChanges();
+  }
+
+  validateMinutes(value: number, raceId: string, racerIndex: number): void {
+    if (value < 0) {
+      this.raceResults[raceId][racerIndex].finishTime.minutes = 59;
+    } else if (value > 59) {
+      this.raceResults[raceId][racerIndex].finishTime.minutes = 0;
+    } else {
+      this.raceResults[raceId][racerIndex].finishTime.minutes = value;
+    }
+  
+    this.cdr.detectChanges();
+  }
+  
+  validateSeconds(value: number, raceId: string, racerIndex: number): void {
+    if (value < 0) {
+      this.raceResults[raceId][racerIndex].finishTime.seconds = 59;
+    } else if (value > 59) {
+      this.raceResults[raceId][racerIndex].finishTime.seconds = 0;
+    } else {
+      this.raceResults[raceId][racerIndex].finishTime.seconds = value;
+    }
+  
+    this.cdr.detectChanges();
+  }
+
+  validateMilliseconds(value: number, raceId: string, racerIndex: number): void {
+    if (value < 0) {
+      this.raceResults[raceId][racerIndex].finishTime.milliseconds = 999;
+    } else if (value > 999) {
+      this.raceResults[raceId][racerIndex].finishTime.milliseconds = 0;
+    } else {
+      this.raceResults[raceId][racerIndex].finishTime.milliseconds = value;
+    }
+  
+    this.cdr.detectChanges();
+  }
+}

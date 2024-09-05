@@ -1,1 +1,59 @@
-<p>past-races works!</p>
+<h1>Past Races</h1>
+
+@for (race of races; track race._id) {
+    <div class="card my-4 border-primary">
+        <div class="card-header pt-3">
+            <h4>{{ race.raceDateTime * 1000 | date:'fullDate' }} at {{ race.raceDateTime * 1000 | date:'shortTime' }}</h4>
+        </div>
+        
+        <div class="card-body">
+            <ol class="list-group list-group-numbered">
+                @for (result of race.results; track result.racer._id) {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between w-100">
+
+                            <span>{{ result.racer.displayName }}</span>
+                            
+                            @if (result.status === 'Finished') {
+                                <span>
+                                    {{ result.finishTime.hours }}h 
+                                    {{ result.finishTime.minutes }}m 
+                                    {{ result.finishTime.seconds }}s 
+                                    {{ result.finishTime.milliseconds }}ms
+                                </span>
+                            } @else {
+                                <span class="badge bg-primary">{{ result.status }}</span>
+                            }
+                        </div>
+                    </li>
+                }
+            </ol>
+        </div>
+
+        <!-- <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                @if (race.commentators.length > 0) {
+                    <div class="d-flex align-items-center">
+                        <img src="/mic.png" alt="Microphone icon" style="height: 2rem">
+
+                        @for (commentator of race.commentators; track commentator._id) {
+                            <span class="badge bg-dark mx-3 p-2">
+                                {{ commentator.displayName }}
+                            </span>
+                        }
+                    </div>
+                } @else {
+                    <p>No commentators for this race</p>
+                }
+            </div>
+        </div> -->
+    </div>
+}
+@empty {
+    <div class="d-flex flex-column">
+        <p class="text-center">
+            <strong>No completed races</strong>
+        </p>
+    </div>
+}
+

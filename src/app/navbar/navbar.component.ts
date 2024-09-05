@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     RouterLinkActive
   ],
@@ -17,7 +18,7 @@ export class NavbarComponent implements OnInit {
   
   user: any = null;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.checkAuthStatus().subscribe(user => {
@@ -31,5 +32,9 @@ export class NavbarComponent implements OnInit {
 
   logout(): void {  
     this.authService.logout();
+  }
+
+  isRacesActive(): boolean {    
+    return this.router.isActive('/races', false);
   }
 }

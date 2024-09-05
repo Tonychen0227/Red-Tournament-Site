@@ -1,16 +1,23 @@
 import { Routes } from '@angular/router';
+
 import { HomeComponent } from './home/home.component';
+
 import { StandingsComponent } from './standings/standings.component';
 import { UpcomingRacesComponent } from './races/upcoming-races/upcoming-races.component';
 import { PastRacesComponent } from './races/past-races/past-races.component';
 import { SubmitRaceComponent } from './races/submit-race/submit-race.component';
+import { RaceDetailComponent } from './races/race-detail/race-detail.component';
+
 import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
-import { RaceDetailComponent } from './races/race-detail/race-detail.component';
+
+import { InfoComponent } from './info/info.component';
 import { RulesComponent } from './rules/rules.component';
 import { HelpComponent } from './help/help.component';
-import { InfoComponent } from './info/info.component';
-import { RacesAwaitingCompletionComponent } from './races/races-awaiting-completion/races-awaiting-completion.component';
+
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { RacesAwaitingCompletionComponent } from './admin-dashboard/races-awaiting-completion/races-awaiting-completion.component';
+import { RacesComponent } from './races/races.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -18,13 +25,19 @@ export const routes: Routes = [
     { path: 'standings', component: StandingsComponent },
     { path: 'rules', component: RulesComponent },
     { path: 'help', component: HelpComponent },
+    { path: 'admin', component: AdminDashboardComponent,
+        children: [
+            { path: 'record', component: RacesAwaitingCompletionComponent },
+
+        ] 
+    },
     {
         path: 'races',
+        component: RacesComponent,
         children: [
             { path: 'upcoming', component: UpcomingRacesComponent },
-            { path: 'complete', component: PastRacesComponent },
+            { path: 'past', component: PastRacesComponent },
             { path: 'submit', component: SubmitRaceComponent },
-            { path: 'past', component: RacesAwaitingCompletionComponent },
             { path: ':id', component: RaceDetailComponent },
             { path: '', redirectTo: 'upcoming', pathMatch: 'full' }
         ]
