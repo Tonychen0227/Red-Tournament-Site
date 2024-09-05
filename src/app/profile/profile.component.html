@@ -5,13 +5,13 @@
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Display Name:</strong> {{ user.displayName }}</p>
         <p><strong>Role:</strong> {{ user.role | titlecase }}</p>
+        
         @if (user.isAdmin) {
             <p><strong>Admin: </strong>Yes</p>
         }
       </div>
       
     } @else {
-      <p>No user data available. Please log in.</p>
+        <p>No user data available. Please log in.</p>
     }
-  </div>
-  
+</div>

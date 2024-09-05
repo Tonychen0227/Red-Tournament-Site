@@ -9,6 +9,7 @@ import { catchError, Observable, of, tap } from 'rxjs';
 export class AuthService {
 
   private authUrl = 'http://localhost:3000/api/';
+  
   private user: any = null;
   private cacheDuration = 5 * 60 * 1000; // 5 minutes
 

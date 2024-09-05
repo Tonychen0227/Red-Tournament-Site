@@ -1,0 +1,10 @@
+.container-fluid {
+    max-width: 600px;
+}
+
+form .form-group input, 
+form .form-group select {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    margin-top: 5px;
+}

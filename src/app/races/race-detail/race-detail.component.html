@@ -1,0 +1,53 @@
+<div class="container mt-4">
+    <h2 class="mb-3">Race Details</h2>
+  
+    <div class="card">
+      <div class="card-header">
+        <strong>Race ID:</strong> {{ race._id }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Race Participants</h5>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>Racer 1:</strong> {{ race.racer1.displayName }} ({{ race.racer1.discordUsername }})
+          </li>
+          @if (race.racer2) {
+            <li class="list-group-item">
+              <strong>Racer 2:</strong> {{ race.racer2.displayName }} ({{ race.racer2.discordUsername }})
+            </li>
+          }
+          @if (race.racer3) {
+            <li class="list-group-item">
+              <strong>Racer 3:</strong> {{ race.racer3.displayName }} ({{ race.racer3.discordUsername }})
+            </li>
+          }
+        </ul>
+  
+        <h5 class="card-title mt-4">Race Information</h5>
+        <p class="card-text">
+          <strong>Date and Time:</strong> {{ getFormattedDatetime(race.datetime) }}
+        </p>
+        @if (race.completed) {
+          <p class="card-text">
+            <strong>Status:</strong> Completed
+          </p>
+        } @else {
+          <p class="card-text">
+            <strong>Status:</strong> Upcoming
+          </p>
+        }
+  
+        @if (race.completed && race.results.length > 0) {
+          <h5 class="card-title mt-4">Results</h5>
+          <ul class="list-group">
+            @for (result of race.results; track result.racer._id) {
+              <li class="list-group-item">
+                <strong>{{ result.racer.displayName }}:</strong> {{ result.time }} seconds
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+  </div>
+  

@@ -1,1 +1,53 @@
-<p>submit-race works!</p>
+@if (successMessage) {
+    <div class="alert alert-dismissible alert-success mt-4">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearMessages()"></button>
+        <strong>{{ successMessage }}</strong>
+    </div>
+}
+
+@if (errorMessage) {
+    <div class="alert alert-dismissible alert-primary mt-4">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearMessages()"></button>
+        <strong>{{ errorMessage }}</strong> 
+    </div>
+}
+
+<form (ngSubmit)="submitRace()" class="d-flex flex-column">
+    
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="form-group d-flex flex-column">
+            <label for="date">Date</label>
+            <input id="date" type="date" [(ngModel)]="raceData.date" name="date" required>
+        </div>
+        
+        <div class="form-group d-flex flex-column">
+            <label for="time">Time (UTC)</label>
+            <input id="time" type="time" [(ngModel)]="raceData.time" name="time" required>
+        </div>
+    </div>
+
+    <label for="racer1" class="form-label mt-4">Racer 1</label>
+    <select class="form-select" id="racer1" [(ngModel)]="raceData.racer1" name="racer1" required>
+        <option [value]="" disabled>Select Racer 1</option>
+        <option [value]="raceData.racer1" selected>{{ userName }}</option>
+    </select>
+
+    <label for="racer2" class="form-label mt-4">Racer 2</label>
+    <select class="form-select" id="racer2" [(ngModel)]="raceData.racer2" name="racer2">
+        <option value=null selected disabled>Select Racer 2</option>
+        @for (runner of runners; track runner._id) {
+            <option [value]="runner._id" [disabled]="runner._id === raceData.racer3">{{ runner.displayName }}</option>
+        }
+    </select>
+
+    <label for="racer3" class="form-label mt-4">Racer 3</label>
+    <select class="form-select" id="racer3" [(ngModel)]="raceData.racer3" name="racer3">
+        <option value=null selected disabled>Select Racer 3</option>
+        <!-- <option value=null>N/A (Two person race)</option> TODO: This still fails with this selected? --> 
+        @for (runner of runners; track runner._id) {
+            <option [value]="runner._id" [disabled]="runner._id === raceData.racer2">{{ runner.displayName }}</option>
+        }
+    </select>
+
+    <button type="submit" class="btn btn-primary mt-4">Submit Race</button>
+</form>
