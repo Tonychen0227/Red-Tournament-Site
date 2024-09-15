@@ -1,0 +1,82 @@
+/* /* Ensure the entire wrapper fills the screen height */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers everything vertically */
+    align-items: center;
+    min-height: 100vh; /* Ensures it takes up the full viewport height */
+    padding: 1rem;
+  }
+  
+  .countdown-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    flex-grow: 1; /* Allows countdown container to grow and take space */
+  }
+  
+  .countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    max-width: 80vw;
+  }
+  
+  .countdown-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .countdown-number {
+    font-size: 5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .countdown-unit {
+    font-size: 1.5rem;
+    color: grey;
+  }
+  
+  .logo {
+    max-width: 80%;
+  }
+  
+  .card {
+    background-color: #333;
+    color: white;
+    width: 100%; /* Makes the card take the full width */
+  }
+  
+  .list-group-item {
+    background-color: transparent;
+    color: #fff;
+  }
+
+  .discord-button {
+    background-color: #7785CC;
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .countdown-number {
+      font-size: 2rem;
+    }
+  
+    .countdown-unit {
+      font-size: 1rem;
+    }
+  }
+  
+  .mt-4 {
+    flex-grow: 1; /* This makes the runners list grow and take space as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }

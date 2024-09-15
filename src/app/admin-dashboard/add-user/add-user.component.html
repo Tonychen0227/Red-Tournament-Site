@@ -1,0 +1,42 @@
+<h2>Add User</h2>
+
+@if (successMessage) {
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        {{ successMessage }}
+    </div>
+}
+
+@if (errorMessage) {
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        {{ errorMessage }}
+    </div>
+}
+
+<form (ngSubmit)="addUser()" #userForm="ngForm">
+    <div class="mb-3">
+        <label for="discordUsername" class="form-label">Discord Username</label>
+        <input type="text" id="discordUsername" class="form-control" name="discordUsername" [(ngModel)]="discordUsername" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="displayName" class="form-label">Display Name</label>
+        <input type="text" id="displayName" class="form-control" name="displayName" [(ngModel)]="displayName" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <select id="role" class="form-select" name="role" [(ngModel)]="role" required>
+        <option value="runner">Runner</option>
+        <option value="commentator">Commentator</option>
+        </select>
+    </div>
+
+    <!-- <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin" [(ngModel)]="isAdmin">
+        <label class="form-check-label" for="isAdmin">Admin</label>
+    </div> -->
+
+    <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Add User</button>
+</form>

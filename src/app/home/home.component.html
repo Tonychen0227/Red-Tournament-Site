@@ -1,52 +1,62 @@
-@if(user) {
-  <div class="welcome text-center">
-    <h1 class="mb-4">Welcome, LegendEater!</h1>
+@if (loading) {
+  <app-loading></app-loading>
+} @else {
+  
+  @if(user) {
+    <div class="welcome text-center">
+      <h1 class="mb-4">Welcome, {{user.displayName }}!</h1>
 
-    <p>You can submit races you've organized with your fellow group members</p>
+      @if (user.role == 'runner') {
+        <p>You can submit races you've organized with your fellow group members</p>
+
+        <hr />
+      }
+
+      <p>You can sign up to commentate any race</p>
+      <p>
+          During the Swiss rounds, this will be on a "first come, first served" basis.
+          
+          <br>
+          
+          For the final 4 matches, the racers will get to vote on their preferred commentators from the people who have submitted.
+      </p>
+    </div>
 
     <hr />
 
-    <p>You can sign up to commentate any race</p>
-    <p>
-        During the Swiss rounds, this will be on a "first come, first served" basis.
-        
-        <br>
-        
-        For the final 4 matches, the racers will get to vote on their preferred commentators from the people who have submitted.
-    </p>
-  </div>
+    <div class="d-flex align-items-center justify-content-center gap-3">
+      @if (user.role == 'runner') {
+        <button class="btn btn-primary" routerLink="/races/submit">Submit a Race</button>
+      }
+      <button class="btn btn-primary" routerLink="/races/upcoming">Commentate a Race</button>
+      <button class="btn btn-primary" routerLink="/standings">Current Standings</button>
+    </div> 
 
-  <hr />
+  } @else {
+    <div class="welcome text-center">
+      <h1>Welcome to the Pokémon Red Tournament!</h1>
 
-  <div class="d-flex align-items-center justify-content-center gap-3">
-    <button class="btn btn-primary" routerLink="/races/submit">Submit a Race</button>
-    <button class="btn btn-primary" routerLink="/races/upcoming">Commentate a Race</button>
-    <button class="btn btn-primary" routerLink="/standings">Current Standings</button>
-  </div> 
+      <p>You can log in using the button at the top</p>
 
-} @else {
-  <div class="welcome text-center">
-    <h1>Welcome to the Pokémon Red Tournament!</h1>
+      <p>You can then submit races, or sign up to commentate a race</p>
+    </div>
+  }
 
-    <p>You can log in using the button at the top</p>
-
-    <p>You can then submit races, or sign up to commentate a race</p>
-  </div>
-}
-
-<div class="mt-4">
-  <h5 class="">Currently Signed Up:</h5>
-  <div class="card m-2">
-    <div class="card-body">
-      <div class="row">
-        @for (runner of runners; track runner._id) {
-          <div class="col-md-4 col-6 d-flex justify-content-center align-items-center">
-            <li class="list-group-item text-center">
-              {{ runner.displayName }}
-            </li>
-          </div>
-        }
+  <div class="mt-4">
+    <h5 class="">Currently Signed Up:</h5>
+    <div class="card m-2">
+      <div class="card-body">
+        <div class="row">
+          @for (runner of runners; track runner._id) {
+            <div class="col-md-4 col-6 d-flex justify-content-center align-items-center">
+              <li class="list-group-item text-center">
+                {{ runner.displayName }}
+              </li>
+            </div>
+          }
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+}

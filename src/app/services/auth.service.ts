@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, of, tap } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private authUrl = 'http://localhost:3000/api/';
+  private baseUrl = environment.apiUrl;
   
   private user: any = null;
   private cacheDuration = 5 * 60 * 1000; // 5 minutes
@@ -16,7 +17,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   login(): void {
-    window.location.href = `${this.authUrl}/login`;
+    window.location.href = `${this.baseUrl}/login`;
   }
 
   checkAuthStatus(forceRefresh = false): Observable<any> {
@@ -32,14 +33,15 @@ export class AuthService {
     }
 
     // Fetch fresh user data from the server
-    return this.http.get(`${this.authUrl}/auth-status`, { withCredentials: true }).pipe(
+    return this.http.get(`${this.baseUrl}/auth-status`, { withCredentials: true }).pipe(
       tap(user => {
         this.user = user;
         sessionStorage.setItem('user', JSON.stringify(user));
-        sessionStorage.setItem('userTimestamp', new Date().getTime().toString());
+        sessionStorage.setItem('userTimestamp', new Date().getTime().toString());        
       }),
       catchError(error => {
-        console.error('Error checking auth status:', error);
+        console.log('User is not logged in.');
+        
         this.user = null;
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('userTimestamp');
@@ -47,9 +49,14 @@ export class AuthService {
       })
     );
   }
+
+  isAdmin(): boolean {
+    return this.user?.isAdmin === true;
+  }
   
   logout(): void {
-    this.http.post(`${this.authUrl}/logout`, {}, { withCredentials: true }).subscribe({
+
+    this.http.post(`${this.baseUrl}/logout`, {}, { withCredentials: true }).subscribe({
       next: () => {
         this.user = null;
         sessionStorage.removeItem('user');

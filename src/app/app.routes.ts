@@ -18,6 +18,9 @@ import { HelpComponent } from './help/help.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { RacesAwaitingCompletionComponent } from './admin-dashboard/races-awaiting-completion/races-awaiting-completion.component';
 import { RacesComponent } from './races/races.component';
+import { AddUserComponent } from './admin-dashboard/add-user/add-user.component';
+import { authGuard } from './guards/auth.guard';
+import { EditRacesComponent } from './admin-dashboard/edit-races/edit-races.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -27,7 +30,10 @@ export const routes: Routes = [
     { path: 'help', component: HelpComponent },
     { path: 'admin', component: AdminDashboardComponent,
         children: [
-            { path: 'record', component: RacesAwaitingCompletionComponent },
+            { path: 'races/record', component: RacesAwaitingCompletionComponent },
+            { path: 'users/add', component: AddUserComponent },
+            { path: 'races/edit', component: EditRacesComponent },
+            { path: '', redirectTo: 'record', pathMatch: 'full' }
 
         ] 
     },
@@ -37,7 +43,11 @@ export const routes: Routes = [
         children: [
             { path: 'upcoming', component: UpcomingRacesComponent },
             { path: 'past', component: PastRacesComponent },
-            { path: 'submit', component: SubmitRaceComponent },
+            { 
+                path: 'submit', 
+                component: SubmitRaceComponent,
+                canActivate: [authGuard] 
+            },
             { path: ':id', component: RaceDetailComponent },
             { path: '', redirectTo: 'upcoming', pathMatch: 'full' }
         ]

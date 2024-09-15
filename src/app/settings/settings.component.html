@@ -1,1 +1,30 @@
-<p>settings works!</p>
+@if (user) {
+    <div class="container">
+        <h2>User Settings</h2>
+
+        <form (ngSubmit)="updateSettings()">
+
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="displayName">Display Name</label>
+                <input 
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="user.displayName" 
+                    id="displayName"
+                    name="displayName">
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label mt-4" for="timezone">Timezone</label>
+                <input 
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="user.timezone" 
+                    id="timezone"
+                    name="timezone">
+            </div>
+
+            <button class="btn btn-primary mt-3" type="submit">Save Changes</button>
+        </form>
+    </div>
+}

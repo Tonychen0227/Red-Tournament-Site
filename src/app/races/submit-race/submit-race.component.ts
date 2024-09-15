@@ -36,8 +36,7 @@ export class SubmitRaceComponent {
   constructor(
     private runnersService: RunnersService,
     private raceService: RaceService, 
-    private authService: AuthService, 
-    private router: Router) { }
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.fetchUserName();
@@ -69,7 +68,7 @@ export class SubmitRaceComponent {
     this.successMessage = '';
     this.errorMessage = '';
     
-    if (!this.raceData.date || !this.raceData.time || !this.raceData.racer2 || !this.raceData.racer3) {
+    if (!this.raceData.date || !this.raceData.time || !this.raceData.racer2) {
       this.errorMessage = 'All fields are required. Please fill them out and try again.';
       return;
     }

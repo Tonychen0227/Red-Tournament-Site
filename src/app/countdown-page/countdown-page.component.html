@@ -1,0 +1,48 @@
+@if (loading) {
+  <app-loading></app-loading>
+} @else {
+  <div class="countdown-container text-center">
+    <img class="logo" src="/RedTournamentLogo.png" alt="Red tournament logo">
+  
+    <div class="countdown">
+      <div class="countdown-item">
+        <div class="countdown-number">{{ timeRemaining.days }}</div>
+        <div class="countdown-unit">days</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number">{{ timeRemaining.hours }}</div>
+        <div class="countdown-unit">hours</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number">{{ timeRemaining.minutes }}</div>
+        <div class="countdown-unit">minutes</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-number">{{ timeRemaining.seconds }}</div>
+        <div class="countdown-unit">seconds</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="d-flex justify-content-center align-items-center gap-3 m-4">
+      <a class="btn btn-primary" href="http://signup.speedrun.red/" role="button">Sign Up</a>
+      <a class="btn discord-button" href="https://discord.gg/mHTTRYfu" role="button">Join Discord</a>
+  </div>
+  
+  <div class="mt-4">
+    <h5 class="text-light">Currently Signed Up:</h5>
+    <div class="card m-2">
+      <div class="card-body">
+        <div class="row">
+          @for (runner of runners; track runner._id) {
+            <div class="col-md-4 col-6 d-flex justify-content-center align-items-center">
+              <li class="list-group-item text-center">
+                {{ runner.displayName }}
+              </li>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

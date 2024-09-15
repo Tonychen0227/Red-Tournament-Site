@@ -1,132 +1,151 @@
-<h1>Races Ready for Completion</h1>
+@if (loading) {
+    <app-loading></app-loading>
+} @else {
+    <h1>Races Ready for Completion</h1>
 
-@for (race of races; track race._id) {
-    <div class="card my-4 border-primary">
-      <div class="card-header bg-primary text-light pt-3">
-        <h4>{{ race.raceDateTime * 1000 | date:'fullDate' }} at {{ race.raceDateTime * 1000 | date:'shortTime' }}</h4>
-      </div>
+    @if (successMessage) {
+        <div class="alert alert-dismissible alert-success mt-3">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearAlert()"></button>
+        {{ successMessage }}
+        </div>
+    }
+    
+    @if (errorMessage) {
+        <div class="alert alert-dismissible alert-primary mt-3">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearAlert()"></button>
+        {{ errorMessage }}
+        </div>
+    }
 
-      <div class="card-body">
-        <!-- Racer 1 -->
-        <div class="mb-3">
-            <h5>{{ race.racer1.displayName }}</h5>
-            <select class="form-select" [(ngModel)]="raceResults[race._id][0].status">
-                <option value="Finished">Finished</option>
-                <option value="DNF">DNF</option>
-                <option value="DNS">DNS</option>
-                <option value="DQ">DQ</option>
-            </select>
-
-            @if (raceResults[race._id][0].status === 'Finished') {
-                <div class="d-flex gap-1 mt-1">
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingHours{{race._id}}" [(ngModel)]="raceResults[race._id][0].finishTime.hours" (ngModelChange)="validateHours($event, race._id, 0)">
-                        <label for="floatingHours{{race._id}}">Hours</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingMinutes{{race._id}}" [(ngModel)]="raceResults[race._id][0].finishTime.minutes" (ngModelChange)="validateMinutes($event, race._id, 0)">
-                        <label for="floatingMinutes{{race._id}}">Minutes</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingSeconds{{race._id}}" [(ngModel)]="raceResults[race._id][0].finishTime.seconds" (ngModelChange)="validateSeconds($event, race._id, 0)">
-                        <label for="floatingSeconds{{race._id}}">Seconds</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingMilliseconds{{race._id}}" [(ngModel)]="raceResults[race._id][0].finishTime.milliseconds" (ngModelChange)="validateMilliseconds($event, race._id, 0)">
-                        <label for="floatingMilliseconds{{race._id}}">Ms</label>
-                    </div>
-                </div>
-            }
+    @for (race of races; track race._id) {
+        <div class="card my-4 border-primary">
+        <div class="card-header bg-primary text-light pt-3">
+            <h4>{{ race.raceDateTime * 1000 | date:'fullDate' }} at {{ race.raceDateTime * 1000 | date:'shortTime' }}</h4>
         </div>
 
-        <!-- Racer 2 -->
-        <div class="mb-3">
-            <h5>{{ race.racer2.displayName }}</h5>
-
-            <select class="form-select" [(ngModel)]="raceResults[race._id][1].status">
-                <option value="Finished">Finished</option>
-                <option value="DNF">DNF</option>
-                <option value="DNS">DNS</option>
-                <option value="DQ">DQ</option>
-            </select>
-
-            @if (raceResults[race._id][1].status === 'Finished') {
-                <div class="d-flex gap-1 mt-1">
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingHours{{race._id}}" [(ngModel)]="raceResults[race._id][1].finishTime.hours" (ngModelChange)="validateHours($event, race._id, 1)">
-                        <label for="floatingHours{{race._id}}">Hours</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingMinutes{{race._id}}" [(ngModel)]="raceResults[race._id][1].finishTime.minutes" (ngModelChange)="validateMinutes($event, race._id, 1)">
-                        <label for="floatingMinutes{{race._id}}">Minutes</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingSeconds{{race._id}}" [(ngModel)]="raceResults[race._id][1].finishTime.seconds" (ngModelChange)="validateSeconds($event, race._id, 1)">
-                        <label for="floatingSeconds{{race._id}}">Seconds</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="floatingMilliseconds{{race._id}}" [(ngModel)]="raceResults[race._id][1].finishTime.milliseconds" (ngModelChange)="validateMilliseconds($event, race._id, 1)">
-                        <label for="floatingMilliseconds{{race._id}}">Ms</label>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <!-- Racer 3 -->
-        @if (race.racer3) {
+        <div class="card-body">
+            <!-- Racer 1 -->
             <div class="mb-3">
-                <h5>{{ race.racer3.displayName }}</h5>
-
-                <select class="form-select" [(ngModel)]="raceResults[race._id][2].status">
+                <h5>{{ race.racer1.displayName }}</h5>
+                <select class="form-select" [(ngModel)]="raceResults[race._id][0].status">
                     <option value="Finished">Finished</option>
                     <option value="DNF">DNF</option>
                     <option value="DNS">DNS</option>
                     <option value="DQ">DQ</option>
                 </select>
 
-                @if (raceResults[race._id][2].status === 'Finished') {
+                @if (raceResults[race._id][0].status === 'Finished') {
                     <div class="d-flex gap-1 mt-1">
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="floatingHours{{race._id}}" [(ngModel)]="raceResults[race._id][2].finishTime.hours" (ngModelChange)="validateHours($event, race._id, 2)">
+                            <input type="number" class="form-control" id="floatingHours{{race._id}}" [(ngModel)]="raceResults[race._id][0].finishTime.hours" (ngModelChange)="validateHours($event, race._id, 0)">
                             <label for="floatingHours{{race._id}}">Hours</label>
                         </div>
-    
+
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="floatingMinutes{{race._id}}" [(ngModel)]="raceResults[race._id][2].finishTime.minutes" (ngModelChange)="validateMinutes($event, race._id, 2)">
+                            <input type="number" class="form-control" id="floatingMinutes{{race._id}}" [(ngModel)]="raceResults[race._id][0].finishTime.minutes" (ngModelChange)="validateMinutes($event, race._id, 0)">
                             <label for="floatingMinutes{{race._id}}">Minutes</label>
                         </div>
-    
+
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="floatingSeconds{{race._id}}" [(ngModel)]="raceResults[race._id][2].finishTime.seconds" (ngModelChange)="validateSeconds($event, race._id, 2)">
+                            <input type="number" class="form-control" id="floatingSeconds{{race._id}}" [(ngModel)]="raceResults[race._id][0].finishTime.seconds" (ngModelChange)="validateSeconds($event, race._id, 0)">
                             <label for="floatingSeconds{{race._id}}">Seconds</label>
                         </div>
-    
+
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="floatingMilliseconds{{race._id}}" [(ngModel)]="raceResults[race._id][2].finishTime.milliseconds" (ngModelChange)="validateMilliseconds($event, race._id, 2)">
+                            <input type="number" class="form-control" id="floatingMilliseconds{{race._id}}" [(ngModel)]="raceResults[race._id][0].finishTime.milliseconds" (ngModelChange)="validateMilliseconds($event, race._id, 0)">
                             <label for="floatingMilliseconds{{race._id}}">Ms</label>
                         </div>
                     </div>
                 }
             </div>
-        }
 
-        <button [disabled]="!canSubmitRaceResults(race._id)" (click)="completeRace(race._id)" class="btn btn-primary">Record Results</button>
+            <!-- Racer 2 -->
+            <div class="mb-3">
+                <h5>{{ race.racer2.displayName }}</h5>
 
-        <button (click)="clearRaceResults(race._id)" class="btn btn-secondary ms-2">Clear</button>
+                <select class="form-select" [(ngModel)]="raceResults[race._id][1].status">
+                    <option value="Finished">Finished</option>
+                    <option value="DNF">DNF</option>
+                    <option value="DNS">DNS</option>
+                    <option value="DQ">DQ</option>
+                </select>
+
+                @if (raceResults[race._id][1].status === 'Finished') {
+                    <div class="d-flex gap-1 mt-1">
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="floatingHours{{race._id}}" [(ngModel)]="raceResults[race._id][1].finishTime.hours" (ngModelChange)="validateHours($event, race._id, 1)">
+                            <label for="floatingHours{{race._id}}">Hours</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="floatingMinutes{{race._id}}" [(ngModel)]="raceResults[race._id][1].finishTime.minutes" (ngModelChange)="validateMinutes($event, race._id, 1)">
+                            <label for="floatingMinutes{{race._id}}">Minutes</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="floatingSeconds{{race._id}}" [(ngModel)]="raceResults[race._id][1].finishTime.seconds" (ngModelChange)="validateSeconds($event, race._id, 1)">
+                            <label for="floatingSeconds{{race._id}}">Seconds</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="floatingMilliseconds{{race._id}}" [(ngModel)]="raceResults[race._id][1].finishTime.milliseconds" (ngModelChange)="validateMilliseconds($event, race._id, 1)">
+                            <label for="floatingMilliseconds{{race._id}}">Ms</label>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Racer 3 -->
+            @if (race.racer3) {
+                <div class="mb-3">
+                    <h5>{{ race.racer3.displayName }}</h5>
+
+                    <select class="form-select" [(ngModel)]="raceResults[race._id][2].status">
+                        <option value="Finished">Finished</option>
+                        <option value="DNF">DNF</option>
+                        <option value="DNS">DNS</option>
+                        <option value="DQ">DQ</option>
+                    </select>
+
+                    @if (raceResults[race._id][2].status === 'Finished') {
+                        <div class="d-flex gap-1 mt-1">
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingHours{{race._id}}" [(ngModel)]="raceResults[race._id][2].finishTime.hours" (ngModelChange)="validateHours($event, race._id, 2)">
+                                <label for="floatingHours{{race._id}}">Hours</label>
+                            </div>
         
-      </div>
-    </div>
-}
-@empty {
-    <div class="d-flex flex-column">
-        <p class="text-center">
-            <strong>No races ready to complete</strong>
-        </p>
-    </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingMinutes{{race._id}}" [(ngModel)]="raceResults[race._id][2].finishTime.minutes" (ngModelChange)="validateMinutes($event, race._id, 2)">
+                                <label for="floatingMinutes{{race._id}}">Minutes</label>
+                            </div>
+        
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingSeconds{{race._id}}" [(ngModel)]="raceResults[race._id][2].finishTime.seconds" (ngModelChange)="validateSeconds($event, race._id, 2)">
+                                <label for="floatingSeconds{{race._id}}">Seconds</label>
+                            </div>
+        
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingMilliseconds{{race._id}}" [(ngModel)]="raceResults[race._id][2].finishTime.milliseconds" (ngModelChange)="validateMilliseconds($event, race._id, 2)">
+                                <label for="floatingMilliseconds{{race._id}}">Ms</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            <button [disabled]="!canSubmitRaceResults(race._id)" (click)="completeRace(race._id)" class="btn btn-primary">Record Results</button>
+
+            <button (click)="clearRaceResults(race._id)" class="btn btn-secondary ms-2">Clear</button>
+            
+        </div>
+        </div>
+    }
+    @empty {
+        <div class="d-flex flex-column">
+            <p>
+                <strong>No races ready to complete</strong>
+            </p>
+        </div>
+    }
+
 }

@@ -4,6 +4,7 @@ import { Race, RaceResult } from '../../../interfaces/race';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { LoadingComponent } from "../../loading/loading.component";
 
 @Component({
   selector: 'app-races-awaiting-completion',
@@ -11,17 +12,24 @@ import { RouterLink } from '@angular/router';
   imports: [
     DatePipe,
     FormsModule,
-    RouterLink
-  ],
+    RouterLink,
+    LoadingComponent
+],
   templateUrl: './races-awaiting-completion.component.html',
   styleUrl: './races-awaiting-completion.component.css'
 })
 export class RacesAwaitingCompletionComponent {
-  races: Race[] = [];
-  raceResults: { [key: string]: RaceResult[] } = {};
 
   constructor(private raceService: RaceService,
     private cdr: ChangeDetectorRef) {}
+
+  loading: boolean = true;
+
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+
+  races: Race[] = [];
+  raceResults: { [key: string]: RaceResult[] } = {};
 
   ngOnInit(): void {
     this.getRaces();
@@ -31,7 +39,8 @@ export class RacesAwaitingCompletionComponent {
     this.raceService.getRacesReadyForCompletion().subscribe(
       (races: Race[]) => {
         this.races = races;
-        this.initializeResults();
+        this.initialiseResults();
+        this.loading = false;
       },
       (error) => {
         console.error('Error fetching races:', error);
@@ -39,7 +48,7 @@ export class RacesAwaitingCompletionComponent {
     );
   }
 
-  initializeResults(): void {
+  initialiseResults(): void {
     this.races.forEach((race) => {
       this.raceResults[race._id] = [
         { racer: race.racer1, status: 'Finished', finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 } },
@@ -85,7 +94,6 @@ export class RacesAwaitingCompletionComponent {
     }
   }
   
-
   canSubmitRaceResults(raceId: string): boolean {
     const raceResults = this.raceResults[raceId];
 
@@ -112,12 +120,19 @@ export class RacesAwaitingCompletionComponent {
 
       return result;
     });
+
+    this.loading = true;
   
     this.raceService.completeRace(raceId, raceResults).subscribe(
       (response) => {
-        console.log('Race completed successfully', response);
+        this.successMessage = `Race ${raceId} was recorded successfully!`;
+        this.loading = false;
+        this.getRaces();
       },
       (error) => {
+        this.errorMessage = `Error completing race ${raceId}: ${error.message}`;
+        this.loading = false;
+        this.getRaces();
         console.error('Error completing race:', error);
       }
     );
@@ -169,5 +184,10 @@ export class RacesAwaitingCompletionComponent {
     }
   
     this.cdr.detectChanges();
+  }
+
+  clearAlert(): void {
+    this.successMessage = null;
+    this.errorMessage = null;
   }
 }
