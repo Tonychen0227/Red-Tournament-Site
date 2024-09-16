@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environment.development';
 import { catchError, Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -30,18 +30,28 @@ export class UserService {
       );
   }
 
-  updateTimezone(timezone: string): Observable<any> {
+  updateTimezone(timezone: number): Observable<any> {
     const headers = this.getHeaders();
-
+  
+    console.log('Sending timezone:', { timezone });
+  
     return this.http.post<any>(`${this.baseUrl}/user/timezone`, { timezone }, { headers, withCredentials: true })
       .pipe(
-        tap(() => {
+        tap(response => {
+          console.log('Timezone update response:', response);
           this.authService.checkAuthStatus(true).subscribe();
         }),
-        catchError(this.handleError('updateTimezone'))
+        catchError(error => {
+          console.error('updateTimezone failed:', error);
+          // Log the detailed error response
+          if (error.error) {
+            console.error('Backend Error Details:', error.error);
+          }
+          return this.handleError('updateTimezone')(error);
+        })
       );
   }
-
+  
   private handleError(operation = 'operation') {
     return (error: any): Observable<never> => {
       console.error(`${operation} failed: ${error.message}`);

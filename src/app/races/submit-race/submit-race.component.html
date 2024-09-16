@@ -12,18 +12,26 @@
     </div>
 }
 
+<h1>Submit a Race</h1>
+
 <form (ngSubmit)="submitRace()" class="d-flex flex-column">
-    
+    <h4 class="mb-4">Date and time are in your local timezone ({{ userTimezoneLabel }})</h4>
+
     <div class="d-flex align-items-center justify-content-between">
         <div class="form-group d-flex flex-column">
             <label for="date">Date</label>
-            <input id="date" type="date" [(ngModel)]="raceData.date" name="date" required>
+            <input id="date" type="date" [(ngModel)]="date" name="date" required>
         </div>
         
         <div class="form-group d-flex flex-column">
-            <label for="time">Time (UTC)</label>
-            <input id="time" type="time" [(ngModel)]="raceData.time" name="time" required>
+            <label for="time">Time</label>
+            <input id="time" type="time" [(ngModel)]="time" name="time" required>
         </div>
+
+        <!-- <div class="form-group d-flex flex-column">
+            <label for="time">Time (in your local time: {{ userTimezoneLabel }})</label>
+            <input id="time" type="datetime-local" [(ngModel)]="raceData.time" name="time" required>
+        </div> -->
     </div>
 
     <label for="racer1" class="form-label mt-4">Racer 1</label>

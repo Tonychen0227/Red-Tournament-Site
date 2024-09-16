@@ -27,11 +27,23 @@ export class UpcomingRacesComponent {
   errorMessage: string | null = null;
 
   user: User | null = null; 
+  userTimezoneLabel: string = '';
+
   races: Race[] = [];
   
   ngOnInit(): void {
+    this.setUserTimezoneLabel();
     this.getRaces();
     this.getUser();
+  }
+
+  setUserTimezoneLabel() {
+    const offsetMinutes = new Date().getTimezoneOffset();
+    const hours = Math.abs(offsetMinutes / 60);
+    const minutes = Math.abs(offsetMinutes % 60);
+    const sign = offsetMinutes > 0 ? '-' : '+';
+  
+    this.userTimezoneLabel = `UTC${sign}${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
   }
 
   getUser() {
@@ -53,6 +65,11 @@ export class UpcomingRacesComponent {
       (races: Race[]) => {
         this.races = races;
         this.loading = false;
+
+        console.log("Unix timestamp:", races[0].raceDateTime);
+        console.log("Local date for user:", new Date(races[0].raceDateTime * 1000).toLocaleString());
+
+        
       },
       (error) => {
         this.errorMessage = "Error! Please try again later or contact @organizers on Discord";

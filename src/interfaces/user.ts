@@ -4,5 +4,5 @@ export interface User {
   displayName: string;
   role: string;
   isAdmin: boolean;
-  timezone?: string
+  timezone?: number
 }

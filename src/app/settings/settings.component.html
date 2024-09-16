@@ -14,14 +14,28 @@
                     name="displayName">
             </div>
 
-            <div class="form-group">
-                <label class="col-form-label mt-4" for="timezone">Timezone</label>
-                <input 
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="user.timezone" 
-                    id="timezone"
-                    name="timezone">
+            <div class="form-group mt-3">
+                <label for="currentOffset">Current UTC Offset (Minutes):</label>
+                <div class="input-group">
+                    <button type="button" class="btn btn-secondary" (click)="changeOffset(-30)">-30 min</button>
+                    <input 
+                        type="text"
+                        step="30"
+                        class="form-control"
+                        [(ngModel)]="userOffsetMinutes"
+                        id="currentOffset"
+                        name="currentOffset"
+                        (change)="updateTimes()">
+                    <button type="button" class="btn btn-secondary" (click)="changeOffset(30)">+30 min</button>
+                </div>
+            </div>
+
+            <!-- Local Time Display -->
+            <div class="form-group mt-3">
+                <label for="localDateTime">Local Time Based on Adjusted Offset:</label>
+                <div name="localDateTime">
+                    <h2>{{ localTime | date: 'yyyy-MM-dd HH:mm:ss' }}</h2>
+                </div>
             </div>
 
             <button class="btn btn-primary mt-3" type="submit">Save Changes</button>

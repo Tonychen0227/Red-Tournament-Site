@@ -21,14 +21,18 @@ export class SubmitRaceComponent {
   userName: string = ''; 
   userId: string = '';
 
+  userTimezoneLabel: string = '';
+
   runners: any[] = [];
 
+  date: string = '';
+  time: string = '';
+
   raceData: any = {
-    date: '',
-    time: '',
     racer1: null,
     racer2: null,
-    racer3: null
+    racer3: null,
+    raceDateTime: null
   };
 
   userTimezone: string = 'UTC';
@@ -39,8 +43,45 @@ export class SubmitRaceComponent {
     private authService: AuthService) { }
 
   ngOnInit(): void {
+
+    // Assuming you get the user input from an <input type="datetime-local">
+    const userDateTime = "2024-09-21T19:00:00";  // Example local input
+
+    // Create a Date object from the input (this will assume local timezone)
+    const localDate = new Date(userDateTime);
+
+    // Convert to UTC Unix timestamp
+    const utcYear = localDate.getUTCFullYear();
+    const utcMonth = localDate.getUTCMonth(); // Note: Months are zero-indexed
+    const utcDay = localDate.getUTCDate();
+    const utcHours = localDate.getUTCHours();
+    const utcMinutes = localDate.getUTCMinutes();
+    const utcSeconds = localDate.getUTCSeconds();
+
+    // Construct a new Date object based on the UTC values
+    const utcDate = new Date(Date.UTC(utcYear, utcMonth, utcDay, utcHours, utcMinutes, utcSeconds));
+
+    // Convert to Unix timestamp (seconds since epoch)
+    const unixTimestamp = Math.floor(utcDate.getTime() / 1000);
+
+    console.log("Original local date:", localDate);
+    console.log("Converted UTC date:", utcDate.toISOString());
+    console.log("Unix timestamp:", unixTimestamp);
+
+    
+    this.setUserTimezoneLabel();
+
     this.fetchUserName();
     this.fetchRunners();
+  }
+
+  setUserTimezoneLabel() {
+    const offsetMinutes = new Date().getTimezoneOffset();
+    const hours = Math.abs(offsetMinutes / 60);
+    const minutes = Math.abs(offsetMinutes % 60);
+    const sign = offsetMinutes > 0 ? '-' : '+';
+  
+    this.userTimezoneLabel = `UTC${sign}${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
   }
 
   fetchUserName() {
@@ -64,29 +105,68 @@ export class SubmitRaceComponent {
     });
   }
   
+  // submitRace() {
+  //   this.successMessage = '';
+  //   this.errorMessage = '';
+    
+  //   if (!this.raceData.date || !this.raceData.time || !this.raceData.racer2) {
+  //     this.errorMessage = 'All fields are required. Please fill them out and try again.';
+  //     return;
+  //   }
+
+  //   this.raceService.submitRace(this.raceData).subscribe(response => {
+  //     this.successMessage = response.message;
+  //     this.errorMessage = '';
+      
+  //     // Redirect to the individual race page using the returned race ID
+  //     setTimeout(() => {
+  //       //this.router.navigate(['/race', response.id]); // Redirect to the race's page
+  //       }, 2000); // 2 seconds
+  //       }, error => {
+  //         this.errorMessage = 'Something went wrong. Please try submitting again.';
+  //         this.successMessage = '';
+  //       });
+  // }  
+
+
   submitRace() {
     this.successMessage = '';
     this.errorMessage = '';
-    
-    if (!this.raceData.date || !this.raceData.time || !this.raceData.racer2) {
+  
+    // Ensure that both date and time are provided
+    if (!this.date || !this.time || !this.raceData.racer2) {
       this.errorMessage = 'All fields are required. Please fill them out and try again.';
       return;
     }
-    
+  
+    // Combine date and time into a single string
+    const combinedDateTime = `${this.date}T${this.time}`;
+  
+    // Convert to local Date object
+    const localDate = new Date(combinedDateTime);
+  
+    // Convert to UTC Unix timestamp
+    const unixTimestamp = Math.floor(localDate.getTime() / 1000);
+  
+    // Add the Unix timestamp to raceData
+    this.raceData.raceDateTime = unixTimestamp;
+  
+    // Submit the raceData with Unix timestamp
     this.raceService.submitRace(this.raceData).subscribe(response => {
       this.successMessage = response.message;
       this.errorMessage = '';
-      
-      // Redirect to the individual race page using the returned race ID
+  
       setTimeout(() => {
-        //this.router.navigate(['/race', response.id]); // Redirect to the race's page
-        }, 2000); // 2 seconds
-        }, error => {
-          this.errorMessage = 'Something went wrong. Please try submitting again.';
-          this.successMessage = '';
-        });
+        // Redirect to the individual race page using the returned race ID
+        //this.router.navigate(['/race', response.id]);
+      }, 2000); // 2 seconds delay
+    }, error => {
+      this.errorMessage = 'Something went wrong. Please try submitting again.';
+      this.successMessage = '';
+    });
   }
 
+  
   clearMessages() {
     this.successMessage = '';
     this.errorMessage = '';

@@ -15,7 +15,7 @@ import { LoadingComponent } from '../loading/loading.component';
 export class CountdownPageComponent implements OnInit {
 
   loading: boolean = true;
-  targetTimestamp: number = 1726441199;
+  targetTimestamp: number = 1726941600;
 
   timeRemaining: { days: number, hours: number, minutes: number, seconds: number } = { days: 0, hours: 0, minutes: 0, seconds: 0 };
   
