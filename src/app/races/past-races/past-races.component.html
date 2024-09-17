@@ -6,7 +6,11 @@
     @for (race of races; track race._id) {
         <div class="card my-4 border-primary">
             <div class="card-header pt-3">
-                <h4>{{ race.raceDateTime * 1000 | date:'fullDate' }} at {{ race.raceDateTime * 1000 | date:'shortTime' }}</h4>
+                <h4>
+                    <a [href]="'https://racetime.gg/pkmnredblue/' + race.raceTimeId" class="text-dark" style="text-decoration: none;">
+                        {{ race.raceDateTime * 1000 | date:'fullDate' }} at {{ race.raceDateTime * 1000 | date:'shortTime' }}
+                    </a>
+                </h4>
             </div>
             
             <div class="card-body">

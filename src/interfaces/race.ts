@@ -13,6 +13,8 @@ export interface Race {
 
   completed: boolean;
   results?: RaceResult[]; 
+
+  raceTimeId: string;
 }
 
 export interface RaceResult {

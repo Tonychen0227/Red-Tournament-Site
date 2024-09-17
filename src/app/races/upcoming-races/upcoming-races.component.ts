@@ -7,6 +7,8 @@ import { LoadingComponent } from '../../loading/loading.component';
 import { User } from '../../../interfaces/user';
 import { AuthService } from '../../services/auth.service';
 
+import moment from 'moment'; 
+
 @Component({
   selector: 'app-upcoming-races',
   standalone: true,
@@ -58,18 +60,10 @@ export class UpcomingRacesComponent {
   }
 
   getRaces(): void {
-    
-    // this.loading = true;
-
     this.raceService.getUpcomingRaces().subscribe(
       (races: Race[]) => {
         this.races = races;
         this.loading = false;
-
-        console.log("Unix timestamp:", races[0].raceDateTime);
-        console.log("Local date for user:", new Date(races[0].raceDateTime * 1000).toLocaleString());
-
-        
       },
       (error) => {
         this.errorMessage = "Error! Please try again later or contact @organizers on Discord";
@@ -102,5 +96,9 @@ export class UpcomingRacesComponent {
         this.errorMessage = "Error! Please try again later or contact @organizers on Discord";
       }
     );
+  }
+
+  timeUntilRace(raceDateTime: number): string {
+    return moment(raceDateTime * 1000).fromNow();
   }
 }

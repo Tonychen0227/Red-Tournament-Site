@@ -133,8 +133,13 @@
                 </div>
             }
 
-            <button [disabled]="!canSubmitRaceResults(race._id)" (click)="completeRace(race._id)" class="btn btn-primary">Record Results</button>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="raceTimeId{{race._id}}" [(ngModel)]="race.raceTimeId">
+                <label for="raceTimeId{{race._id}}">Enter Race ID</label>
+            </div>            
 
+            <button [disabled]="!canSubmitRaceResults(race)" (click)="completeRace(race)" class="btn btn-primary">Record Results</button>
+            
             <button (click)="clearRaceResults(race._id)" class="btn btn-secondary ms-2">Clear</button>
             
         </div>

@@ -42,33 +42,7 @@ export class SubmitRaceComponent {
     private raceService: RaceService, 
     private authService: AuthService) { }
 
-  ngOnInit(): void {
-
-    // Assuming you get the user input from an <input type="datetime-local">
-    const userDateTime = "2024-09-21T19:00:00";  // Example local input
-
-    // Create a Date object from the input (this will assume local timezone)
-    const localDate = new Date(userDateTime);
-
-    // Convert to UTC Unix timestamp
-    const utcYear = localDate.getUTCFullYear();
-    const utcMonth = localDate.getUTCMonth(); // Note: Months are zero-indexed
-    const utcDay = localDate.getUTCDate();
-    const utcHours = localDate.getUTCHours();
-    const utcMinutes = localDate.getUTCMinutes();
-    const utcSeconds = localDate.getUTCSeconds();
-
-    // Construct a new Date object based on the UTC values
-    const utcDate = new Date(Date.UTC(utcYear, utcMonth, utcDay, utcHours, utcMinutes, utcSeconds));
-
-    // Convert to Unix timestamp (seconds since epoch)
-    const unixTimestamp = Math.floor(utcDate.getTime() / 1000);
-
-    console.log("Original local date:", localDate);
-    console.log("Converted UTC date:", utcDate.toISOString());
-    console.log("Unix timestamp:", unixTimestamp);
-
-    
+  ngOnInit(): void {    
     this.setUserTimezoneLabel();
 
     this.fetchUserName();
@@ -104,30 +78,6 @@ export class SubmitRaceComponent {
       console.error('Error fetching runners:', error);
     });
   }
-  
-  // submitRace() {
-  //   this.successMessage = '';
-  //   this.errorMessage = '';
-    
-  //   if (!this.raceData.date || !this.raceData.time || !this.raceData.racer2) {
-  //     this.errorMessage = 'All fields are required. Please fill them out and try again.';
-  //     return;
-  //   }
-
-  //   this.raceService.submitRace(this.raceData).subscribe(response => {
-  //     this.successMessage = response.message;
-  //     this.errorMessage = '';
-      
-  //     // Redirect to the individual race page using the returned race ID
-  //     setTimeout(() => {
-  //       //this.router.navigate(['/race', response.id]); // Redirect to the race's page
-  //       }, 2000); // 2 seconds
-  //       }, error => {
-  //         this.errorMessage = 'Something went wrong. Please try submitting again.';
-  //         this.successMessage = '';
-  //       });
-  // }  
-
 
   submitRace() {
     this.successMessage = '';

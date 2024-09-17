@@ -30,24 +30,16 @@ export class UserService {
       );
   }
 
-  updateTimezone(timezone: number): Observable<any> {
+  updatePronouns(pronouns: string): Observable<any> {
     const headers = this.getHeaders();
-  
-    console.log('Sending timezone:', { timezone });
-  
-    return this.http.post<any>(`${this.baseUrl}/user/timezone`, { timezone }, { headers, withCredentials: true })
+    
+    return this.http.post<any>(`${this.baseUrl}/user/pronouns`, { pronouns }, { headers, withCredentials: true })
       .pipe(
         tap(response => {
-          console.log('Timezone update response:', response);
           this.authService.checkAuthStatus(true).subscribe();
         }),
         catchError(error => {
-          console.error('updateTimezone failed:', error);
-          // Log the detailed error response
-          if (error.error) {
-            console.error('Backend Error Details:', error.error);
-          }
-          return this.handleError('updateTimezone')(error);
+          return this.handleError('updatePronouns')(error);
         })
       );
   }

@@ -83,14 +83,14 @@ export class RaceService {
   }
   
 
-  completeRace(raceId: string, results: RaceResult[]): Observable<any> {
+  completeRace(raceId: string, raceTimeId: string, results: RaceResult[]): Observable<any> {
     const headers = this.getHeaders();
-
-    return this.http.post(`${this.baseUrl}/${raceId}/complete`, { results }, { headers, withCredentials: true })
+  
+    return this.http.post(`${this.baseUrl}/${raceId}/complete`, { raceTimeId, results }, { headers, withCredentials: true })
       .pipe(
         catchError(this.handleError)
       );
-  }
+  }  
 
   cancelRace(raceId: string): Observable<any> {
     const headers = this.getHeaders();

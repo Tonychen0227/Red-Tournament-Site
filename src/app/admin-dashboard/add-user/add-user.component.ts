@@ -22,13 +22,15 @@ export class AddUserComponent {
   displayName: string = '';
   role: string = 'runner';
   isAdmin: boolean = false;
+  pronouns: string | null = null
 
   addUser() {
     const newUser = {
       discordUsername: this.discordUsername,
       displayName: this.displayName,
       role: this.role,
-      isAdmin: this.isAdmin
+      isAdmin: this.isAdmin,
+      pronouns: this.pronouns
     };
 
     this.runnersService.addUser(newUser).subscribe(

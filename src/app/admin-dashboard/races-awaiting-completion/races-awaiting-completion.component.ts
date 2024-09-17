@@ -94,23 +94,27 @@ export class RacesAwaitingCompletionComponent {
     }
   }
   
-  canSubmitRaceResults(raceId: string): boolean {
-    const raceResults = this.raceResults[raceId];
+  canSubmitRaceResults(race: Race): boolean {
+    const raceResults = this.raceResults[race._id];
 
-    return raceResults.every(result => {
+    // Check if raceTimeId is entered and not just whitespace
+    const raceTimeIdEntered: boolean = race.raceTimeId != null && race.raceTimeId.trim() !== '';
 
+    // Ensure all results are valid
+    const allResultsValid = raceResults.every(result => {
       if (result.status === 'Finished') {
         const { hours, minutes, seconds, milliseconds } = result.finishTime;
+        // Ensure the finish time is not all zeros
         return !(hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 0);
       }
-
-      return true;
+      return true; // For statuses other than 'Finished', no need to check time
     });
+
+    return raceTimeIdEntered && allResultsValid;
   }
   
-  completeRace(raceId: string): void {
-    const raceResults = this.raceResults[raceId].map(result => {
-
+  completeRace(race: Race): void {
+    const raceResults = this.raceResults[race._id].map(result => {
       if (result.status !== 'Finished') {
         return {
           ...result,
@@ -123,14 +127,19 @@ export class RacesAwaitingCompletionComponent {
 
     this.loading = true;
   
-    this.raceService.completeRace(raceId, raceResults).subscribe(
+    this.raceService.completeRace(race._id, race.raceTimeId, raceResults).subscribe(
       (response) => {
-        this.successMessage = `Race ${raceId} was recorded successfully!`;
+        if (race.racer3) {
+          this.successMessage = `Race between ${race.racer1.displayName}, ${race.racer2.displayName}, and ${race.racer3.displayName} recorded successfully!`;
+        } else {
+          this.successMessage = `Race between ${race.racer1.displayName} and ${race.racer2.displayName} recorded successfully!`;
+        }
+  
         this.loading = false;
         this.getRaces();
       },
       (error) => {
-        this.errorMessage = `Error completing race ${raceId}: ${error.message}`;
+        this.errorMessage = `Error completing race ${race._id}: ${error.message}`;
         this.loading = false;
         this.getRaces();
         console.error('Error completing race:', error);

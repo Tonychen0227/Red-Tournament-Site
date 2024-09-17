@@ -14,8 +14,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {
-  
+export class NavbarComponent implements OnInit {  
   user: any = null;
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -29,6 +28,10 @@ export class NavbarComponent implements OnInit {
         console.error('Error fetching authentication status:', err);
       }
     });
+  }
+
+  ngAfterViewInit() {
+    // You can access this.navbar here if needed
   }
 
   login(): void {
