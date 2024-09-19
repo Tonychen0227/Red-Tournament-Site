@@ -104,7 +104,6 @@ export class RacesAwaitingCompletionComponent {
     const allResultsValid = raceResults.every(result => {
       if (result.status === 'Finished') {
         const { hours, minutes, seconds, milliseconds } = result.finishTime;
-        // Ensure the finish time is not all zeros
         return !(hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 0);
       }
       return true; // For statuses other than 'Finished', no need to check time
@@ -114,6 +113,8 @@ export class RacesAwaitingCompletionComponent {
   }
   
   completeRace(race: Race): void {
+    this.clearAlert();
+
     const raceResults = this.raceResults[race._id].map(result => {
       if (result.status !== 'Finished') {
         return {

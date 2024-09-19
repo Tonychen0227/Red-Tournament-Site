@@ -21,6 +21,8 @@ import { RacesComponent } from './races/races.component';
 import { AddUserComponent } from './admin-dashboard/add-user/add-user.component';
 import { authGuard } from './guards/auth.guard';
 import { EditRacesComponent } from './admin-dashboard/edit-races/edit-races.component';
+import { PotAssignmentComponent } from './admin-dashboard/pot-assignment/pot-assignment.component';
+import { EndRoundComponent } from './admin-dashboard/end-round/end-round.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -33,6 +35,8 @@ export const routes: Routes = [
             { path: 'races/record', component: RacesAwaitingCompletionComponent },
             { path: 'users/add', component: AddUserComponent },
             { path: 'races/edit', component: EditRacesComponent },
+            { path: 'users/pots', component: PotAssignmentComponent },
+            { path: 'round/end', component: EndRoundComponent },
             { path: '', redirectTo: 'record', pathMatch: 'full' }
 
         ] 

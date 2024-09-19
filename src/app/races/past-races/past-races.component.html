@@ -3,7 +3,24 @@
 } @else {
     <h1>Past Races</h1>
 
-    @for (race of races; track race._id) {
+    <div class="btn-group mb-3" role="group" aria-label="Round selection radio group">
+        @for (round of rounds; track round) {
+            <input type="radio" 
+                   class="btn-check" 
+                   name="btnradio" 
+                   [id]="'btnradio' + round" 
+                   autocomplete="off" 
+                   [checked]="round === currentRound" 
+                   (change)="onRoundSelected(round)">
+            <label class="btn" 
+                   [class.btn-primary]="round === currentRound" 
+                   [class.btn-outline-primary]="round !== currentRound" 
+                   [for]="'btnradio' + round">
+                {{ round }}
+            </label>
+        }
+    </div>
+    @for (race of filteredRaces; track race._id) {
         <div class="card my-4 border-primary">
             <div class="card-header pt-3">
                 <h4>
@@ -38,10 +55,11 @@
             </div>
         </div>
     }
+
     @empty {
         <div class="d-flex flex-column">
             <p class="text-center">
-                <strong>No completed races</strong>
+                <strong>No completed races for this round</strong>
             </p>
         </div>
     }

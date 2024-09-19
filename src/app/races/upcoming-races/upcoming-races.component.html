@@ -4,28 +4,62 @@
     <h1>Upcoming Races</h1>
     <h4 class="mb-4">Date and time are shown in your local timezone ({{ userTimezoneLabel }})</h4>
 
+    <div class="d-flex align-items-center mb-3">
+        <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
+        <span class="badge bg-primary me-2 px-3 py-2">High</span>
+        <span class="badge bg-success me-2 px-3 py-2">Medium</span>
+        <span class="badge bg-info me-2 px-3 py-2">Low</span>
+    </div>
+
     @if (errorMessage) {
-        <div class="alert alert-dismissible alert-primary mt-4">
+        <div class="alert alert-disAmissible alert-primary mt-4">
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong>{{ errorMessage }}</strong> 
         </div>
     }
 
-    <div class="race-list">
+    <div class="race-list border-top">
         @for (race of races; track race._id) {
             <div class="race-item d-flex flex-column border-bottom py-2 mt-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="race-date">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }} - {{ timeUntilRace(race.raceDateTime) }}</h5>
+                        <h5 class="race-date">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }} (<span class="text-body-secondary">{{ timeUntilRace(race.raceDateTime) }}</span>)</h5>
                     </div>
 
                 </div>
                 <div class="d-flex justify-content-start align-items-center flex-wrap">
-                    <span class="badge bg-dark m-1 p-2">{{ race.racer1.displayName }}</span>
-                    <span class="badge bg-dark m-1 p-2">{{ race.racer2.displayName }}</span>
-                    
+
+                    <span class="badge m-1 p-2"
+                            [ngClass]="{
+                                'bg-primary': race.racer1.currentBracket === 'High',
+                                'bg-success': race.racer1.currentBracket === 'Middle',
+                                'bg-info': race.racer1.currentBracket === 'Low',
+                                'bg-secondary': !race.racer1.currentBracket
+                            }">
+                        {{ race.racer1.displayName }}
+                    </span>
+
+                    <span class="badge m-1 p-2"
+                            [ngClass]="{
+                                'bg-primary': race.racer2.currentBracket === 'High',
+                                'bg-success': race.racer2.currentBracket === 'Middle',
+                                'bg-info': race.racer2.currentBracket === 'Low',
+                                'bg-secondary': !race.racer2.currentBracket
+                            }">
+                        {{ race.racer2.displayName }}
+                    </span>
+            
+                                        
                     @if (race.racer3) {
-                        <span class="badge bg-dark m-1 p-2">{{ race.racer3.displayName }}</span>
+                        <span class="badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer3.currentBracket === 'High',
+                            'bg-success': race.racer3.currentBracket === 'Middle',
+                            'bg-info': race.racer3.currentBracket === 'Low',
+                            'bg-secondary': !race.racer3.currentBracket
+                            }">
+                            {{ race.racer3.displayName }}
+                        </span>
                     }
 
                 </div>
@@ -35,7 +69,7 @@
                         <div class="commentators d-flex flex-wrap">
                             @if (race.commentators.length > 0) {
                                 @for (commentator of race.commentators; track commentator._id) {
-                                    <span class="badge bg-primary m-1 py-1 px-2">{{ commentator.displayName }}</span>
+                                    <span class="badge bg-dark m-1 py-1 px-2">{{ commentator.displayName }}</span>
                                 }
                             }
                         </div>
@@ -48,7 +82,7 @@
                             </button>
                         } @else if (race.commentators.length < 2) {
                             <!-- Show the 'Commentate' button if there are fewer than 2 commentators -->
-                            <button class="btn btn-primary btn-sm" (click)="signUpToCommentate(race._id)">
+                            <button class="btn btn-dark btn-sm" (click)="signUpToCommentate(race._id)">
                                 Commentate
                             </button>
                         }

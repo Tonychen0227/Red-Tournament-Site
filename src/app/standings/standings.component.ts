@@ -1,12 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from '../../interfaces/user';
+import { TournamentService } from '../services/tournament.service';
+import { LoadingComponent } from '../loading/loading.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-standings',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    LoadingComponent
+  ],
   templateUrl: './standings.component.html',
   styleUrl: './standings.component.css'
 })
-export class StandingsComponent {
+export class StandingsComponent implements OnInit {
 
+  loading = true;
+  errorMessage: string | null = null;
+
+  runners: User[] = [];
+
+  constructor(private tournamentService: TournamentService) {}
+
+  ngOnInit(): void {
+    this.fetchStandings();
+  }
+
+  fetchStandings(): void {
+    this.tournamentService.getStandings().subscribe({
+      next: (data) => {
+        this.runners = data;
+        this.loading = false;
+
+        console.log(data);
+        
+      },
+      error: (err) => {
+        this.errorMessage = 'Error fetching standings';
+        this.loading = false;
+        console.error('Error:', err);
+      },
+    });
+  }
+
+  clearAlert(): void {
+    this.errorMessage = null;
+  }
 }

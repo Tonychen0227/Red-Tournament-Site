@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RaceService } from '../../services/race.service';
 import { Race } from '../../../interfaces/race';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LoadingComponent } from '../../loading/loading.component';
 import { User } from '../../../interfaces/user';
@@ -13,6 +13,7 @@ import moment from 'moment';
   selector: 'app-upcoming-races',
   standalone: true,
   imports: [
+    CommonModule,
     DatePipe,
     RouterLink,
     LoadingComponent
@@ -62,7 +63,7 @@ export class UpcomingRacesComponent {
   getRaces(): void {
     this.raceService.getUpcomingRaces().subscribe(
       (races: Race[]) => {
-        this.races = races;
+        this.races = races;        
         this.loading = false;
       },
       (error) => {
