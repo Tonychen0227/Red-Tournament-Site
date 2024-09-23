@@ -9,6 +9,7 @@ export interface User {
   initialPot?: string
   points?: number;
   tieBreakerValue?: number;
+  currentGroup?: string;
 }
 
 export interface UserCreationInterface {

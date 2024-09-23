@@ -3,7 +3,7 @@
 } @else {
     <h1>Past Races</h1>
 
-    <div class="btn-group mb-3" role="group" aria-label="Round selection radio group">
+    <div class="btn-group mb-3 flex-wrap gap-1 w-100" role="group" aria-label="Round selection radio group">
         @for (round of rounds; track round) {
             <input type="radio" 
                    class="btn-check" 
@@ -12,7 +12,7 @@
                    autocomplete="off" 
                    [checked]="round === currentRound" 
                    (change)="onRoundSelected(round)">
-            <label class="btn" 
+            <label class="btn flex-grow-1 text-center" 
                    [class.btn-primary]="round === currentRound" 
                    [class.btn-outline-primary]="round !== currentRound" 
                    [for]="'btnradio' + round">
@@ -20,13 +20,16 @@
             </label>
         }
     </div>
+    
     @for (race of filteredRaces; track race._id) {
         <div class="card my-4 border-primary">
             <div class="card-header pt-3">
-                <h4>
+                <h4 class="d-flex justify-content-between">
                     <a [href]="'https://racetime.gg/pkmnredblue/' + race.raceTimeId" class="text-dark" style="text-decoration: none;">
                         {{ race.raceDateTime * 1000 | date:'fullDate' }} at {{ race.raceDateTime * 1000 | date:'shortTime' }}
                     </a>
+
+                    <span class="badge bg-dark">{{ race.round }}</span>
                 </h4>
             </div>
             
@@ -36,7 +39,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between w-100">
 
-                                <span>{{ result.racer.displayName }}</span>
+                                <span >{{ result.racer.displayName }}</span>
                                 
                                 @if (result.status === 'Finished') {
                                     <span>
@@ -52,6 +55,19 @@
                         </li>
                     }
                 </ol>
+
+                @if (race.commentators.length > 0) {
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <div class="d-flex align-items-center flex-wrap">
+                            <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2">
+                            <div class="commentators d-flex flex-wrap">
+                                @for (commentator of race.commentators; track commentator._id) {
+                                    <span class="badge bg-dark m-1 py-1 px-2">{{ commentator.displayName }}</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     }

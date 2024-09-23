@@ -1,0 +1,61 @@
+<h1>Create a Group</h1>
+
+@if (successMessage) {
+    <div class="alert alert-dismissible alert-success mt-4">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearMessages()"></button>
+        <strong>{{ successMessage }}</strong>
+    </div>
+}
+
+@if (errorMessage) {
+    <div class="alert alert-dismissible alert-primary mt-4">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearMessages()"></button>
+        <strong>{{ errorMessage }}</strong> 
+    </div>
+}
+
+<form (ngSubmit)="createGroup()" class="d-flex flex-column">
+
+    <!-- Racer 1 -->
+    <label for="racer1" class="form-label mt-4">Racer 1</label>
+    <select class="form-select" id="racer1" [(ngModel)]="groupData.racer1" name="racer1">
+        <option value="" selected disabled>Select Racer 1</option>
+        @for (runner of runners; track runner._id) {
+            <option 
+                [value]="runner._id" 
+                [disabled]="runner._id === groupData.racer2 || runner._id === groupData.racer3">
+                {{ runner.displayName }}
+            </option>
+        }
+    </select>
+
+    <!-- Racer 2 -->
+    <label for="racer2" class="form-label mt-4">Racer 2</label>
+    <select class="form-select" id="racer2" [(ngModel)]="groupData.racer2" name="racer2">
+        <option value="" selected disabled>Select Racer 2</option>
+        @for (runner of runners; track runner._id) {
+            <option 
+                [value]="runner._id" 
+                [disabled]="runner._id === groupData.racer1 || runner._id === groupData.racer3">
+                {{ runner.displayName }}
+            </option>
+        }
+    </select>
+
+    <!-- Racer 3 -->
+    <label for="racer3" class="form-label mt-4">Racer 3</label>
+    <select class="form-select" id="racer3" [(ngModel)]="groupData.racer3" name="racer3">
+        <option value="" selected disabled>Select Racer 3</option>
+        <!-- Optional: Allow N/A for two-person races -->
+        <!-- <option value="">N/A (Two person race)</option> --> 
+        @for (runner of runners; track runner._id) {
+            <option 
+                [value]="runner._id" 
+                [disabled]="runner._id === groupData.racer1 || runner._id === groupData.racer2">
+                {{ runner.displayName }}
+            </option>
+        }
+    </select>
+
+    <button type="submit" class="btn btn-primary mt-4">Submit Race</button>
+</form>

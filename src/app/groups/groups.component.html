@@ -1,0 +1,18 @@
+@if (groups.length > 0) {
+    <ul class="d-flex justify-content-center flex-wrap gap-3">
+        @for (group of groups; track group) {
+            <div class="card bg-light mb-3" style="max-width: 20rem; min-width: 10rem;">
+                <div class="card-header bg-primary text-light"><strong>Group {{ group.groupNumber }}</strong></div>
+                <div class="card-body">
+                    @for (member of group.members; track member) {
+                        <p class="card-text">
+                            {{ member.displayName }}
+                        </p>
+                    }
+                </div>
+            </div>
+            }
+        </ul>
+} @else {
+    <p>No groups have been created for this round</p>
+}

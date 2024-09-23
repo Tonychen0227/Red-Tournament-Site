@@ -12,15 +12,16 @@
 
     <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-            <table class="table table-striped table-bordered table-hover w-100">
+          <div>
+            <table class="table table-striped table-bordered table-hover table-responsive">
               <thead class="thead-light">
                 <tr>
                   <!-- <th scope="col">Discord Username</th> -->
                   <th scope="col">Name</th>
-                  <th scope="col">Points</th>
-                  <th scope="col">Tiebreaker</th>
-                  <th scope="col">Current Bracket</th>
+                  <th scope="col" class="text-center">Points</th>
+                  <th scope="col" class="text-center">Tiebreaker</th>
+                  <!-- <th scope="col">Current Bracket</th> -->
+                  <!-- <th scope="col" class="d-none d-md-table-cell">Current Bracket</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -28,9 +29,9 @@
                   <tr>
                     <!-- <th scope="row">{{ runner.discordUsername }}</th> -->
                     <td>{{ runner.displayName }}</td>
-                    <td>{{ runner.points }}</td>
-                    <td>{{ runner.tieBreakerValue }}</td>
-                    <td>{{ runner.currentBracket }}</td>
+                    <td class="text-center">{{ runner.points }}</td>
+                    <td class="text-center">{{ runner.tieBreakerValue }}</td>
+                    <!-- <td class="d-none d-md-table-cell">{{ runner.currentBracket }}</td> -->
                   </tr>
                 }
                 @empty {

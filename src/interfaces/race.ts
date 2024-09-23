@@ -14,7 +14,7 @@ export interface Race {
   completed: boolean;
   results?: RaceResult[]; 
 
-  raceTimeId: string;
+  raceTimeId?: string;
 
   round: 'Seeding' | 'Round 1' | 'Round 2' | 'Round 3' | 'Semifinals' | 'Final';
 }

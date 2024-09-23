@@ -40,7 +40,7 @@ export class AuthService {
         sessionStorage.setItem('userTimestamp', new Date().getTime().toString());        
       }),
       catchError(error => {
-        console.log('User is not logged in.');
+        // console.log('User is not logged in.');
         
         this.user = null;
         sessionStorage.removeItem('user');

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { RunnersService } from '../../services/runners.service';
+import { GroupService } from '../../services/group.service';
 
 @Component({
   selector: 'app-submit-race',
@@ -40,13 +41,14 @@ export class SubmitRaceComponent {
   constructor(
     private runnersService: RunnersService,
     private raceService: RaceService, 
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private groupService: GroupService) { }
 
   ngOnInit(): void {    
     this.setUserTimezoneLabel();
 
     this.fetchUserName();
-    this.fetchRunners();
+    // this.fetchRunners();
   }
 
   setUserTimezoneLabel() {
@@ -64,6 +66,10 @@ export class SubmitRaceComponent {
         this.userName = user.displayName || user.username;
         this.userId = user._id;
         this.raceData.racer1 = user._id;
+
+        this.groupService.getCurrentUserGroup().subscribe(group => {
+          this.populateRacers(group.members, user._id);
+        });
       } else {
         console.error('User is not authenticated');
       }
@@ -114,6 +120,17 @@ export class SubmitRaceComponent {
       this.errorMessage = 'Something went wrong. Please try submitting again.';
       this.successMessage = '';
     });
+  }
+
+  populateRacers(members: any[], userId: string) {
+    // Filter out the current user and assign the remaining members
+    const otherMembers = members.filter(member => member._id !== userId);
+    this.raceData.racer2 = otherMembers[0]?._id || null; // Assign racer2
+    this.raceData.racer3 = otherMembers[1]?._id || null; // Assign racer3 if applicable
+    this.runners = otherMembers;
+
+    console.log(this.raceData);
+    
   }
 
   

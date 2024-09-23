@@ -23,11 +23,14 @@ import { authGuard } from './guards/auth.guard';
 import { EditRacesComponent } from './admin-dashboard/edit-races/edit-races.component';
 import { PotAssignmentComponent } from './admin-dashboard/pot-assignment/pot-assignment.component';
 import { EndRoundComponent } from './admin-dashboard/end-round/end-round.component';
+import { GroupsComponent } from './groups/groups.component';
+import { GroupCreationComponent } from './admin-dashboard/group-creation/group-creation.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'info', component: InfoComponent },
     { path: 'standings', component: StandingsComponent },
+    { path: 'groups', component: GroupsComponent },
     { path: 'rules', component: RulesComponent },
     { path: 'help', component: HelpComponent },
     { path: 'admin', component: AdminDashboardComponent,
@@ -37,6 +40,7 @@ export const routes: Routes = [
             { path: 'races/edit', component: EditRacesComponent },
             { path: 'users/pots', component: PotAssignmentComponent },
             { path: 'round/end', component: EndRoundComponent },
+            { path: 'groups/add', component: GroupCreationComponent },
             { path: '', redirectTo: 'record', pathMatch: 'full' }
 
         ] 

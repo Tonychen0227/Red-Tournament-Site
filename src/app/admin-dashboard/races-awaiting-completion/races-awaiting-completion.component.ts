@@ -127,6 +127,8 @@ export class RacesAwaitingCompletionComponent {
     });
 
     this.loading = true;
+
+    if (!race.raceTimeId) return;
   
     this.raceService.completeRace(race._id, race.raceTimeId, raceResults).subscribe(
       (response) => {

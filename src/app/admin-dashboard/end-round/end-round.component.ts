@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TournamentService } from '../../services/tournament.service';
 import { LoadingComponent } from '../../loading/loading.component';
+import { GroupService } from '../../services/group.service';
 
 @Component({
   selector: 'app-end-round',
@@ -12,13 +13,16 @@ import { LoadingComponent } from '../../loading/loading.component';
   styleUrl: './end-round.component.css'
 })
 export class EndRoundComponent implements OnInit {
-  constructor(private tournamentService: TournamentService) { }
+  constructor(private tournamentService: TournamentService, private groupService: GroupService) { }
 
   loading: boolean = false;
 
   currentRound: string = '';
-  totalRaces: number = 0;
-  completedRaces: number = 0;
+
+  totalRacesSubmitted: number = 0;
+  totalRacesExpected: number = 0;
+  totalRacesCompleted: number = 0;
+
   canEndRound: boolean = false;
 
   successMessage: string | null = null;
@@ -33,13 +37,24 @@ export class EndRoundComponent implements OnInit {
     this.tournamentService.getCurrentRound().subscribe({
       next: (data: { currentRound: string; totalRaces: number; completedRaces: number; canEndRound: boolean; }) => {
         this.currentRound = data.currentRound;
-        this.totalRaces = data.totalRaces;
-        this.completedRaces = data.completedRaces;
-        this.canEndRound = data.canEndRound;
+        this.totalRacesExpected = data.totalRaces;
+        this.totalRacesCompleted = data.completedRaces;
+        // this.canEndRound = data.canEndRound;
 
-        this.loading = false;
+        this.groupService.getGroupCount().subscribe({
+          next: (countData: { count: number }) => {
+            this.totalRacesExpected = countData.count;
+            this.loading = false;
+            console.log('Total Races Expected:', this.totalRacesExpected);
 
-        console.log(data);
+            this.canEndRound = this.totalRacesCompleted >= this.totalRacesExpected;
+          },
+          error: (error: any) => {
+            this.errorMessage = 'Error fetching total races expected';
+            console.error(error);
+            this.loading = false;
+          }
+        });
         
       },
       error: (error: any) => {
