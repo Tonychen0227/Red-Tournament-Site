@@ -1,19 +1,9 @@
-<!-- @if (isAdmin) { -->
-  <div class="wrapper bg-light">
-    <app-navbar></app-navbar>
-    
-      <main class="container custom-width py-5 bg-light">
-        <router-outlet></router-outlet>
-      </main>
-
-    <app-footer></app-footer>
-  </div>  
-<!-- } @else {
-  <div class="wrapper d-flex justify-content-center align-items-center">
-    <main class="container py-5 bg-black">
-      <app-countdown-page></app-countdown-page>
+<div class="wrapper bg-light">
+  <app-navbar></app-navbar>
+  
+    <main class="container custom-width py-5 bg-light">
+      <router-outlet></router-outlet>
     </main>
 
-    <a (click)="login()" class="small-text" style="font-size: 10px; cursor: pointer;">Admin Login</a>
-  </div>
-} -->
+  <app-footer></app-footer>
+</div>  

@@ -65,8 +65,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="https://matcherino.com/tournaments/120241">Prize Pool</a>
                 </li>
-                
+                <!-- <li class="nav-item">
+                    <a class="nav-link" routerLink="/pickems" routerLinkActive="active">Pickems</a>
+                </li> -->
+
                 @if (user?.isAdmin) {
+
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/pickems" routerLinkActive="active">Pickems</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
                     </li>

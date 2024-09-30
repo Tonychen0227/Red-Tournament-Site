@@ -1,30 +1,13 @@
 <h1>Admin Dashboard</h1>
 
-<!-- <h2>Stats</h2>
-<div class="d-flex flex-column gap-1">
-    <p>
-        Races submitted:
-        <span>0</span>
-    </p>
-
-    <p>
-        Races awaiting results:
-        <span>0</span>
-    </p>
-</div> -->
-
-<!-- <h2>Actions</h2> -->
 <div class="actions d-flex gap-3 mb-3 flex-wrap">
-
     <button class="btn btn-primary" routerLink="/admin/races/record">Record Results</button>
-    <!-- <button class="btn btn-primary" routerLink="/admin/races/edit">Edit Races</button>  Manual for now-->
-    <button class="btn btn-primary" routerLink="/admin/users/add">Add User</button>
-    <button class="btn btn-primary" routerLink="/admin/users/pots">Set Initial Pots</button>
+    <!-- <button class="btn btn-primary" routerLink="/admin/races/past/edit">Edit Results</button> -->
+    <button class="btn btn-primary" routerLink="/admin/races/upcoming/edit">Cancel Upcoming Races</button>
+    <!-- <button class="btn btn-primary" routerLink="/admin/users/add">Add User</button>
+    <button class="btn btn-primary" routerLink="/admin/users/pots">Set Initial Pots</button> -->
     <button class="btn btn-primary" routerLink="/admin/groups/add">Create Groups</button>
     <button class="btn btn-primary" routerLink="/admin/round/end">End Round</button>
-
-    <!-- <button class="btn btn-primary"></button> -->
-
 </div>
 
 <router-outlet></router-outlet>

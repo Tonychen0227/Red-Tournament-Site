@@ -51,7 +51,7 @@
     <label for="racer3" class="form-label mt-4">Racer 3</label>
     <select class="form-select" id="racer3" [(ngModel)]="raceData.racer3" name="racer3">
         <option value=null selected disabled>Select Racer 3</option>
-        <!-- <option value=null>N/A (Two person race)</option> TODO: This still fails with this selected? --> 
+        <!-- <option value=null>N/A (Two person race)</option> -->
         @for (runner of runners; track runner._id) {
             <option [value]="runner._id" [disabled]="runner._id === raceData.racer2">{{ runner.displayName }}</option>
         }

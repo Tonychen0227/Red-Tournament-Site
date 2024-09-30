@@ -10,6 +10,7 @@ export interface User {
   points?: number;
   tieBreakerValue?: number;
   currentGroup?: string;
+  setFirstPickems?: boolean;
 }
 
 export interface UserCreationInterface {

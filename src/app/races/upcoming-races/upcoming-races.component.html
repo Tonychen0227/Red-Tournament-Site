@@ -4,12 +4,20 @@
     <h1>Upcoming Races</h1>
     <h4 class="mb-4">Date and time are shown in your local timezone ({{ userTimezoneLabel }})</h4>
 
-    <div class="d-flex align-items-center mb-3">
+    <!-- <div class="d-flex align-items-center mb-3">
         <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
         <span class="badge bg-primary me-2 px-3 py-2">High</span>
-        <span class="badge bg-success me-2 px-3 py-2">Medium</span>
+        <span class="badge bg-success me-2 px-3 py-2">Middle</span>
         <span class="badge bg-info me-2 px-3 py-2">Low</span>
+    </div> -->
+
+    <div class="d-flex align-items-center mb-3">
+        <h5 style="display: inline-block" class="me-2">Pot Key:</h5>
+        <span class="badge bg-primary me-2 px-3 py-2">Pot 1</span>
+        <span class="badge bg-success me-2 px-3 py-2">Pot 2</span>
+        <span class="badge bg-info me-2 px-3 py-2">Pot 3</span>
     </div>
+
 
     @if (errorMessage) {
         <div class="alert alert-disAmissible alert-primary mt-4">
@@ -20,22 +28,40 @@
 
     <div class="race-list border-top">
         @for (race of races; track race._id) {
-            <div class="race-item d-flex flex-column border-bottom py-2 mt-3">
+            <!-- Apply opacity, strikethrough, and background color when race is cancelled -->
+            <div class="race-item d-flex flex-column border-bottom py-2 mt-3"
+                [ngClass]="{ 'opacity-50': race.cancelled, 'bg-light': race.cancelled }">
+
                 <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="race-date">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }} (<span class="text-body-secondary">{{ timeUntilRace(race.raceDateTime) }}</span>)</h5>
-                    </div>
+
+                <div>
+                    <h5 class="race-date">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }} (<span class="text-body-secondary">{{ timeUntilRace(race.raceDateTime) }}</span>)</h5>
+                </div>
+
+                @if (race.cancelled) {
+                    <span class="badge bg-danger">Cancelled</span>
+                }
+
+                @if (!race.cancelled && race.restreamPlanned && !user?.isAdmin) {
+                    <span class="badge bg-primary">Restreamed</span>
+                }
+
+                @if (user?.isAdmin && race.restreamPlanned) {
+
+                }
+                
 
                 </div>
                 <div class="d-flex justify-content-start align-items-center flex-wrap">
 
-                    <span class="badge m-1 p-2"
+                    <!-- <span class="badge m-1 p-2"
                             [ngClass]="{
                                 'bg-primary': race.racer1.currentBracket === 'High',
                                 'bg-success': race.racer1.currentBracket === 'Middle',
                                 'bg-info': race.racer1.currentBracket === 'Low',
                                 'bg-secondary': !race.racer1.currentBracket
-                            }">
+                            }"
+                            [title]="race.racer1.discordUsername">
                         {{ race.racer1.displayName }}
                     </span>
 
@@ -45,7 +71,8 @@
                                 'bg-success': race.racer2.currentBracket === 'Middle',
                                 'bg-info': race.racer2.currentBracket === 'Low',
                                 'bg-secondary': !race.racer2.currentBracket
-                            }">
+                            }"
+                            [title]="race.racer2.discordUsername">
                         {{ race.racer2.displayName }}
                     </span>
             
@@ -57,7 +84,44 @@
                             'bg-success': race.racer3.currentBracket === 'Middle',
                             'bg-info': race.racer3.currentBracket === 'Low',
                             'bg-secondary': !race.racer3.currentBracket
-                            }">
+                            }"
+                            [title]="race.racer3.discordUsername">
+                            {{ race.racer3.displayName }}
+                        </span>
+                    } -->
+
+                    <span class="badge m-1 p-2"
+                            [ngClass]="{
+                                'bg-primary': race.racer1.initialPot === '1',
+                                'bg-success': race.racer1.initialPot === '2',
+                                'bg-info': race.racer1.initialPot === '3',
+                                'bg-secondary': !race.racer1.initialPot
+                            }"
+                            [title]="race.racer1.discordUsername">
+                        {{ race.racer1.displayName }}
+                    </span>
+
+                    <span class="badge m-1 p-2"
+                            [ngClass]="{
+                                'bg-primary': race.racer2.initialPot === '1',
+                                'bg-success': race.racer2.initialPot === '2',
+                                'bg-info': race.racer2.initialPot === '3',
+                                'bg-secondary': !race.racer2.initialPot
+                            }"
+                            [title]="race.racer2.discordUsername">
+                        {{ race.racer2.displayName }}
+                    </span>
+            
+                                        
+                    @if (race.racer3) {
+                        <span class="badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer3.initialPot === '1',
+                            'bg-success': race.racer3.initialPot === '2',
+                            'bg-info': race.racer3.initialPot === '3',
+                            'bg-secondary': !race.racer3.initialPot
+                        }"
+                            [title]="race.racer3.discordUsername">
                             {{ race.racer3.displayName }}
                         </span>
                     }
@@ -67,20 +131,31 @@
                     <div class="d-flex align-items-center flex-wrap">
                         <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2">
                         <div class="commentators d-flex flex-wrap">
+
+
                             @if (race.commentators.length > 0) {
-                                @for (commentator of race.commentators; track commentator._id) {
-                                    <span class="badge bg-dark m-1 py-1 px-2">{{ commentator.displayName }}</span>
+                                @if(race.round == 'Semifinals' || race.round == 'Final') {
+                                    <span class="badge bg-dark m-1 py-1 px-2">
+                                        {{ race.commentators.length }} {{ race.commentators.length === 1 ? 'commentator' : 'commentators' }} signed up
+                                    </span>
+                                } @else {
+                                    @for (commentator of race.commentators; track commentator._id) {
+                                        <span class="badge bg-dark m-1 py-1 px-2"
+                                            [title]="commentator.discordUsername">
+                                            {{ commentator.displayName }}
+                                        </span>
+                                    }
                                 }
                             }
                         </div>
                     </div>
                     <div>
-                        @if (isUserCommentator(race)) {
+                        @if (!race.cancelled && isUserCommentator(race)) {
                             <!-- Show the 'Pull Out' button if the user is a commentator -->
                             <button class="btn btn-danger btn-sm" (click)="pullOutFromCommentary(race._id)">
                                 Pull Out
                             </button>
-                        } @else if (race.commentators.length < 2) {
+                        } @else if (!race.cancelled && race.commentators.length < 2) {
                             <!-- Show the 'Commentate' button if there are fewer than 2 commentators -->
                             <button class="btn btn-dark btn-sm" (click)="signUpToCommentate(race._id)">
                                 Commentate
@@ -88,6 +163,46 @@
                         }
                     </div>
                 </div>
+
+            <!-- Restream Section: Only for Admins -->
+            <div class="restream-section mt-3">
+                @if (user?.isAdmin && !race.cancelled) {
+                    <div class="d-flex align-items-center">
+                        <!-- Restream Channel Input -->
+                        <input 
+                            type="text" 
+                            [(ngModel)]="race.restreamChannel" 
+                            class="form-control py-1 me-2" 
+                            placeholder="Twitch Channel ID"
+                            [disabled]="race.restreamPlanned">
+                        
+                        <!-- Conditionally show restream buttons -->
+                        @if (!race.restreamPlanned) {
+                            <!-- Enable button when channel is provided -->
+                            <button 
+                                class="btn btn-primary btn-sm" 
+                                (click)="signUpForRestream(race._id)" 
+                                [disabled]="!race.restreamChannel">
+                                Restream
+                            </button>
+                        } @else {
+
+                            <span class="badge bg-dark m-1 px-3 py-2"
+                                [title]="race.restreamer?.displayName">
+                                {{ race.restreamer?.displayName }}
+                            </span>
+
+                            <!-- Cancel Restream Button -->
+                            <button 
+                                class="btn btn-danger btn-sm" 
+                                (click)="cancelRestream(race._id)">
+                                Cancel
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+
             </div>
         }
         @empty {

@@ -152,8 +152,8 @@ export class RacesAwaitingCompletionComponent {
   
   validateHours(value: number, raceId: string, racerIndex: number): void {
     if (value < 0) {
-      this.raceResults[raceId][racerIndex].finishTime.hours = 2;
-    } else if (value > 2) {
+      this.raceResults[raceId][racerIndex].finishTime.hours = 4;
+    } else if (value > 4) {
       this.raceResults[raceId][racerIndex].finishTime.hours = 0;
     } else {
       this.raceResults[raceId][racerIndex].finishTime.hours = value;

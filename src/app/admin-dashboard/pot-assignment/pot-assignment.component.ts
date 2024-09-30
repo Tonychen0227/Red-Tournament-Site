@@ -17,13 +17,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class PotAssignmentComponent implements OnInit {
 
-  runners: User[] = [];
-  potSelections: { [userId: string]: string } = {};
-
   loading: boolean = true;
 
   successMessage: string | null = null;
   errorMessage: string | null = null;
+
+  runners: User[] = [];
+  potSelections: { [userId: string]: string } = {};
 
   constructor(private runnersService: RunnersService) {}
 

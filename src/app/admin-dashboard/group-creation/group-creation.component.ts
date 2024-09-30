@@ -38,9 +38,7 @@ export class GroupCreationComponent implements OnInit {
 
   fetchRunners(): void {
     this.runnersService.getRunners().subscribe((data: User[]) => {
-        this.runners = data;
-        console.log(data);
-        
+        this.runners = data;      
       });
   }
   

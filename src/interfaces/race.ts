@@ -2,6 +2,7 @@ import { User } from "./user";
 
 export interface Race {
   _id: string;
+
   raceDateTime: number;
   raceSubmitted: number;
 
@@ -17,6 +18,13 @@ export interface Race {
   raceTimeId?: string;
 
   round: 'Seeding' | 'Round 1' | 'Round 2' | 'Round 3' | 'Semifinals' | 'Final';
+  bracket: 'High' | 'Middle' | 'Low' | 'Seeding';
+
+  cancelled: boolean;
+
+  restreamPlanned: boolean;
+  restreamChannel: string;
+  restreamer?: User;
 }
 
 export interface RaceResult {

@@ -1,0 +1,47 @@
+@if (loading) {
+    <app-loading></app-loading>
+  } @else {
+    <h1>Cancel Races</h1>
+  
+    @if (errorMessage) {
+      <div class="alert alert-dismissible alert-primary mt-4">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{{ errorMessage }}</strong> 
+      </div>
+    }
+  
+    <div class="race-list border-top">
+      @for (race of races; track race._id) {
+        <div class="race-item d-flex flex-column border-bottom py-2 mt-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="race-date">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }} 
+                (<span class="text-body-secondary">{{ timeUntilRace(race.raceDateTime) }}</span>)
+              </h5>
+
+              <span class="badge bg-dark m-1 p-2">{{ race.racer1.displayName }}</span>
+              <span class="badge bg-dark m-1 p-2">{{ race.racer2.displayName }}</span>
+                          
+                @if (race.racer3) {
+                    <span class="badge bg-dark m-1 p-2">{{ race.racer3.displayName }}</span>
+                }
+            </div>
+  
+            @if (!race.cancelled) {
+              <button class="btn btn-danger btn-sm" (click)="cancelRace(race._id)">
+                Cancel Race
+              </button>
+            } @else {
+              <button class="btn btn-success btn-sm" (click)="uncancelRace(race._id)">
+                Uncancel Race
+              </button>
+            }
+          </div>
+        </div>
+      }
+      @empty {
+        <p class="text-center mt-4"><strong>No upcoming races</strong></p>
+      }
+    </div>
+  }
+  

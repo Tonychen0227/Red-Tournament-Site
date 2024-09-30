@@ -8,12 +8,14 @@ import { User } from '../../../interfaces/user';
 import { AuthService } from '../../services/auth.service';
 
 import moment from 'moment'; 
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-upcoming-races',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     DatePipe,
     RouterLink,
     LoadingComponent
@@ -64,7 +66,7 @@ export class UpcomingRacesComponent {
     this.raceService.getUpcomingRaces().subscribe(
       (races: Race[]) => {
         this.races = races;        
-        this.loading = false;
+        this.loading = false;        
       },
       (error) => {
         this.errorMessage = "Error! Please try again later or contact @organizers on Discord";
@@ -97,6 +99,34 @@ export class UpcomingRacesComponent {
         this.errorMessage = "Error! Please try again later or contact @organizers on Discord";
       }
     );
+  }
+
+  signUpForRestream(raceId: string): void {
+    const race = this.races.find(r => r._id === raceId);
+    if (race && race.restreamChannel) {
+      this.raceService.signUpForRestream(raceId, race.restreamChannel).subscribe({
+        next: (response) => {
+          console.log('Restream planned successfully');
+          this.getRaces();
+        },
+        error: (err) => {
+          console.error('Failed to plan restream', err);
+          this.errorMessage = 'Error planning restream. Please try again later.';
+        }
+      });
+    }
+  }
+
+  cancelRestream(raceId: string): void {
+    this.raceService.cancelRaceRestream(raceId).subscribe({
+      next: (response) => {
+        this.getRaces();
+      },
+      error: (err) => {
+        console.error('Failed to cancel restream', err);
+        this.errorMessage = 'Error canceling restream. Please try again later.';
+      }
+    });
   }
 
   timeUntilRace(raceDateTime: number): string {

@@ -1,0 +1,60 @@
+@if (loading) {
+    <app-loading></app-loading>
+} @else {
+    <!-- Card for Overall Picks -->
+<div class="my-3">
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <strong>Overall Winner</strong>
+        <span class="badge bg-dark p-2">{{ pickems.overallWinner.displayName }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <strong>Best Tournament Time</strong>
+        <span class="badge bg-dark p-2">{{ pickems.bestTimeWho.displayName }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <strong>Closest Time Guess</strong>
+        <span class="badge bg-dark p-2">{{ formatTime(pickems.closestTime) }}</span>
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Card for Top 9 Picks -->
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5 class="card-title">Top 9</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        @for (pick of pickems.top9; track pick._id) {
+          <div class="col-6 col-md-4 mb-2">
+            <div class="list-group-item text-center">
+              <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  
+  <!-- Card for Each Round's Picks -->
+  @if (pickems.round1Picks.length > 0) {
+    <div class="card mb-3">
+      <div class="card-header">
+        <h5 class="card-title">Round 1 Picks</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          @for (pick of pickems.round1Picks; track pick._id) {
+            <div class="col-6 col-md-4 mb-2">
+              <div class="list-group-item text-center">
+                <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+  
+}

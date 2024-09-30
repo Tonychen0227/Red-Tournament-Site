@@ -9,10 +9,9 @@ import { environment } from '../../environments/environment.development';
 })
 export class RaceService {
 
-  private baseUrl = `${environment.apiUrl}/races`;
-
   constructor(private http: HttpClient) { }
 
+  private baseUrl = `${environment.apiUrl}/races`;
   private secretKey = environment.secretKey;
 
   private getHeaders(): HttpHeaders {
@@ -27,6 +26,12 @@ export class RaceService {
         catchError(this.handleError)
       );
   }
+
+  getUserRaces(): Observable<{ racesParticipatedIn: Race[], racesCommentated: Race[] }> {
+    const headers = this.getHeaders();
+    return this.http.get<{ racesParticipatedIn: Race[], racesCommentated: Race[] }>(`${this.baseUrl}/user`, { headers, withCredentials: true });
+  }
+  
 
   getUpcomingRaces(): Observable<Race[]> {
     const headers = this.getHeaders();
@@ -94,8 +99,27 @@ export class RaceService {
 
   cancelRace(raceId: string): Observable<any> {
     const headers = this.getHeaders();
-    
-    return this.http.delete(`${this.baseUrl}/${raceId}`, { headers, withCredentials: true })
+
+    return this.http.post(`${this.baseUrl}/${raceId}/cancel`, {}, { headers, withCredentials: true });
+  }
+
+  uncancelRace(raceId: string): Observable<any> {
+    const headers = this.getHeaders();
+
+    return this.http.post(`${this.baseUrl}/${raceId}/uncancel`, {}, { headers, withCredentials: true });
+  }
+
+  signUpForRestream(raceId: string, restreamChannel: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post(`${this.baseUrl}/${raceId}/restream`, { restreamChannel }, { headers, withCredentials: true })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  cancelRaceRestream(raceId: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post(`${this.baseUrl}/${raceId}/cancel-restream`, {}, { headers, withCredentials: true })
       .pipe(
         catchError(this.handleError)
       );

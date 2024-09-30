@@ -42,13 +42,13 @@ export class SubmitRaceComponent {
     private runnersService: RunnersService,
     private raceService: RaceService, 
     private authService: AuthService,
-    private groupService: GroupService) { }
+    private groupService: GroupService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {    
     this.setUserTimezoneLabel();
-
     this.fetchUserName();
-    // this.fetchRunners();
   }
 
   setUserTimezoneLabel() {
@@ -73,15 +73,6 @@ export class SubmitRaceComponent {
       } else {
         console.error('User is not authenticated');
       }
-    });
-  }
-
-  fetchRunners() {
-    this.runnersService.getRunners().subscribe(data => {
-      // Only show runners that aren't the current user
-      this.runners = data.filter((runner: { _id: string; }) => runner._id !== this.userId);        
-    }, error => {
-      console.error('Error fetching runners:', error);
     });
   }
 
@@ -115,6 +106,7 @@ export class SubmitRaceComponent {
       setTimeout(() => {
         // Redirect to the individual race page using the returned race ID
         //this.router.navigate(['/race', response.id]);
+        this.router.navigate(['/races/upcoming']);
       }, 2000); // 2 seconds delay
     }, error => {
       this.errorMessage = 'Something went wrong. Please try submitting again.';
@@ -127,10 +119,7 @@ export class SubmitRaceComponent {
     const otherMembers = members.filter(member => member._id !== userId);
     this.raceData.racer2 = otherMembers[0]?._id || null; // Assign racer2
     this.raceData.racer3 = otherMembers[1]?._id || null; // Assign racer3 if applicable
-    this.runners = otherMembers;
-
-    console.log(this.raceData);
-    
+    this.runners = otherMembers;    
   }
 
   

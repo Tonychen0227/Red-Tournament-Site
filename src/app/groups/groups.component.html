@@ -1,18 +1,66 @@
-@if (groups.length > 0) {
-    <ul class="d-flex justify-content-center flex-wrap gap-3">
-        @for (group of groups; track group) {
-            <div class="card bg-light mb-3" style="max-width: 20rem; min-width: 10rem;">
-                <div class="card-header bg-primary text-light"><strong>Group {{ group.groupNumber }}</strong></div>
-                <div class="card-body">
-                    @for (member of group.members; track member) {
-                        <p class="card-text">
-                            {{ member.displayName }}
-                        </p>
-                    }
+<!-- @if (loading) {
+    <app-loading></app-loading>
+} @else {
+    @if (groups.length > 0) {
+        <ul class="d-flex justify-content-center flex-wrap gap-3">
+            @for (group of groups; track group) {
+                <div class="card bg-light mb-3" style="max-width: 20rem; min-width: 10rem;">
+                    <div class="card-header bg-primary text-light"><strong>Group {{ group.groupNumber }}</strong></div>
+                    <div class="card-body">
+                        @for (member of group.members; track member) {
+                            <p class="card-text">
+                                {{ member.displayName }}
+                            </p>
+                        }
+                    </div>
                 </div>
-            </div>
+                }
+            </ul>
+    } @else {
+        <p>No groups have been created for this round</p>
+    }
+}
+ -->
+
+ <div class="btn-group mb-3 flex-wrap gap-1 w-100" role="group" aria-label="Round selection radio group">
+    @for (round of rounds; track round) {
+        <input type="radio" 
+               class="btn-check" 
+               name="btnradio" 
+               [id]="'btnradio' + round" 
+               autocomplete="off" 
+               [checked]="round === currentRound" 
+               (change)="onRoundSelected(round)">
+        <label class="btn flex-grow-1 text-center" 
+               [class.btn-primary]="round === currentRound" 
+               [class.btn-outline-primary]="round !== currentRound" 
+               [for]="'btnradio' + round">
+            {{ round }}
+        </label>
+    }
+</div>
+
+@if (loading) {
+    <app-loading></app-loading>
+} @else {
+    @if (filteredGroups.length > 0) {
+        <ul class="d-flex justify-content-center flex-wrap gap-3">
+            @for (group of filteredGroups; track group) {
+                <div class="card bg-light mb-3" style="min-width: 10rem;">
+                    <div class="card-header bg-primary text-light"><strong>Group {{ group.groupNumber }}</strong></div>
+                    <div class="card-body">
+                        @for (member of group.members; track member) {
+                            <p class="card-text">
+                                {{ member.displayName }}
+                            </p>
+                        }
+                    </div>
+                </div>
             }
         </ul>
-} @else {
-    <p>No groups have been created for this round</p>
+    } @else {
+        <h2 class="text-center mt-4">
+            No groups have been created for this round
+        </h2>
+    }
 }

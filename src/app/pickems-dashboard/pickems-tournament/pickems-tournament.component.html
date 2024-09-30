@@ -1,0 +1,144 @@
+<div class="heading text-center">
+    <h1>Welcome to the 2024 Red Tournament Pick'ems!</h1>
+    <p>As this is your first visit, we'd like to take some overall tournament picks from you</p>
+</div>
+
+<hr>
+
+<!-- Top 9 -->
+<h2 class="text-center mt-4">Top 9 Cut</h2>
+<p class="text-center mb-4">Each one correct will net you <strong>20 points</strong>.</p>
+
+<div class="container">
+    <div class="row">
+        @for (runner of selectedRunners; track $index) {
+            <div class="col-md-4 mb-3">
+                <!-- <label class="form-label">Pick {{$index + 1}}:</label> -->
+                <select class="form-select" [(ngModel)]="selectedRunners[$index]">
+                    <option [ngValue]="null">Select a runner</option>
+                    @for (availableRunner of getAvailableRunners($index); track availableRunner._id) {
+                        <option [ngValue]="availableRunner">{{availableRunner.displayName}}</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+</div>
+
+<hr>
+
+<!-- Who will be the overall winner? -->
+<h2 class="text-center mt-4">Overall Winner</h2>
+<p class="text-center mb-4">Getting this one correct will net you <strong>100 points</strong>.</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <select class="form-select" [(ngModel)]="selectedWinner">
+                <option [ngValue]="null">Select a runner</option>
+                @for (runner of runners; track runner._id) {
+                    <option [ngValue]="runner">{{runner.displayName}}</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Who will have the best tournament time? -->
+<h2 class="text-center mt-4">Best Tournament Time</h2>
+<p class="text-center mb-4">Getting this one correct will net you <strong>50 points</strong>.</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <select class="form-select" [(ngModel)]="selectedBestTimeRunner">
+                <option [ngValue]="null">Select a runner</option>
+                @for (runner of runners; track runner._id) {
+                    <option [ngValue]="runner">{{runner.displayName}}</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- What will be the best tournament time? -->
+<!-- <h2 class="text-center mt-4">Best Tournament Time</h2>
+<p class="text-center mb-4">The closest guess for this one will net <strong>100 points</strong>.</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="row g-3">
+                <div class="col-3">
+                    <label for="hours" class="form-label">Hours</label>
+                    <input type="number" class="form-control" id="hours" [(ngModel)]="bestTime.hours" min="0" placeholder="0">
+                </div>
+                <div class="col-3">
+                    <label for="minutes" class="form-label">Minutes</label>
+                    <input type="number" class="form-control" id="minutes" [(ngModel)]="bestTime.minutes" min="0" max="59" placeholder="0">
+                </div>
+                <div class="col-3">
+                    <label for="seconds" class="form-label">Seconds</label>
+                    <input type="number" class="form-control" id="seconds" [(ngModel)]="bestTime.seconds" min="0" max="59" placeholder="0">
+                </div>
+                <div class="col-3">
+                    <label for="milliseconds" class="form-label">Milliseconds</label>
+                    <input type="number" class="form-control" id="milliseconds" [(ngModel)]="bestTime.milliseconds" min="0" max="999" placeholder="0">
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- What will be the best tournament time? -->
+<h2 class="text-center mt-4">Best Tournament Time</h2>
+<p class="text-center mb-4">The closest guess for this one will net <strong>100 points</strong>.</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex gap-1 mt-1">
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingHours" [(ngModel)]="bestTime.hours" (ngModelChange)="validateBestTimeHours($event)">
+                    <label for="floatingHours">Hours</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingMinutes" [(ngModel)]="bestTime.minutes" (ngModelChange)="validateBestTimeMinutes($event)">
+                    <label for="floatingMinutes">Minutes</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingSeconds" [(ngModel)]="bestTime.seconds" (ngModelChange)="validateBestTimeSeconds($event)">
+                    <label for="floatingSeconds">Seconds</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingMilliseconds" [(ngModel)]="bestTime.milliseconds" (ngModelChange)="validateBestTimeMilliseconds($event)">
+                    <label for="floatingMilliseconds">Ms</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr>
+
+@if (successMessage) {
+    <div class="alert alert-dismissible alert-success mt-3">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearAlert()"></button>
+    {{ successMessage }}
+    </div>
+}
+
+@if (errorMessage) {
+    <div class="alert alert-dismissible alert-primary mt-3">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearAlert()"></button>
+    {{ errorMessage }}
+    </div>
+}
+
+<div class="d-flex justify-content-center">
+    <button class="btn btn-primary w-100" [disabled]="!canSubmit()" (click)="submitPickems()">Submit Picks</button>
+</div>
