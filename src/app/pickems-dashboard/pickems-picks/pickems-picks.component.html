@@ -57,4 +57,64 @@
     </div>
   }
   
+    <!-- Card for Each Round's Picks -->
+    @if (pickems.round2Picks.length > 0) {
+      <div class="card mb-3">
+        <div class="card-header">
+          <h5 class="card-title">Round 2 Picks</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            @for (pick of pickems.round2Picks; track pick._id) {
+              <div class="col-6 col-md-4 mb-2">
+                <div class="list-group-item text-center">
+                  <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  
+      <!-- Card for Each Round's Picks -->
+  @if (pickems.round3Picks.length > 0) {
+    <div class="card mb-3">
+      <div class="card-header">
+        <h5 class="card-title">Round 1 Picks</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          @for (pick of pickems.round3Picks; track pick._id) {
+            <div class="col-6 col-md-4 mb-2">
+              <div class="list-group-item text-center">
+                <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+  
+    <!-- Card for Each Round's Picks -->
+    @if (pickems.semiFinalsPicks.length > 0) {
+      <div class="card mb-3">
+        <div class="card-header">
+          <h5 class="card-title">Round 1 Picks</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            @for (pick of pickems.semiFinalsPicks; track pick._id) {
+              <div class="col-6 col-md-4 mb-2">
+                <div class="list-group-item text-center">
+                  <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+    
 }

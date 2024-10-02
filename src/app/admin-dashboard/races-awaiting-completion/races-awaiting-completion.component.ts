@@ -51,8 +51,16 @@ export class RacesAwaitingCompletionComponent {
   initialiseResults(): void {
     this.races.forEach((race) => {
       this.raceResults[race._id] = [
-        { racer: race.racer1, status: 'Finished', finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 } },
-        { racer: race.racer2, status: 'Finished', finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 } },
+        { racer: race.racer1, 
+          status: 'Finished', 
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }, 
+          dnfOrder: null 
+        },
+        { racer: race.racer2, 
+          status: 'Finished', 
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 },
+          dnfOrder: null 
+        },
       ];
 
       if (race.racer3) {
@@ -60,6 +68,7 @@ export class RacesAwaitingCompletionComponent {
           racer: race.racer3,
           status: 'Finished',
           finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 },
+          dnfOrder: null 
         });
       }
     });
@@ -73,12 +82,14 @@ export class RacesAwaitingCompletionComponent {
         {
           racer: race.racer1,
           status: 'Finished',
-          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 },
+          dnfOrder: null 
         },
         {
           racer: race.racer2,
           status: 'Finished',
-          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 },
+          dnfOrder: null 
         },
       ];
   
@@ -86,14 +97,15 @@ export class RacesAwaitingCompletionComponent {
         this.raceResults[raceId].push({
           racer: race.racer3,
           status: 'Finished',
-          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 }
+          finishTime: { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 },
+          dnfOrder: null 
         });
       }
   
       this.cdr.detectChanges();
     }
   }
-  
+
   canSubmitRaceResults(race: Race): boolean {
     const raceResults = this.raceResults[race._id];
 
@@ -109,8 +121,19 @@ export class RacesAwaitingCompletionComponent {
       return true; // For statuses other than 'Finished', no need to check time
     });
 
-    return raceTimeIdEntered && allResultsValid;
+    // Additional Validation: Unique DNF Orders
+    const dnfResults = raceResults.filter(result => result.status === 'DNF');
+    const dnfOrders = dnfResults.map(result => result.dnfOrder);
+    const uniqueDnfOrders = new Set(dnfOrders);
+
+    const dnfOrdersValid = dnfOrders.length === uniqueDnfOrders.size;
+
+    // Ensure all DNF racers have a dnfOrder
+    const allDnfOrdersAssigned = dnfResults.every(result => result.dnfOrder !== null && result.dnfOrder > 0);
+
+    return raceTimeIdEntered && allResultsValid && dnfOrdersValid && allDnfOrdersAssigned;
   }
+
   
   completeRace(race: Race): void {
     this.clearAlert();
@@ -202,4 +225,27 @@ export class RacesAwaitingCompletionComponent {
     this.successMessage = null;
     this.errorMessage = null;
   }
+
+  onStatusChange(raceId: string, racerIndex: number): void {
+    const selectedStatus = this.raceResults[raceId][racerIndex].status;
+
+    if (selectedStatus !== 'DNF') {
+      // If the status is not DNF, reset the dnfOrder
+      this.raceResults[raceId][racerIndex].dnfOrder = null;
+    } else {
+      // If DNF is selected, assign a default dnfOrder if not already set
+      if (this.raceResults[raceId][racerIndex].dnfOrder === null) {
+        // Find the next available dnfOrder
+        const existingOrders = this.raceResults[raceId]
+          .filter(result => result.status === 'DNF' && result.dnfOrder !== null)
+          .map(result => result.dnfOrder!);
+        
+        const nextOrder = existingOrders.length > 0 ? Math.max(...existingOrders) + 1 : 1;
+        this.raceResults[raceId][racerIndex].dnfOrder = nextOrder;
+      }
+    }
+
+    this.cdr.detectChanges();
+  }
+
 }

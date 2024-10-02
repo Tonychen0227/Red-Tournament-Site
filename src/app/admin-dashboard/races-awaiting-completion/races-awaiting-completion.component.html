@@ -27,12 +27,28 @@
             <!-- Racer 1 -->
             <div class="mb-3">
                 <h5>{{ race.racer1.displayName }}</h5>
-                <select class="form-select" [(ngModel)]="raceResults[race._id][0].status">
+                <select class="form-select" [(ngModel)]="raceResults[race._id][0].status" (ngModelChange)="onStatusChange(race._id, 0)">
                     <option value="Finished">Finished</option>
                     <option value="DNF">DNF</option>
                     <option value="DNS">DNS</option>
                     <option value="DQ">DQ</option>
                 </select>
+
+                <!-- DNF Order Field -->
+                 @if (raceResults[race._id][0].status === 'DNF') {
+                    <div class="dnf-order-field mt-2">
+                        <label>DNF Order:</label>
+                        <input 
+                        type="number" 
+                        name="dnfOrder" 
+                        min="1"
+                        max="3"
+                        [(ngModel)]="raceResults[race._id][0].dnfOrder" 
+                        class="form-control"
+                        placeholder="Enter DNF order"
+                        />
+                    </div>
+                 }
 
                 @if (raceResults[race._id][0].status === 'Finished') {
                     <div class="d-flex gap-1 mt-1">
@@ -63,12 +79,28 @@
             <div class="mb-3">
                 <h5>{{ race.racer2.displayName }}</h5>
 
-                <select class="form-select" [(ngModel)]="raceResults[race._id][1].status">
+                <select class="form-select" [(ngModel)]="raceResults[race._id][1].status" (ngModelChange)="onStatusChange(race._id, 1)">
                     <option value="Finished">Finished</option>
                     <option value="DNF">DNF</option>
                     <option value="DNS">DNS</option>
                     <option value="DQ">DQ</option>
                 </select>
+
+                <!-- DNF Order Field -->
+                @if (raceResults[race._id][1].status === 'DNF') {
+                    <div class="dnf-order-field mt-2">
+                        <label>DNF Order:</label>
+                        <input 
+                        type="number" 
+                        name="dnfOrder" 
+                        min="1"
+                        max="3"
+                        [(ngModel)]="raceResults[race._id][1].dnfOrder" 
+                        class="form-control"
+                        placeholder="Enter DNF order"
+                        />
+                    </div>
+                 }
 
                 @if (raceResults[race._id][1].status === 'Finished') {
                     <div class="d-flex gap-1 mt-1">
@@ -100,12 +132,28 @@
                 <div class="mb-3">
                     <h5>{{ race.racer3.displayName }}</h5>
 
-                    <select class="form-select" [(ngModel)]="raceResults[race._id][2].status">
+                    <select class="form-select" [(ngModel)]="raceResults[race._id][2].status" (ngModelChange)="onStatusChange(race._id, 2)">
                         <option value="Finished">Finished</option>
                         <option value="DNF">DNF</option>
                         <option value="DNS">DNS</option>
                         <option value="DQ">DQ</option>
                     </select>
+
+                <!-- DNF Order Field -->
+                @if (raceResults[race._id][2].status === 'DNF') {
+                    <div class="dnf-order-field mt-2">
+                        <label>DNF Order:</label>
+                        <input 
+                        type="number" 
+                        name="dnfOrder" 
+                        min="1"
+                        max="3"
+                        [(ngModel)]="raceResults[race._id][2].dnfOrder" 
+                        class="form-control"
+                        placeholder="Enter DNF order"
+                        />
+                    </div>
+                 }
 
                     @if (raceResults[race._id][2].status === 'Finished') {
                         <div class="d-flex gap-1 mt-1">

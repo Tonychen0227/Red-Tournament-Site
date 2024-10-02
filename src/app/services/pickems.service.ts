@@ -40,4 +40,14 @@ export class PickemsService {
   getLeaderboard(): Observable<any> {
     return this.http.get(`${this.baseUrl}/leaderboard`);
   }
+
+  submitRoundWinners(selectedWinners: string[]): Observable<any> {
+    const headers = this.getHeaders();
+
+    const payload = {
+      selectedWinners
+    };
+
+    return this.http.post(`${this.baseUrl}/submit-round-picks`, payload, { headers, withCredentials: true });
+  }
 }

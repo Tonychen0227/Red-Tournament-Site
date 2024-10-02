@@ -37,4 +37,6 @@ export interface RaceResult {
     seconds: number;
     milliseconds: number;
   };
+
+  dnfOrder: number | null;
 }
