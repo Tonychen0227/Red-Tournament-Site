@@ -39,11 +39,21 @@ export class GroupService {
   }
 
 
+  // getAllGroups(): Observable<any> {
+  //   const headers = this.getHeaders();
+
+  //   return this.http.get<any>(`${this.baseUrl}/groups`, { headers, withCredentials: true })
+  //     .pipe(
+  //       catchError(this.handleError('getAllGroups'))
+  //     );
+  // }
+
   getAllGroups(): Observable<any> {
     const headers = this.getHeaders();
-
+  
     return this.http.get<any>(`${this.baseUrl}/groups`, { headers, withCredentials: true })
       .pipe(
+        tap((response) => console.log(response)),  // Log the response
         catchError(this.handleError('getAllGroups'))
       );
   }
@@ -53,9 +63,6 @@ export class GroupService {
 
     return this.http.get<any>(`${this.baseUrl}/groups/count`, { headers, withCredentials: true })
       .pipe(
-        tap(countData => {
-          console.log('Group count:', countData.count);
-        }),
         catchError(this.handleError('getGroupCount'))
       );
   }

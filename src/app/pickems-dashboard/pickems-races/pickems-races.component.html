@@ -42,7 +42,8 @@
                 </div>
             }
         
-            <button type="button" class="btn btn-success w-100" [disabled]="!canSubmitWinners()" (click)="saveWinners()">Save Picks</button>
+            <h2>Almost there! Please double-check your picks, as changes won't be possible once submitted.</h2>
+            <button type="button" class="btn btn-success w-100" (click)="saveWinners()">Save Picks</button>
         
             </div>
         } @else {

@@ -31,22 +31,36 @@ export class PickemsDashboardComponent implements OnInit {
   user: User | null = null; 
   pickems: any = null;
 
+
   ngOnInit(): void {
-    this.checkPickems();        
+    this.authService.checkAuthStatus().subscribe({
+      next: (user) => {
+        this.user = user;
+
+        if (user) {
+          this.checkPickems();
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching authentication status:', err);
+      }
+    });
   }
 
-checkPickems() {
-  this.pickemsService.checkPickems().subscribe({
-    next: (pickems) => {
-      this.pickems = pickems;
-      this.loading = false;
-    },
-    error: (err) => {
-      console.error('Error fetching Pickems:', err);
-      this.loading = false;
-    }
-  });
-}
+  checkPickems() {
+    this.pickemsService.checkPickems().subscribe({
+      next: (pickems) => {
+        this.pickems = pickems;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error fetching Pickems:', err);
+        this.loading = false;
+      }
+    });
+  }
 
-
+  login(): void {
+    this.authService.login();
+  }
 }

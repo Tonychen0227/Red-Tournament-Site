@@ -3,6 +3,7 @@ import { GroupService } from '../../services/group.service';
 import { TournamentService } from '../../services/tournament.service';
 import { PickemsService } from '../../services/pickems.service';
 import { LoadingComponent } from '../../loading/loading.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pickems-races',
@@ -18,7 +19,8 @@ export class PickemsRacesComponent implements OnInit {
   constructor(
     private pickemsService: PickemsService,
     private groupService: GroupService, 
-    private tournamentService: TournamentService
+    private tournamentService: TournamentService,
+    private router: Router
   ) { }
 
   loading: boolean = true;
@@ -96,15 +98,44 @@ export class PickemsRacesComponent implements OnInit {
   }
 
   filterGroupsByRound(round: string): void {
-    this.filteredGroups = this.groups.filter(group => group.round === round);    
+    this.filteredGroups = this.groups.filter(group => group.round === round && group.raceStarted != "false");
+
+    console.log(this.groups);
+    
   }
 
-  onWinnerChange(groupId: string, runnerId: string): void {
-    // Ensure that the selected winner is properly set for the group
-    this.selectedWinners = this.selectedWinners.filter(id => id !== runnerId); // Clear previous selection for the group
-    this.selectedWinners.push(runnerId); // Add the new selection
-  }
+  // onWinnerChange(groupId: string, runnerId: string): void {
+  //   // Ensure that the selected winner is properly set for the group
+  //   this.selectedWinners = this.selectedWinners.filter(id => id !== runnerId); // Clear previous selection for the group
+  //   this.selectedWinners.push(runnerId); // Add the new selection
+
+  //   console.log(this.selectedWinners);
+    
+  // }
   
+  onWinnerChange(groupId: string, runnerId: string): void {
+    // Find the group to which this runner belongs
+    const group = this.filteredGroups.find(g => g._id === groupId);
+    if (!group) {
+      console.warn(`Group with ID ${groupId} not found.`);
+      return;
+    }
+
+    // Check if any runner from this group is already in selectedWinners
+    const existingRunnerId = group.members.find((runner: { _id: any; }) => this.selectedWinners.includes(runner._id))?._id;
+
+    if (existingRunnerId) {
+      // Remove the existing runner from selectedWinners
+      this.selectedWinners = this.selectedWinners.filter(id => id !== existingRunnerId);
+    }
+
+    // Add the new runner ID
+    this.selectedWinners.push(runnerId);
+
+    console.log(this.selectedWinners);
+
+  }
+
 
   canSubmitWinners(): boolean {
     // Ensure we have the same number of selected winners as there are groups
@@ -116,6 +147,7 @@ export class PickemsRacesComponent implements OnInit {
     this.pickemsService.submitRoundWinners(this.selectedWinners).subscribe({
       next: () => {
         this.successMessage = 'Picks submitted successfully!';
+        this.router.navigate(['/pickems/picks']);
       },
       error: (error: any) => {
         console.error('Error submitting picks:', error);

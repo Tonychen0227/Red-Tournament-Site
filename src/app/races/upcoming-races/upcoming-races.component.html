@@ -4,20 +4,19 @@
     <h1>Upcoming Races</h1>
     <h4 class="mb-4">Date and time are shown in your local timezone ({{ userTimezoneLabel }})</h4>
 
-    <!-- <div class="d-flex align-items-center mb-3">
+    <div class="d-flex align-items-center mb-3">
         <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
         <span class="badge bg-primary me-2 px-3 py-2">High</span>
         <span class="badge bg-success me-2 px-3 py-2">Middle</span>
         <span class="badge bg-info me-2 px-3 py-2">Low</span>
-    </div> -->
+    </div>
 
-    <div class="d-flex align-items-center mb-3">
+    <!-- <div class="d-flex align-items-center mb-3">
         <h5 style="display: inline-block" class="me-2">Pot Key:</h5>
         <span class="badge bg-primary me-2 px-3 py-2">Pot 1</span>
         <span class="badge bg-success me-2 px-3 py-2">Pot 2</span>
         <span class="badge bg-info me-2 px-3 py-2">Pot 3</span>
-    </div>
-
+    </div> -->
 
     @if (errorMessage) {
         <div class="alert alert-disAmissible alert-primary mt-4">
@@ -54,7 +53,7 @@
                 </div>
                 <div class="d-flex justify-content-start align-items-center flex-wrap">
 
-                    <!-- <span class="badge m-1 p-2"
+                    <span class="badge m-1 p-2"
                             [ngClass]="{
                                 'bg-primary': race.racer1.currentBracket === 'High',
                                 'bg-success': race.racer1.currentBracket === 'Middle',
@@ -88,9 +87,9 @@
                             [title]="race.racer3.discordUsername">
                             {{ race.racer3.displayName }}
                         </span>
-                    } -->
+                    }
 
-                    <span class="badge m-1 p-2"
+                    <!-- <span class="badge m-1 p-2"
                             [ngClass]="{
                                 'bg-primary': race.racer1.initialPot === '1',
                                 'bg-success': race.racer1.initialPot === '2',
@@ -124,7 +123,7 @@
                             [title]="race.racer3.discordUsername">
                             {{ race.racer3.displayName }}
                         </span>
-                    }
+                    } -->
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between mt-2">

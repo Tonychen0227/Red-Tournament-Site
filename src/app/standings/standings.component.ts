@@ -31,10 +31,7 @@ export class StandingsComponent implements OnInit {
     this.tournamentService.getStandings().subscribe({
       next: (data) => {
         this.runners = data;
-        this.loading = false;
-
-        console.log(data);
-        
+        this.loading = false;        
       },
       error: (err) => {
         this.errorMessage = 'Error fetching standings';

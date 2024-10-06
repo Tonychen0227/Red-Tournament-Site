@@ -1,21 +1,27 @@
 @if (loading) {
     <app-loading></app-loading>
 } @else {
-    @if (pickems) {
-        <h1>Pick'Ems!</h1>
-        
-        <div class="actions d-flex gap-3 mb-3 flex-wrap">
-            @if (user?.isAdmin) {
-                <button class="btn btn-primary" routerLink="/pickems/admin">Admin</button>
-            }
+    @if (user) {
+        @if (pickems) {
+            <h1>Pick'Ems!</h1>
             
-            <button class="btn btn-primary" routerLink="/pickems/leaderboard">Leaderboard</button>
-            <button class="btn btn-primary" routerLink="/pickems/submit">Submit Round Picks</button>
-            <button class="btn btn-primary" routerLink="/pickems/picks">Your Picks</button>
-        </div>
-    
-        <router-outlet></router-outlet>
+            <div class="actions d-flex gap-3 mb-3 flex-wrap">
+                @if (user.isAdmin) {
+                    <button class="btn btn-primary" routerLink="/pickems/admin">Admin</button>
+                }
+                
+                <button class="btn btn-primary" routerLink="/pickems/leaderboard">Leaderboard</button>
+                <button class="btn btn-primary" routerLink="/pickems/submit">Submit Round Picks</button>
+                <button class="btn btn-primary" routerLink="/pickems/picks">Your Picks</button>
+            </div>
+        
+            <router-outlet></router-outlet>
+        } @else {
+            <app-pickems-tournament></app-pickems-tournament>
+        }
     } @else {
-        <app-pickems-tournament></app-pickems-tournament>
+        <div class="d-flex flex-column text-center align-items-center">
+            <h2>Please login to submit Pickems</h2>            
+        </div>
     }
 }

@@ -26,7 +26,7 @@ export class PastRacesComponent {
   
   currentRound: string = 'All';
   
-  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals', 'Finals', 'All'];
+  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals', 'Final', 'All'];
 
   ngOnInit(): void {
     // Fetch the current round from the tournament service
@@ -41,10 +41,7 @@ export class PastRacesComponent {
       (races: Race[]) => {
         this.races = races;
         this.filterRacesByRound(this.currentRound);
-        this.loading = false;
-
-        console.log(races);
-        
+        this.loading = false;        
       },
       (error) => {
         console.error('Error fetching completed races:', error);

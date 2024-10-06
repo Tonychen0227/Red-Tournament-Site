@@ -33,41 +33,6 @@ export class EndRoundComponent implements OnInit {
     this.getTournamentInfo();
   }
 
-  // getTournamentInfo(): void {
-  //   this.loading = true;
-  //   this.tournamentService.getCurrentRound().subscribe({
-  //     next: (data: { currentRound: string; totalRaces: number; completedRaces: number; submittedButNotReady: number; canEndRound: boolean; }) => {
-  //       this.currentRound = data.currentRound;
-  //       this.totalRacesExpected = data.totalRaces;
-  //       this.totalRacesCompleted = data.completedRaces;
-  //       this.totalRacesSubmitted = data.submittedButNotReady;
-  //       // this.canEndRound = data.canEndRound;
-
-  //       this.groupService.getGroupCount().subscribe({
-  //         next: (countData: { count: number }) => {
-  //           this.totalRacesExpected = countData.count;
-  //           this.loading = false;
-  //           console.log('Total Races Expected:', this.totalRacesExpected);
-  //           console.log('Total Races Submitted:', this.totalRacesSubmitted);
-
-  //           this.canEndRound = this.totalRacesCompleted >= this.totalRacesExpected;
-  //         },
-  //         error: (error: any) => {
-  //           this.errorMessage = 'Error fetching total races expected';
-  //           console.error(error);
-  //           this.loading = false;
-  //         }
-  //       });
-        
-  //     },
-  //     error: (error: any) => {
-  //       this.errorMessage = 'Error fetching tournament info';
-  //       console.error(error);
-  //       this.loading = false;
-  //     }
-  //   });
-  // }
-
   getTournamentInfo(): void {
     this.loading = true;
     this.tournamentService.getCurrentRound().subscribe({
@@ -86,12 +51,6 @@ export class EndRoundComponent implements OnInit {
           next: (countData: { count: number }) => {
             this.totalRacesExpected = countData.count;
             this.loading = false;
-  
-            console.log('Total Races Expected:', this.totalRacesExpected);
-            console.log('Upcoming Races:', this.upcomingRaces);
-            console.log('Awaiting Results:', this.awaitingResults);
-            console.log('Completed Races:', this.completedRaces);
-  
             this.canEndRound = this.completedRaces >= this.totalRacesExpected;
           },
           error: (error: any) => {
