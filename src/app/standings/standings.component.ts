@@ -3,12 +3,14 @@ import { User } from '../../interfaces/user';
 import { TournamentService } from '../services/tournament.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-standings',
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     LoadingComponent
   ],
   templateUrl: './standings.component.html',

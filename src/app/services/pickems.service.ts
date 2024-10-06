@@ -37,8 +37,14 @@ export class PickemsService {
     return this.http.get<any>(`${this.baseUrl}`, { headers, withCredentials: true });
   }
 
+  getPickemsByUserId(userId: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.baseUrl}/${userId}`, { headers, withCredentials: true });
+  }
+  
   getLeaderboard(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/leaderboard`);
+    const headers = this.getHeaders();
+    return this.http.get(`${this.baseUrl}/leaderboard`, { headers, withCredentials: true });
   }
 
   submitRoundWinners(selectedWinners: string[]): Observable<any> {

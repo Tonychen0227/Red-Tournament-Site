@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { PickemsService } from '../../services/pickems.service';
 import { LoadingComponent } from '../../loading/loading.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pickems-leaderboard',
   standalone: true,
   imports: [
-    LoadingComponent
+    LoadingComponent,
+    RouterLink
   ],
   templateUrl: './pickems-leaderboard.component.html',
   styleUrl: './pickems-leaderboard.component.css'

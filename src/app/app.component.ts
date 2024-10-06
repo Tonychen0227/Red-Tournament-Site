@@ -26,7 +26,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.authService.checkAuthStatus().subscribe(user => {
-      this.isAdmin = this.authService.isAdmin();     
+      this.isAdmin = this.authService.isAdmin();
     });
   }
 

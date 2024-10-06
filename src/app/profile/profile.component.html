@@ -1,125 +1,203 @@
 @if (loading) {
-  <app-loading></app-loading>
+    <app-loading></app-loading>
 } @else {
-    <div class="profile-container">
-      @if (user) {
-        <div class="card p-3 mb-4">
+  <div class="profile-container">
+    @if (user) {
+      <div class="card p-3 mb-4">
+        <div class="row">
+          <h3 class="mb-3 text-center">{{ user.displayName }}</h3>
+        </div>
+
+        <!-- User Avatar -->
+        @if (user.photos) {
+          <div class="text-center mb-3">
+            <img
+              [src]="user.photos[0]?.value || '/assets/default-avatar.png'"
+              class="profile-avatar img-fluid rounded-circle mb-2"
+              alt="User Avatar"
+            />
+          </div>
+        }
+
+        <!-- Role Badges -->
+        <p class="d-flex justify-content-center align-items-center gap-2">
+          <!-- Admin Badge -->
+          @if (user.isAdmin) {
+            <span class="badge bg-success">Admin</span>
+          }
+
+          <!-- Role-Based Badges -->
+          @if (user.role == 'runner') {
+            <span class="badge bg-primary">{{ user.role | titlecase }}</span>
+            <span class="badge bg-dark">Commentator</span>
+          } @else {
+            <span class="badge bg-dark">Commentator</span>
+          }
+
+          <!-- Pickems Badge -->
+          @if (pickems) {
+            <span class="badge bg-info">Pickems</span>
+          }
+        </p>
+      </div>
+
+      <!-- Pickems Section -->
+  @if (pickems) {
+    <h2>Pickems</h2>
+
+    <!-- Overall Picks -->
+    <div class="my-3">
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <strong>Overall Winner</strong>
+          <span class="badge bg-dark p-2">{{ pickems.overallWinner.displayName }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <strong>Best Tournament Time</strong>
+          <span class="badge bg-dark p-2">{{ pickems.bestTimeWho.displayName }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <strong>Closest Time Guess</strong>
+          <span class="badge bg-dark p-2">{{ formatTime(pickems.closestTime) }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Top 9 Picks -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <h5 class="card-title">Top 9</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          @for (pick of pickems.top9; track pick._id) {
+            <div class="col-6 col-md-4 mb-2">
+              <div class="list-group-item text-center">
+                <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Round 1 Picks -->
+    @if (pickems.round1Picks.length > 0) {
+      <div class="card mb-3">
+        <div class="card-header">
+          <h5 class="card-title">Round 1 Picks</h5>
+        </div>
+        <div class="card-body">
           <div class="row">
-            <!-- User avatar -->
-            <div class="text-center">
-              <img [src]="user.photos[0]?.value || '/assets/default-avatar.png'" alt="{{ user.username }}'s avatar" class="profile-avatar img-fluid rounded-circle mb-2"/>
+            @for (pick of pickems.round1Picks; track pick._id) {
+              <div class="col-6 col-md-4 mb-2">
+                <div class="list-group-item text-center">
+                  <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  }
+
+  <!-- Participated Races Section -->
+  @if (racesParticipatedIn.length > 0) {
+    <h2>Racer</h2>
+    <div class="race-list border-top">
+      @for (race of racesParticipatedIn; track race._id) {
+        <div
+          class="race-item d-flex flex-column border-bottom py-2 mt-3"
+          [ngClass]="{ 'opacity-50': race.cancelled, 'bg-light': race.cancelled }"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="race-date">
+                {{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }}
+              </h5>
             </div>
 
-            <!-- User details -->
-            <div>
-              <h3 class="mb-3 text-center">{{ user.displayName || user.username }}</h3>
+            @if (race.cancelled) {
+              <span class="badge bg-danger">Cancelled</span>
+            }
+          </div>
 
-              <p class="d-flex justify-content-center align-items-center gap-2">
-                <!-- Admin badge -->
-                @if (user.isAdmin) {
-                  <span class="badge bg-success">Admin</span>
-                }
+          <div class="d-flex justify-content-start align-items-center flex-wrap">
+            <span class="badge bg-dark m-1 p-2">{{ race.racer1.displayName }}</span>
+            <span class="badge bg-dark m-1 p-2">{{ race.racer2.displayName }}</span>
 
-                @if (user.role == 'runner') {
-                  <span class="badge bg-primary">{{ user.role | titlecase }}</span>
-                  <span class="badge bg-dark">Commentator</span>
-                } @else {
-                  <span class="badge bg-dark">Commentator</span>
+            @if (race.racer3) {
+              <span class="badge bg-dark m-1 p-2">{{ race.racer3.displayName }}</span>
+            }
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between mt-2">
+            <div class="d-flex align-items-center flex-wrap">
+              <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2" />
+              <div class="commentators d-flex flex-wrap">
+                @if (race.commentators.length > 0) {
+                  @for (commentator of race.commentators; track commentator._id) {
+                    <span class="badge bg-dark m-1 py-1 px-2">{{ commentator.displayName }}</span>
+                  }
                 }
-              </p>
+              </div>
             </div>
           </div>
         </div>
-      } @else {
-          <p>Please log in.</p>
       }
+    </div>
+  }
+
+  <!-- Commentated Races Section -->
+  @if (racesCommentated.length > 0) {
+    <h2 class="mt-4">Commentator</h2>
+    <div class="race-list border-top">
+      @for (race of racesCommentated; track race._id) {
+        <div
+          class="race-item d-flex flex-column border-bottom py-2 mt-3"
+          [ngClass]="{ 'opacity-50': race.cancelled, 'bg-light': race.cancelled }"
+        >
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="race-date">
+                {{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }}
+              </h5>
+            </div>
+
+            @if (race.cancelled) {
+              <span class="badge bg-danger">Cancelled</span>
+            }
+          </div>
+
+          <div class="d-flex justify-content-start align-items-center flex-wrap">
+            <span class="badge bg-dark m-1 p-2">{{ race.racer1.displayName }}</span>
+            <span class="badge bg-dark m-1 p-2">{{ race.racer2.displayName }}</span>
+
+            @if (race.racer3) {
+              <span class="badge bg-dark m-1 p-2">{{ race.racer3.displayName }}</span>
+            }
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between mt-2">
+            <div class="d-flex align-items-center flex-wrap">
+              <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2" />
+              <div class="commentators d-flex flex-wrap">
+                @if (race.commentators.length > 0) {
+                  @for (commentator of race.commentators; track commentator._id) {
+                    <span class="badge bg-dark m-1 py-1 px-2">{{ commentator.displayName }}</span>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+    } @else {
+      <h2>{{ errorMessage }}</h2>
+    }
   </div>
 
-   <!-- Participated Races Section -->
-       @if (racesParticipatedIn.length > 0) {
-        <h2>Racer</h2>
-        <div class="race-list border-top">
-           @for (race of racesParticipatedIn; track race._id) {
-               <div class="race-item d-flex flex-column border-bottom py-2 mt-3"
-                   [ngClass]="{ 'opacity-50': race.cancelled, 'bg-light': race.cancelled }">
-
-                   <div class="d-flex justify-content-between align-items-center">
-                       <div>
-                           <h5 class="race-date">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }}</h5>
-                       </div>
-
-                       @if (race.cancelled) {
-                           <span class="badge bg-danger">Cancelled</span>
-                       }
-                   </div>
-
-                   <div class="d-flex justify-content-start align-items-center flex-wrap">
-                      <span class="badge bg-dark m-1 p-2">{{ race.racer1.displayName }}</span>
-                      <span class="badge bg-dark m-1 p-2">{{ race.racer2.displayName }}</span>
-
-                      @if (race.racer3) {
-                          <span class="badge bg-dark m-1 p-2">{{ race.racer3.displayName }}</span>
-                      }
-                   </div>
-
-                   <div class="d-flex align-items-center justify-content-between mt-2">
-                       <div class="d-flex align-items-center flex-wrap">
-                           <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2">
-                           <div class="commentators d-flex flex-wrap">
-                               @if (race.commentators.length > 0) {
-                                   @for (commentator of race.commentators; track commentator._id) {
-                                       <span class="badge bg-dark m-1 py-1 px-2">{{ commentator.displayName }}</span>
-                                   }
-                               }
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           }
-          </div>
-       }
-
-   <!-- Commentated Races Section -->
-       @if (racesCommentated.length > 0) {
-        <h2>Commentator</h2>
-        <div class="race-list border-top">
-           @for (race of racesCommentated; track race._id) {
-               <div class="race-item d-flex flex-column border-bottom py-2 mt-3"
-                   [ngClass]="{ 'opacity-50': race.cancelled, 'bg-light': race.cancelled }">
-
-                   <div class="d-flex justify-content-between align-items-center">
-                       <div>
-                           <h5 class="race-date">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }}</h5>
-                       </div>
-
-                       @if (race.cancelled) {
-                           <span class="badge bg-danger">Cancelled</span>
-                       }
-                   </div>
-
-                   <div class="d-flex justify-content-start align-items-center flex-wrap">
-                       <span class="badge bg-dark m-1 p-2">{{ race.racer1.displayName }}</span>
-                       <span class="badge bg-dark m-1 p-2">{{ race.racer2.displayName }}</span>
-
-                       @if (race.racer3) {
-                           <span class="badge bg-dark m-1 p-2">{{ race.racer3.displayName }}</span>
-                       }
-                   </div>
-
-                   <div class="d-flex align-items-center justify-content-between mt-2">
-                       <div class="d-flex align-items-center flex-wrap">
-                           <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2">
-                           <div class="commentators d-flex flex-wrap">
-                               @if (race.commentators.length > 0) {
-                                   @for (commentator of race.commentators; track commentator._id) {
-                                       <span class="badge bg-dark m-1 py-1 px-2">{{ commentator.displayName }}</span>
-                                   }
-                               }
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           }
-          </div>
-        }
-}
+}  

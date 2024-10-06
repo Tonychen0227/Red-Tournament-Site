@@ -75,7 +75,9 @@ export const routes: Routes = [
         children: [
             { path: 'profile', component: ProfileComponent },
             { path: 'settings', component: SettingsComponent },
-            { path: '', redirectTo: 'profile', pathMatch: 'full' }
+            { path: ':discordUsername', component: ProfileComponent },
+            { path: '', redirectTo: 'profile', pathMatch: 'full' },
+            { path: '**', redirectTo: 'profile' }
         ]
     },
     {

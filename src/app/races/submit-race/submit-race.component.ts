@@ -36,10 +36,11 @@ export class SubmitRaceComponent {
     raceDateTime: null
   };
 
+  raceAlreadySubmitted: boolean = false;
+
   userTimezone: string = 'UTC';
 
   constructor(
-    private runnersService: RunnersService,
     private raceService: RaceService, 
     private authService: AuthService,
     private groupService: GroupService,
@@ -68,8 +69,14 @@ export class SubmitRaceComponent {
         this.raceData.racer1 = user._id;
 
         this.groupService.getCurrentUserGroup().subscribe(group => {
-          this.populateRacers(group.members, user._id);
+          this.populateRacers(group.members, user._id);       
+
+          if (group.raceStartTime) {
+            this.errorMessage = 'A race has already been scheduled for this group. Contact @organizers if you have an issue';
+            this.raceAlreadySubmitted = true;
+          }
         });
+        
       } else {
         console.error('User is not authenticated');
       }
@@ -109,7 +116,7 @@ export class SubmitRaceComponent {
         this.router.navigate(['/races/upcoming']);
       }, 2000); // 2 seconds delay
     }, error => {
-      this.errorMessage = 'Something went wrong. Please try submitting again.';
+      this.errorMessage = 'Something went wrong. Please refresh the page and try again.';
       this.successMessage = '';
     });
   }

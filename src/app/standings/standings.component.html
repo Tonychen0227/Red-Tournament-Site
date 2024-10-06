@@ -1,4 +1,4 @@
-@if (loading) {
+<!-- @if (loading) {
     <app-loading></app-loading>
 } @else {
 
@@ -16,22 +16,17 @@
             <table class="table table-striped table-bordered table-hover table-responsive">
               <thead class="thead-light">
                 <tr>
-                  <!-- <th scope="col">Discord Username</th> -->
                   <th scope="col">Name</th>
                   <th scope="col" class="text-center">Points</th>
                   <th scope="col" class="text-center">Tiebreaker</th>
-                  <!-- <th scope="col">Current Bracket</th> -->
-                  <!-- <th scope="col" class="d-none d-md-table-cell">Current Bracket</th> -->
                 </tr>
               </thead>
               <tbody>
                 @for (runner of runners; track runner.discordUsername) {
                   <tr>
-                    <!-- <th scope="row">{{ runner.discordUsername }}</th> -->
                     <td>{{ runner.displayName }}</td>
                     <td class="text-center">{{ runner.points }}</td>
                     <td class="text-center">{{ runner.tieBreakerValue }}</td>
-                    <!-- <td class="d-none d-md-table-cell">{{ runner.currentBracket }}</td> -->
                   </tr>
                 }
                 @empty {
@@ -44,4 +39,51 @@
           </div>
         </div>
       </div>
+} -->
+
+@if (loading) {
+  <app-loading></app-loading>
+} @else {
+
+  @if (errorMessage) {
+      <div class="alert alert-dismissible alert-primary mt-3">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearAlert()"></button>
+      {{ errorMessage }}
+      </div>
+  }
+
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col" class="text-center">Points</th>
+                  <th scope="col" class="text-center">
+                    <span class="d-none d-lg-inline">Tiebreaker</span>
+                    <span class="d-inline d-lg-none">Tie</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (runner of runners; track runner.discordUsername) {
+                  <tr [routerLink]="['/user', runner.discordUsername]" style="cursor: pointer">
+                    <td>{{ runner.displayName }}</td>
+                    <td class="text-center">{{ runner.points }}</td>
+                    <td class="text-center">{{ runner.tieBreakerValue }}</td>
+                  </tr>
+                }
+                @empty {
+                  <tr>
+                    <td colspan="3" class="text-center">No runners available</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  </div>
 }

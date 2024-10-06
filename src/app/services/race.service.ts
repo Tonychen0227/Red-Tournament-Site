@@ -31,8 +31,12 @@ export class RaceService {
     const headers = this.getHeaders();
     return this.http.get<{ racesParticipatedIn: Race[], racesCommentated: Race[] }>(`${this.baseUrl}/user`, { headers, withCredentials: true });
   }
-  
 
+  getRacesByUserId(userId: string): Observable<{ racesParticipatedIn: Race[], racesCommentated: Race[] }> {
+    const headers = this.getHeaders();
+    return this.http.get<{ racesParticipatedIn: Race[], racesCommentated: Race[] }>(`${this.baseUrl}/user/${userId}`, { headers, withCredentials: true });
+  }
+  
   getUpcomingRaces(): Observable<Race[]> {
     const headers = this.getHeaders();
 

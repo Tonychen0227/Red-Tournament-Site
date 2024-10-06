@@ -27,11 +27,6 @@
             <label for="time">Time</label>
             <input id="time" type="time" [(ngModel)]="time" name="time" required>
         </div>
-
-        <!-- <div class="form-group d-flex flex-column">
-            <label for="time">Time (in your local time: {{ userTimezoneLabel }})</label>
-            <input id="time" type="datetime-local" [(ngModel)]="raceData.time" name="time" required>
-        </div> -->
     </div>
 
     <label for="racer1" class="form-label mt-4">Racer 1</label>
@@ -51,11 +46,10 @@
     <label for="racer3" class="form-label mt-4">Racer 3</label>
     <select class="form-select" id="racer3" [(ngModel)]="raceData.racer3" name="racer3">
         <option value=null selected disabled>Select Racer 3</option>
-        <!-- <option value=null>N/A (Two person race)</option> -->
         @for (runner of runners; track runner._id) {
             <option [value]="runner._id" [disabled]="runner._id === raceData.racer2">{{ runner.displayName }}</option>
         }
     </select>
 
-    <button type="submit" class="btn btn-primary mt-4">Submit Race</button>
+    <button type="submit" class="btn btn-primary mt-4" [disabled]="raceAlreadySubmitted">Submit Race</button>
 </form>

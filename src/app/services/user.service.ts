@@ -18,6 +18,11 @@ export class UserService {
     return new HttpHeaders().set('Authorization', `Bearer ${this.secretKey}`);
   }
 
+  getUserByDiscordUsername(userId: string): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.baseUrl}/user/${userId}`, { headers, withCredentials: true });
+  }
+
   updateDisplayName(displayName: string): Observable<any> {
     const headers = this.getHeaders();
 

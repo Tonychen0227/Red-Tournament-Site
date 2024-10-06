@@ -20,7 +20,7 @@
             </thead>
             <tbody>
               @for (player of leaderboard; track player.userId._id) {
-                <tr>
+                <tr [routerLink]="['/user', player.userId.discordUsername]" style="cursor: pointer">
                   <td>{{ player.userId.displayName }}</td>
                   <td class="text-center">{{ player.points }}</td>
                 </tr>

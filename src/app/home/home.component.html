@@ -7,12 +7,12 @@
       <h1 class="mb-4">Welcome, {{user.displayName }}!</h1>
 
       @if (user.role == 'runner') {
-        <p>You can submit races you've organized with your fellow group members</p>
+        <strong>You can submit races you've organized with your fellow group members</strong>
 
         <hr />
       }
 
-      <p>You can sign up to commentate any race</p>
+      <strong>You can sign up to commentate any race</strong>
       <p>
           During the Swiss rounds, this will be on a "first come, first served" basis.
           
@@ -20,26 +20,44 @@
           
           For the final 4 matches, the racers will get to vote on their preferred commentators from the people who have submitted.
       </p>
+
+      <hr />
+
+      <strong>You can participate in Pickems</strong>
+      <p>
+        You can set your picks for who will make the top 9, the winner, and the best tournament time.
+
+        <br>
+
+        You can also submit your picks for each race of each round, so make sure to check back after each draw stream
+      </p>
     </div>
 
     <hr />
 
-    <div class="d-flex align-items-center justify-content-center gap-3">
+    <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap">
       @if (user.role == 'runner') {
         <button class="btn btn-primary" routerLink="/races/submit">Submit a Race</button>
       }
       <button class="btn btn-primary" routerLink="/races/upcoming">Commentate a Race</button>
       <button class="btn btn-primary" routerLink="/standings">Current Standings</button>
+      <button class="btn btn-primary" routerLink="/pickems">Pickems</button>
     </div> 
 
   } @else {
     <div class="welcome text-center">
       <h1>Welcome to the Pokémon Red Tournament!</h1>
 
-      <p>You can log in using the button at the top</p>
+      <hr />
 
-      <p>You can then submit races, or sign up to commentate a race</p>
+      <p>You can <strong>log in</strong> using the button at the top</p>
+
+      <p>You can then <strong>submit races</strong> if you are a runner.</p>
+
+      <p>You can also sign up to <strong>commentate a race</strong> or particpate in <strong>Pickems</strong></p>
     </div>
+
+    <hr />
   }
 
   <div class="mt-4">

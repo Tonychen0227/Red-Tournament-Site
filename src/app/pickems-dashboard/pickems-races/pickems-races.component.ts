@@ -86,7 +86,7 @@ export class PickemsRacesComponent implements OnInit {
     this.groupService.getAllGroups().subscribe({
       next: (data) => {
         this.groups = data;
-        this.filterGroupsByRound(this.currentRound);
+        this.filterGroupsByTime(this.currentRound);
         this.loading = false;        
       },
       error: (error) => {
@@ -97,21 +97,15 @@ export class PickemsRacesComponent implements OnInit {
     });
   }
 
-  filterGroupsByRound(round: string): void {
-    this.filteredGroups = this.groups.filter(group => group.round === round && group.raceStarted != "false");
+  filterGroupsByTime(round: string): void {
+    const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
 
-    console.log(this.groups);
-    
+    // Filter groups where race hasn't started
+    this.filteredGroups = this.groups.filter(group => {
+      if (!group.raceStartTime) return true; // Include groups with no raceStartTime
+      return group.raceStartTime >= currentTime; // Include if raceStartTime is in the future
+    });      
   }
-
-  // onWinnerChange(groupId: string, runnerId: string): void {
-  //   // Ensure that the selected winner is properly set for the group
-  //   this.selectedWinners = this.selectedWinners.filter(id => id !== runnerId); // Clear previous selection for the group
-  //   this.selectedWinners.push(runnerId); // Add the new selection
-
-  //   console.log(this.selectedWinners);
-    
-  // }
   
   onWinnerChange(groupId: string, runnerId: string): void {
     // Find the group to which this runner belongs
@@ -131,9 +125,6 @@ export class PickemsRacesComponent implements OnInit {
 
     // Add the new runner ID
     this.selectedWinners.push(runnerId);
-
-    console.log(this.selectedWinners);
-
   }
 
 

@@ -53,7 +53,8 @@
                 </div>
                 <div class="d-flex justify-content-start align-items-center flex-wrap">
 
-                    <span class="badge m-1 p-2"
+                    <span [routerLink]="['/user', race.racer1.discordUsername]" style="cursor: pointer" 
+                            class="badge m-1 p-2"
                             [ngClass]="{
                                 'bg-primary': race.racer1.currentBracket === 'High',
                                 'bg-success': race.racer1.currentBracket === 'Middle',
@@ -64,7 +65,8 @@
                         {{ race.racer1.displayName }}
                     </span>
 
-                    <span class="badge m-1 p-2"
+                    <span [routerLink]="['/user', race.racer2.discordUsername]" style="cursor: pointer" 
+                            class="badge m-1 p-2"
                             [ngClass]="{
                                 'bg-primary': race.racer2.currentBracket === 'High',
                                 'bg-success': race.racer2.currentBracket === 'Middle',
@@ -77,12 +79,13 @@
             
                                         
                     @if (race.racer3) {
-                        <span class="badge m-1 p-2"
-                        [ngClass]="{
-                            'bg-primary': race.racer3.currentBracket === 'High',
-                            'bg-success': race.racer3.currentBracket === 'Middle',
-                            'bg-info': race.racer3.currentBracket === 'Low',
-                            'bg-secondary': !race.racer3.currentBracket
+                        <span [routerLink]="['/user', race.racer3.discordUsername]" style="cursor: pointer" 
+                            class="badge m-1 p-2"
+                            [ngClass]="{
+                                'bg-primary': race.racer3.currentBracket === 'High',
+                                'bg-success': race.racer3.currentBracket === 'Middle',
+                                'bg-info': race.racer3.currentBracket === 'Low',
+                                'bg-secondary': !race.racer3.currentBracket
                             }"
                             [title]="race.racer3.discordUsername">
                             {{ race.racer3.displayName }}
@@ -139,7 +142,8 @@
                                     </span>
                                 } @else {
                                     @for (commentator of race.commentators; track commentator._id) {
-                                        <span class="badge bg-dark m-1 py-1 px-2"
+                                        <span [routerLink]="['/user', commentator.discordUsername]" style="cursor: pointer"  
+                                            class="badge bg-dark m-1 py-1 px-2"
                                             [title]="commentator.discordUsername">
                                             {{ commentator.displayName }}
                                         </span>

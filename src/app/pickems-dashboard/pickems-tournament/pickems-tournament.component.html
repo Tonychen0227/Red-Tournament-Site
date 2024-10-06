@@ -112,7 +112,7 @@
 }
 
 <div class="d-flex flex-column text-center justify-content-center">
-    @if (!canSubmit()) {
+    @if (canSubmit()) {
         <h2>Almost there! Please double-check your picks, as changes won't be possible once submitted.</h2>
     }
 
