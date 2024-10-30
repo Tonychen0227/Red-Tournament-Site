@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { User } from '../../interfaces/user';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { PickemsTournamentComponent } from './pickems-tournament/pickems-tournament.component';
 import { PickemsService } from '../services/pickems.service';
 import { LoadingComponent } from '../loading/loading.component';
@@ -23,7 +23,6 @@ export class PickemsDashboardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private pickemsService: PickemsService,
-    private router: Router
   ) {}
 
   loading: boolean = true;
@@ -39,6 +38,8 @@ export class PickemsDashboardComponent implements OnInit {
 
         if (user) {
           this.checkPickems();
+        } else {
+          this.loading = false;
         }
       },
       error: (err) => {

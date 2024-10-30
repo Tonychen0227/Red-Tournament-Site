@@ -3,6 +3,13 @@
 } @else {
     <h1>Past Races</h1>
 
+    <div class="d-flex align-items-center mb-3">
+        <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
+        <span class="badge bg-primary me-2 px-3 py-2">High</span>
+        <span class="badge bg-success me-2 px-3 py-2">Middle</span>
+        <span class="badge bg-info me-2 px-3 py-2">Low</span>
+    </div>
+
     <div class="btn-group mb-3 flex-wrap gap-1 w-100" role="group" aria-label="Round selection radio group">
         @for (round of rounds; track round) {
             <input type="radio" 
@@ -39,8 +46,18 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between w-100">
 
-                                <span >{{ result.racer.displayName }}</span>
-                                
+                                <a [routerLink]="['/user', result.racer.discordUsername]" style="cursor: pointer" 
+                                        class="text-decoration-none badge m-1 p-2"
+                                        [ngClass]="{
+                                            'bg-primary': race.bracket === 'High',
+                                            'bg-success': race.bracket === 'Middle',
+                                            'bg-info': race.bracket === 'Low',
+                                            'bg-secondary': race.bracket === 'Seeding' || !race.bracket
+                                        }"
+                                        [title]="result.racer.discordUsername">
+                                    {{ result.racer.displayName }}
+                                </a>
+
                                 @if (result.status === 'Finished') {
                                     <span>
                                         {{ result.finishTime.hours }}h 
@@ -49,7 +66,7 @@
                                         {{ result.finishTime.milliseconds }}ms
                                     </span>
                                 } @else {
-                                    <span class="badge bg-primary">{{ result.status }}</span>
+                                    <span class="badge bg-primary d-flex align-items-center justify-content-center">{{ result.status }}</span>
                                 }
                             </div>
                         </li>
@@ -62,7 +79,11 @@
                             <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2">
                             <div class="commentators d-flex flex-wrap">
                                 @for (commentator of race.commentators; track commentator._id) {
-                                    <span class="badge bg-dark m-1 py-1 px-2">{{ commentator.displayName }}</span>
+                                    <a [routerLink]="['/user', commentator.discordUsername]" style="cursor: pointer"  
+                                        class="text-decoration-none badge bg-dark m-1 py-1 px-2"
+                                        [title]="commentator.discordUsername">
+                                        {{ commentator.displayName }}
+                                    </a>
                                 }
                             </div>
                         </div>

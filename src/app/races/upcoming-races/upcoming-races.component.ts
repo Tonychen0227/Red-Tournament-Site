@@ -5,10 +5,10 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LoadingComponent } from '../../loading/loading.component';
 import { User } from '../../../interfaces/user';
-import { AuthService } from '../../services/auth.service';
 
 import moment from 'moment'; 
 import { FormsModule } from '@angular/forms';
+import { Globals } from '../../services/globals';
 
 @Component({
   selector: 'app-upcoming-races',
@@ -25,7 +25,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class UpcomingRacesComponent {
 
-  constructor(private raceService: RaceService, private authService: AuthService) {}
+  constructor(private raceService: RaceService, public globals: Globals) {}
 
   loading: boolean = true;
   
@@ -39,7 +39,6 @@ export class UpcomingRacesComponent {
   ngOnInit(): void {
     this.setUserTimezoneLabel();
     this.getRaces();
-    this.getUser();
   }
 
   setUserTimezoneLabel() {
@@ -49,17 +48,6 @@ export class UpcomingRacesComponent {
     const sign = offsetMinutes > 0 ? '-' : '+';
   
     this.userTimezoneLabel = `UTC${sign}${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
-  }
-
-  getUser() {
-    this.authService.checkAuthStatus().subscribe({
-      next: (user) => {
-        this.user = user;
-      },
-      error: (err) => {
-        console.error('Error fetching authentication status:', err);
-      }
-    });
   }
 
   getRaces(): void {
@@ -87,7 +75,7 @@ export class UpcomingRacesComponent {
   }
 
   isUserCommentator(race: any): boolean {
-    return race.commentators.some((commentator: any) => commentator._id === this.user?._id);
+    return race.commentators.some((commentator: any) => commentator._id === this.globals.userId);
   }
 
   pullOutFromCommentary(raceId: string) {

@@ -1,16 +1,20 @@
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Race } from '../../../interfaces/race';
 import { RaceService } from '../../services/race.service';
 import { LoadingComponent } from "../../loading/loading.component";
 import { TournamentService } from '../../services/tournament.service';
+import { RouterLink } from '@angular/router';
+import { race } from 'rxjs';
 
 @Component({
   selector: 'app-past-races',
   standalone: true,
   imports: [
     DatePipe,
-    LoadingComponent
+    LoadingComponent,
+    RouterLink,
+    CommonModule
 ],
   templateUrl: './past-races.component.html',
   styleUrl: './past-races.component.css'
@@ -29,7 +33,6 @@ export class PastRacesComponent {
   rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals', 'Final', 'All'];
 
   ngOnInit(): void {
-    // Fetch the current round from the tournament service
     this.tournamentService.getCurrentRound().subscribe((data: any) => {
       this.currentRound = data.currentRound || 'All';
       this.fetchRaces();

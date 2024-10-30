@@ -5,16 +5,16 @@
         </a>
 
         <!-- Shown on mobile view, hidden on larger screens -->
-        @if (!user) {
+        @if (!globals.discordUsername) {
             <button class="btn btn-primary discord-blue d-flex align-items-center d-lg-none" (click)="login()" style="cursor: pointer;">
                 <img src="discord-logo-white.png" alt="Discord logo" class="me-2" style="width: 1rem;">
                 <span>Login</span>
             </button>
         } @else {
             <form class="d-flex d-lg-none align-items-center">
-                <img [src]="user?.photos[0]?.value" alt="User's avatar" style="width: 2rem; border-radius: 1rem; margin-right: 0.5rem;">
+                <img [src]="globals.avatarUrl" alt="User's avatar" style="width: 2rem; border-radius: 1rem; margin-right: 0.5rem;">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ user?.displayName }}</a>
+                    <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ globals.displayName }}</a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" routerLink="/user/profile" routerLinkActive="active">Profile</a>
                         <a class="dropdown-item" routerLink="/user/settings">Settings</a>
@@ -44,34 +44,42 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" routerLink="/races/upcoming" routerLinkActive="active">Upcoming</a>
                         <a class="dropdown-item" routerLink="/races/past" routerLinkActive="active">Past</a>
-                        @if (user?.role == 'runner') {
+                        @if (globals.role == 'runner') {
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" routerLink="/races/submit" routerLinkActive="active">Submit Race</a>
                         }
                     </div>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/groups" routerLinkActive="active">Groups</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/standings" routerLinkActive="active">Standings</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/stats" routerLinkActive="active">Stats</a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/rules" routerLinkActive="active">Rules</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/help" routerLinkActive="active">Help</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/pickems" routerLinkActive="active">Pickems</a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="https://matcherino.com/tournaments/120241">Prize Pool</a>
                 </li>
-                @if (user) {
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/pickems" routerLinkActive="active">Pickems</a>
-                    </li>
-                }
 
-                @if (user?.isAdmin) {
+                @if (globals.isAdmin) {
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
                     </li>
@@ -79,11 +87,11 @@
             </ul>
 
             <!-- Hidden on mobile view, visible on larger screens -->
-            @if (user) {
+            @if (globals.discordUsername) {
                 <form class="d-none d-lg-flex">
-                    <img [src]="user?.photos[0]?.value" alt="User's avatar" style="width: 2rem; border-radius: 1rem; margin-right: 0.5rem;">
+                    <img [src]="globals.avatarUrl" alt="User's avatar" style="width: 2rem; border-radius: 1rem; margin-right: 0.5rem;">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ user?.displayName }}</a>
+                        <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ globals.displayName }}</a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" routerLink="/user/profile" routerLinkActive="active">Profile</a>
                             <a class="dropdown-item" routerLink="/user/settings">Settings</a>

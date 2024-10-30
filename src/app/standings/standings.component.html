@@ -1,46 +1,3 @@
-<!-- @if (loading) {
-    <app-loading></app-loading>
-} @else {
-
-    @if (errorMessage) {
-        <div class="alert alert-dismissible alert-primary mt-3">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="clearAlert()"></button>
-        {{ errorMessage }}
-        </div>
-    }
-
-
-    <div class="container-fluid">
-        <div class="row">
-          <div>
-            <table class="table table-striped table-bordered table-hover table-responsive">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col" class="text-center">Points</th>
-                  <th scope="col" class="text-center">Tiebreaker</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (runner of runners; track runner.discordUsername) {
-                  <tr>
-                    <td>{{ runner.displayName }}</td>
-                    <td class="text-center">{{ runner.points }}</td>
-                    <td class="text-center">{{ runner.tieBreakerValue }}</td>
-                  </tr>
-                }
-                @empty {
-                  <tr>
-                    <td colspan="5" class="text-center">No runners available</td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-} -->
-
 @if (loading) {
   <app-loading></app-loading>
 } @else {
@@ -53,6 +10,17 @@
   }
 
   <div class="container-fluid">
+
+    <h1 class="mb-3">Standings</h1>
+
+      <div class="d-flex align-items-center mb-3">
+          <h5 style="display: inline-block" class="me-2">Current Bracket:</h5>
+          <span class="badge bg-primary me-2 px-3 py-2">High</span>
+          <span class="badge bg-success me-2 px-3 py-2">Middle</span>
+          <span class="badge bg-info me-2 px-3 py-2">Low</span>
+      </div>
+
+
       <div class="row">
         <div class="col-12">
           <div class="table-responsive">
@@ -69,8 +37,22 @@
               </thead>
               <tbody>
                 @for (runner of runners; track runner.discordUsername) {
-                  <tr [routerLink]="['/user', runner.discordUsername]" style="cursor: pointer">
-                    <td>{{ runner.displayName }}</td>
+                  <tr>
+
+                    <td>
+                      <a [routerLink]="['/user', runner.discordUsername]" style="cursor: pointer" 
+                        class="badge p-2 text-decoration-none"
+                        [ngClass]="{
+                            'bg-primary': runner.currentBracket === 'High',
+                            'bg-success': runner.currentBracket === 'Middle',
+                            'bg-info': runner.currentBracket === 'Low',
+                            'bg-secondary': !runner.currentBracket
+                        }"
+                        [title]="runner.discordUsername">
+                      {{ runner.displayName }}
+                      </a>
+                    </td>
+
                     <td class="text-center">{{ runner.points }}</td>
                     <td class="text-center">{{ runner.tieBreakerValue }}</td>
                   </tr>

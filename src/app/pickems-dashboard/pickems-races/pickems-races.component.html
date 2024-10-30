@@ -15,49 +15,48 @@
         <p>Come back after the next round draw stream for the next round of Pickems!</p>
     </div>
   } @else {
-        @if (filteredGroups.length > 0) {
-            <div>
+      @if (filteredGroups.length > 0) {
+          <div>
 
-              <div class="text-center">
-                <h1 class="pt-3">{{ currentRound }} Picks</h1>
-                <p>Each one correct here will net you <strong>5 points</strong></p>
-              </div>
+            <div class="text-center">
+              <h1 class="pt-3">{{ currentRound }} Picks</h1>
+              <p>Each one correct here will net you <strong>5 points</strong></p>
+            </div>
 
-              <!-- Loop through each group -->
-              @for (group of filteredGroups; track group._id) {
-                  <div class="mb-3">
-                  <h4>Group {{ group.groupNumber }}</h4>
-          
-                  <div class="row">
-                      @for (runner of group.members; track runner._id) {
-                      <div class="col-12 col-md-4 mb-1">
-                          <input type="radio"
-                              class="btn-check"
-                              [name]="'winnerRadio' + group._id"
-                              id="{{ 'winner_' + runner._id }}"
-                              [value]="runner._id"
-                              [checked]="selectedWinners.includes(runner._id)"
-                              (change)="onWinnerChange(group._id, runner._id)">
-                          <label class="btn btn-outline-primary w-100" [for]="'winner_' + runner._id">
-                          {{ runner.displayName || runner.discordUsername }}
-                          </label>
-                      </div>
-                      }
-                  </div>
-                  </div>
-              }
-          
-              <div class="text-center">
-                <h3>Almost there!</h3> 
-                <h4>Double-check your picks, as changes won't be possible once submitted.</h4>
-              </div>
-              <button type="button" class="btn btn-success w-100" [disabled]="!canSubmitWinners()" (click)="saveWinners()">Save Picks</button>
-          
+            @for (group of filteredGroups; track group._id) {
+                <div class="mb-3">
+                <h4>Group {{ group.groupNumber }}</h4>
+        
+                <div class="row">
+                    @for (runner of group.members; track runner._id) {
+                    <div class="col-12 col-md-4 mb-1">
+                        <input type="radio"
+                            class="btn-check"
+                            [name]="'winnerRadio' + group._id"
+                            id="{{ 'winner_' + runner._id }}"
+                            [value]="runner._id"
+                            [checked]="selectedWinners.includes(runner._id)"
+                            (change)="onWinnerChange(group._id, runner._id)">
+                        <label class="btn btn-outline-primary w-100" [for]="'winner_' + runner._id">
+                        {{ runner.displayName || runner.discordUsername }}
+                        </label>
+                    </div>
+                    }
+                </div>
+                </div>
+            }
+        
+            <div class="text-center">
+              <h3>Almost there!</h3> 
+              <h4>Double-check your picks, as changes won't be possible once submitted.</h4>
             </div>
-        } @else {
-            <div class="d-flex flex-column text-center">
-                <h2 class="mt-4">Check back after the next group draw stream!</h2>
-            </div>
-        }
-  }
+            <button type="button" class="btn btn-success w-100" [disabled]="!canSubmitWinners()" (click)="saveWinners()">Save Picks</button>
+        
+          </div>
+      } @else {
+          <div class="d-flex flex-column text-center">
+              <h2 class="mt-4">Check back after the next group draw stream!</h2>
+          </div>
+      }
+    }
 }

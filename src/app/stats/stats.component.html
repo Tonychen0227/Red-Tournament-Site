@@ -1,0 +1,136 @@
+@if (loading) {
+    <app-loading></app-loading>
+} @else {
+
+    <h1>Stats</h1>
+
+    <div class="d-flex align-items-center mb-3">
+      <h5 class="me-2" style="display: inline-block">Bracket Key:</h5>
+      <span class="badge bg-primary me-2 px-3 py-2">High</span>
+      <span class="badge bg-success me-2 px-3 py-2">Middle</span>
+      <span class="badge bg-info me-2 px-3 py-2">Low</span>
+    </div>
+
+    @if (stats) {
+        <!-- Top Times Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>Best Times</h2>
+                <ul class="list-group">
+                    @for (entry of stats.topTimes; track entry.bestTime) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a [routerLink]="['/user', entry.racer.discordUsername]" 
+                               style="cursor: pointer" class="text-decoration-none badge p-2"
+                               [ngClass]="{
+                                   'bg-primary': true
+                               }">
+                                {{ entry.racer.displayName }}
+                            </a>
+                            <span class="badge bg-dark rounded-pill p-2">
+                                {{ formatTime(entry.bestTime) }}
+                            </span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <!-- Average Time Sections -->
+        <div class="row mb-4">
+            <!-- Average Time Per Round -->
+            <div class="col-12 col-md-6 mb-3">
+                <h2>Average Time Per Round</h2>
+                <ul class="list-group">
+                    @if (stats.averageTimePerRound['Seeding']) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Seeding
+                            <span class="badge bg-dark rounded-pill p-2">
+                                {{ formatTime(stats.averageTimePerRound['Seeding']) }}
+                            </span>
+                        </li>
+                    }
+                    @if (stats.averageTimePerRound['Round 1']) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Round 1
+                            <span class="badge bg-dark rounded-pill p-2">
+                                {{ formatTime(stats.averageTimePerRound['Round 1']) }}
+                            </span>
+                        </li>
+                    }
+                    @if (stats.averageTimePerRound['Round 2']) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Round 2
+                            <span class="badge bg-dark rounded-pill p-2">
+                                {{ formatTime(stats.averageTimePerRound['Round 2']) }}
+                            </span>
+                        </li>
+                    }
+                    @if (stats.averageTimePerRound['Round 3']) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Round 3
+                            <span class="badge bg-dark rounded-pill p-2">
+                                {{ formatTime(stats.averageTimePerRound['Round 3']) }}
+                            </span>
+                        </li>
+                    }
+                    @if (stats.averageTimePerRound['Semifinals']) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Semifinals
+                            <span class="badge bg-dark rounded-pill p-2">
+                                {{ formatTime(stats.averageTimePerRound['Semifinals']) }}
+                            </span>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <!-- Average Time Per Bracket -->
+            <div class="col-12 col-md-6 mb-3">
+                <h2>Average Time Per Bracket</h2>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        High
+                        <span class="badge bg-primary rounded-pill p-2">
+                            {{ stats.averageTimePerBracket['High'] ? formatTime(stats.averageTimePerBracket['High']) : 'N/A' }}
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Middle
+                        <span class="badge bg-success rounded-pill p-2">
+                            {{ stats.averageTimePerBracket['Middle'] ? formatTime(stats.averageTimePerBracket['Middle']) : 'N/A' }}
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Low
+                        <span class="badge bg-info rounded-pill p-2">
+                            {{ stats.averageTimePerBracket['Low'] ? formatTime(stats.averageTimePerBracket['Low']) : 'N/A' }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Most Active Commentators Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>Most Active Commentators</h2>
+                <ul class="list-group">
+                    @for (commentator of stats.mostActiveCommentators; track commentator.displayName) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ commentator.displayName }}
+                            <span class="badge bg-dark rounded-pill p-2">
+                                {{ commentator.commentatedRaces }}
+                            </span>
+                        </li>
+                    }
+                    @if (stats.mostActiveCommentators.length === 0) {
+                        <li class="list-group-item">
+                            No commentators found
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+    }
+}

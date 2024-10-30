@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { catchError, Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -29,13 +29,7 @@ export class GroupService {
     }
 
     return this.http.post<any>(`${this.baseUrl}/groups`, body, { headers, withCredentials: true })
-      .pipe(
-        tap(response => {
-          // console.log('Group created successfully:', response);
-          // Optionally, trigger other actions like refreshing group lists
-        }),
-        catchError(this.handleError('createGroup'))
-      );
+      .pipe(catchError(this.handleError('createGroup')));
   }
 
   getAllGroups(): Observable<any> {

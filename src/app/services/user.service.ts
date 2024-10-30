@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { catchError, Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -40,7 +40,7 @@ export class UserService {
     
     return this.http.post<any>(`${this.baseUrl}/user/pronouns`, { pronouns }, { headers, withCredentials: true })
       .pipe(
-        tap(response => {
+        tap(() => {
           this.authService.checkAuthStatus(true).subscribe();
         }),
         catchError(error => {

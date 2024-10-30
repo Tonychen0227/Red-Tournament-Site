@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Globals } from '../services/globals';
 
 @Component({
   selector: 'app-navbar',
@@ -14,25 +15,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {  
-  user: any = null;
+export class NavbarComponent {  
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  ngOnInit(): void {
-    this.authService.checkAuthStatus().subscribe({
-      next: (user) => {
-        this.user = user;
-      },
-      error: (err) => {
-        console.error('Error fetching authentication status:', err);
-      }
-    });
-  }
-
-  ngAfterViewInit() {
-    // You can access this.navbar here if needed
-  }
+  constructor(public globals: Globals, private authService: AuthService, private router: Router) { }
 
   login(): void {
     this.authService.login();

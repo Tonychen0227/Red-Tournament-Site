@@ -3,4 +3,3 @@ export const environment = {
     apiUrl: 'https://speedrun.red/api',
     secretKey: '71dfcdcd406748b095151164ce1e81bd'
 };
-  

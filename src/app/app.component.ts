@@ -4,6 +4,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { CountdownPageComponent } from "./countdown-page/countdown-page.component";
 import { AuthService } from './services/auth.service';
+import { Globals } from './services/globals';
 
 @Component({
   selector: 'app-root',
@@ -22,15 +23,9 @@ export class AppComponent {
   
   isAdmin: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, public globals: Globals) {}
 
   ngOnInit(): void {
-    this.authService.checkAuthStatus().subscribe(user => {
-      this.isAdmin = this.authService.isAdmin();
-    });
-  }
-
-  login(): void {
-    this.authService.login();
+    this.authService.checkAuthStatus();    
   }
 }

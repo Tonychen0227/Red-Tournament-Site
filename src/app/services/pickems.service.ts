@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +55,15 @@ export class PickemsService {
     };
 
     return this.http.post(`${this.baseUrl}/submit-round-picks`, payload, { headers, withCredentials: true });
+  }
+
+  getAllStats(): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.baseUrl}/stats/all`, { headers, withCredentials: true });
+  }
+
+  getFavorites(): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.baseUrl}/stats/favorites`, { headers, withCredentials: true });
   }
 }

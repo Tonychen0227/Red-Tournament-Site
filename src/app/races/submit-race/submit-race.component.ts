@@ -3,8 +3,8 @@ import { RaceService } from '../../services/race.service';
 import { FormsModule } from '@angular/forms'; 
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { RunnersService } from '../../services/runners.service';
 import { GroupService } from '../../services/group.service';
+import { Globals } from '../../services/globals';
 
 @Component({
   selector: 'app-submit-race',
@@ -18,9 +18,6 @@ import { GroupService } from '../../services/group.service';
 export class SubmitRaceComponent {
   successMessage: string = '';
   errorMessage: string = ''
-
-  userName: string = ''; 
-  userId: string = '';
 
   userTimezoneLabel: string = '';
 
@@ -41,15 +38,27 @@ export class SubmitRaceComponent {
   userTimezone: string = 'UTC';
 
   constructor(
+    public globals: Globals,
     private raceService: RaceService, 
-    private authService: AuthService,
     private groupService: GroupService,
     private router: Router
   ) { }
 
   ngOnInit(): void {    
     this.setUserTimezoneLabel();
-    this.fetchUserName();
+
+    if (this.globals.userId) {
+      this.raceData.racer1 = this.globals.userId;
+
+      this.groupService.getCurrentUserGroup().subscribe(group => {
+        this.populateRacers(group.members, this.globals.userId!);       
+  
+        if (group.raceStartTime) {
+          this.successMessage = 'A race has already been scheduled for this group. Contact @organizers if you have an issue.';
+          this.raceAlreadySubmitted = true;
+        }
+      });
+    }
   }
 
   setUserTimezoneLabel() {
@@ -59,28 +68,6 @@ export class SubmitRaceComponent {
     const sign = offsetMinutes > 0 ? '-' : '+';
   
     this.userTimezoneLabel = `UTC${sign}${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
-  }
-
-  fetchUserName() {
-    this.authService.checkAuthStatus().subscribe(user => {
-      if (user) {
-        this.userName = user.displayName || user.username;
-        this.userId = user._id;
-        this.raceData.racer1 = user._id;
-
-        this.groupService.getCurrentUserGroup().subscribe(group => {
-          this.populateRacers(group.members, user._id);       
-
-          if (group.raceStartTime) {
-            this.errorMessage = 'A race has already been scheduled for this group. Contact @organizers if you have an issue';
-            this.raceAlreadySubmitted = true;
-          }
-        });
-        
-      } else {
-        console.error('User is not authenticated');
-      }
-    });
   }
 
   submitRace() {
@@ -129,7 +116,6 @@ export class SubmitRaceComponent {
     this.runners = otherMembers;    
   }
 
-  
   clearMessages() {
     this.successMessage = '';
     this.errorMessage = '';

@@ -1,0 +1,201 @@
+@if (loading) {
+  <app-loading></app-loading>
+} @else {
+  <div class="container-fluid">
+
+    <h1>Stats</h1>
+    
+    <div class="d-flex align-items-center mb-3">
+        <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
+        <span class="badge bg-primary me-2 px-3 py-2">High</span>
+        <span class="badge bg-success me-2 px-3 py-2">Middle</span>
+        <span class="badge bg-info me-2 px-3 py-2">Low</span>
+    </div>
+
+    <div class="row">
+      <!-- Winner Column -->
+      <div class="col-12 col-md-6 mb-3">
+        <h2>Winner</h2>
+        <ul class="list-group">
+          @for (pick of topOverallWinners; track pick.userId) {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a [routerLink]="['/user', pick.discordUsername]" 
+              style="cursor: pointer" class="text-decoration-none badge p-2"
+                  [ngClass]="{
+                    'bg-primary': pick.currentBracket === 'High',
+                    'bg-success': pick.currentBracket === 'Middle',
+                    'bg-info': pick.currentBracket === 'Low',
+                    'bg-secondary': !pick.currentBracket
+                }">
+                {{ pick.displayName }}
+              </a>
+              <span class="badge bg-dark rounded-pill">
+                {{ pick.count }}
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    
+      <!-- Best Time Column -->
+      <div class="col-12 col-md-6 mb-3">
+        <h2>Best Time</h2>
+        <ul class="list-group">
+          @for (pick of topBestTimePicks; track pick.userId) {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a [routerLink]="['/user', pick.discordUsername]" 
+              style="cursor: pointer" class="text-decoration-none badge p-2"
+                  [ngClass]="{
+                    'bg-primary': pick.currentBracket === 'High',
+                    'bg-success': pick.currentBracket === 'Middle',
+                    'bg-info': pick.currentBracket === 'Low',
+                    'bg-dark': !pick.currentBracket
+                }">
+                {{ pick.displayName }}
+              </a>
+              <span class="badge bg-dark rounded-pill">
+                {{ pick.count }}
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+    
+    <div class="row">
+      <!-- Top 9 Column -->
+      <div class="col-12 mb-3">
+        <h2>Top 9</h2>
+        <ul class="list-group">
+          @for (pick of top9Picks; track pick.userId) {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a [routerLink]="['/user', pick.discordUsername]" 
+              style="cursor: pointer" class="text-decoration-none badge p-2"
+                  [ngClass]="{
+                    'bg-primary': pick.currentBracket === 'High',
+                    'bg-success': pick.currentBracket === 'Middle',
+                    'bg-info': pick.currentBracket === 'Low',
+                    'bg-secondary': !pick.currentBracket
+                }">
+                {{ pick.displayName }}
+              </a>
+              <span class="badge bg-dark rounded-pill">
+                {{ pick.pickCount }}
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="mt-4">Round Picks</h2>
+
+    <div class="row">
+      <!-- Round 1 Column -->
+      <div class="col-12 col-md-6 mb-3">
+        @if (topPicksByRound?.round1Picks?.length > 0) {
+          <h3>Round 1</h3>
+          <ul class="list-group">
+            @for (pick of topPicksByRound.round1Picks; track pick.userId) {
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a [routerLink]="['/user', pick.discordUsername]" 
+                style="cursor: pointer" class="text-decoration-none badge p-2"
+                    [ngClass]="{
+                      'bg-primary': pick.currentBracket === 'High',
+                      'bg-success': pick.currentBracket === 'Middle',
+                      'bg-info': pick.currentBracket === 'Low',
+                      'bg-secondary': !pick.currentBracket
+                  }">
+                  {{ pick.displayName }}
+                </a>
+                <span class="badge bg-dark rounded-pill">
+                  {{ pick.count }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <!-- Round 2 Column -->
+      <div class="col-12 col-md-6 mb-3">
+        @if (topPicksByRound?.round2Picks?.length > 0) {
+          <h3>Round 2</h3>
+          <ul class="list-group">
+            @for (pick of topPicksByRound.round2Picks; track pick.userId) {
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a [routerLink]="['/user', pick.discordUsername]" 
+                style="cursor: pointer" class="text-decoration-none badge p-2"
+                    [ngClass]="{
+                      'bg-primary': pick.currentBracket === 'High',
+                      'bg-success': pick.currentBracket === 'Middle',
+                      'bg-info': pick.currentBracket === 'Low',
+                      'bg-secondary': !pick.currentBracket
+                  }">
+                  {{ pick.displayName }}
+                </a>
+                <span class="badge bg-dark rounded-pill">
+                  {{ pick.count }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Round 3 Column -->
+      <div class="col-12 col-md-6 mb-3">
+        @if (topPicksByRound?.round3Picks?.length > 0) {
+          <h3>Round 3</h3>
+          <ul class="list-group">
+            @for (pick of topPicksByRound.round3Picks; track pick.userId) {
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a [routerLink]="['/user', pick.discordUsername]" 
+                style="cursor: pointer" class="text-decoration-none badge p-2"
+                    [ngClass]="{
+                      'bg-primary': pick.currentBracket === 'High',
+                      'bg-success': pick.currentBracket === 'Middle',
+                      'bg-info': pick.currentBracket === 'Low',
+                      'bg-secondary': !pick.currentBracket
+                  }">
+                  {{ pick.displayName }}
+                </a>
+                <span class="badge bg-dark rounded-pill">
+                  {{ pick.count }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <!-- Semi Finals Column -->
+      <div class="col-12 col-md-6 mb-3">
+        @if (topPicksByRound?.semiFinalsPicks?.length > 0) {
+          <h3>Semi Finals</h3>
+          <ul class="list-group">
+            @for (pick of topPicksByRound.semiFinalsPicks; track pick.userId) {
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a [routerLink]="['/user', pick.discordUsername]" 
+                style="cursor: pointer" class="text-decoration-none badge p-2"
+                    [ngClass]="{
+                      'bg-primary': pick.currentBracket === 'High',
+                      'bg-success': pick.currentBracket === 'Middle',
+                      'bg-info': pick.currentBracket === 'Low',
+                      'bg-secondary': !pick.currentBracket
+                  }">
+                  {{ pick.displayName }}
+                </a>
+                <span class="badge bg-dark rounded-pill">
+                  {{ pick.count }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+  </div>
+}

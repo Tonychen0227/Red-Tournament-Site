@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupService } from '../../services/group.service';
-import { TournamentService } from '../../services/tournament.service';
 import { PickemsService } from '../../services/pickems.service';
 import { LoadingComponent } from '../../loading/loading.component';
 import { Router } from '@angular/router';
@@ -19,7 +18,6 @@ export class PickemsRacesComponent implements OnInit {
   constructor(
     private pickemsService: PickemsService,
     private groupService: GroupService, 
-    private tournamentService: TournamentService,
     private router: Router
   ) { }
 
@@ -34,28 +32,25 @@ export class PickemsRacesComponent implements OnInit {
   selectedWinners: any[] = [];
   
   rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals'];
-  currentRound: string = 'Round 1';
+  currentRound: string = 'Round 3';
   
   hasSubmitted: boolean = false;
 
   ngOnInit(): void {    
-    this.tournamentService.getCurrentRound().subscribe((data: any) => {
-      // this.currentRound = data.currentRound;
-      this.fetchPickemsAndGroups();
-    });
+    this.fetchPickemsAndGroups();
   }
 
   fetchPickemsAndGroups(): void {
     this.pickemsService.checkPickems().subscribe({
-      next: (pickems: any) => {
+      next: (pickems: any) => {      
         // Determine if the user has already submitted picks for the current round
         if (pickems && this.isRoundSubmitted(pickems, this.currentRound)) {
           this.hasSubmitted = true;
+          this.loading = false;
         } else {
           this.hasSubmitted = false;
           this.fetchGroups();
         }
-        this.loading = false;
       },
       error: (error) => {
         this.errorMessage = 'Error fetching your Pickems data.';
@@ -84,10 +79,11 @@ export class PickemsRacesComponent implements OnInit {
 
   fetchGroups(): void {
     this.groupService.getAllGroups().subscribe({
-      next: (data) => {
-        this.groups = data;
-        this.filterGroupsByTime(this.currentRound);
-        this.loading = false;        
+      next: (data) => {        
+        this.groups = data.groups;
+        this.filterGroupsByRound(this.currentRound);
+        this.filterGroupsByTime(this.currentRound); 
+        this.loading = false;
       },
       error: (error) => {
         console.error('Error fetching groups:', error);
@@ -97,19 +93,24 @@ export class PickemsRacesComponent implements OnInit {
     });
   }
 
+  filterGroupsByRound(round: string): void {
+    this.filteredGroups = this.groups.filter(group => group.round === round);
+  }  
+
   filterGroupsByTime(round: string): void {
     const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
 
     // Filter groups where race hasn't started
-    this.filteredGroups = this.groups.filter(group => {
+    this.filteredGroups = this.filteredGroups.filter(group => {
       if (!group.raceStartTime) return true; // Include groups with no raceStartTime
       return group.raceStartTime >= currentTime; // Include if raceStartTime is in the future
-    });      
+    });
   }
   
   onWinnerChange(groupId: string, runnerId: string): void {
     // Find the group to which this runner belongs
     const group = this.filteredGroups.find(g => g._id === groupId);
+    
     if (!group) {
       console.warn(`Group with ID ${groupId} not found.`);
       return;

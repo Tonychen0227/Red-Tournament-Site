@@ -33,6 +33,8 @@ import { PickemsLeaderboardComponent } from './pickems-dashboard/pickems-leaderb
 import { PickemsPicksComponent } from './pickems-dashboard/pickems-picks/pickems-picks.component';
 import { PickemsRacesComponent } from './pickems-dashboard/pickems-races/pickems-races.component';
 import { PickemsTournamentComponent } from './pickems-dashboard/pickems-tournament/pickems-tournament.component';
+import { PickemsStatsComponent } from './pickems-dashboard/pickems-stats/pickems-stats.component';
+import { StatsComponent } from './stats/stats.component';
 // import { EditRaceResultsComponent } from './admin-dashboard/edit-race-results/edit-race-results.component';
 
 export const routes: Routes = [
@@ -89,8 +91,10 @@ export const routes: Routes = [
             { path: 'leaderboard', component: PickemsLeaderboardComponent },
             { path: 'submit', component: PickemsRacesComponent },
             { path: 'picks', component: PickemsPicksComponent },
+            { path: 'stats', component: PickemsStatsComponent },
             { path: '', redirectTo: 'leaderboard', pathMatch: 'full' }
         ]
     },
+    { path: 'stats', component: StatsComponent },
     { path: '**', redirectTo: '' }
 ];

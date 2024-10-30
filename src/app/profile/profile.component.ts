@@ -98,6 +98,9 @@ export class ProfileComponent implements OnInit {
       next: (data) => {
         this.pickems = data;
         this.loading = false;
+
+        console.log(data);
+        
       }
     });
   }

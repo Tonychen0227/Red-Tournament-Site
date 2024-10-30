@@ -32,7 +32,7 @@
     <label for="racer1" class="form-label mt-4">Racer 1</label>
     <select class="form-select" id="racer1" [(ngModel)]="raceData.racer1" name="racer1" required>
         <option [value]="" disabled>Select Racer 1</option>
-        <option [value]="raceData.racer1" selected>{{ userName }}</option>
+        <option [value]="raceData.racer1" selected>{{ globals.displayName }}</option>
     </select>
 
     <label for="racer2" class="form-label mt-4">Racer 2</label>
