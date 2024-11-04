@@ -11,6 +11,7 @@ export interface User {
   tieBreakerValue?: number;
   currentGroup?: string;
   setFirstPickems?: boolean;
+  rank?: number;
 }
 
 export interface UserCreationInterface {

@@ -86,9 +86,6 @@ export class ProfileComponent implements OnInit {
       next: (data) => {
         this.racesParticipatedIn = data.racesParticipatedIn;
         this.racesCommentated = data.racesCommentated;
-      },
-      error: () => {
-        this.loading = false;
       }
     });
   }
@@ -106,10 +103,10 @@ export class ProfileComponent implements OnInit {
   }
 
   formatTime(milliseconds: number): string {
+    const ms = milliseconds % 1000;
     const seconds = Math.floor((milliseconds / 1000) % 60);
     const minutes = Math.floor((milliseconds / (1000 * 60)) % 60);
     const hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24);
-    return `${hours}h ${minutes}m ${seconds}s`;
-  }
-  
+    return `${hours}h ${minutes}m ${seconds}s ${ms}ms`;
+  } 
 }

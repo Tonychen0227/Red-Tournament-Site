@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 import { HomeComponent } from './home/home.component';
 
@@ -45,6 +46,7 @@ export const routes: Routes = [
     { path: 'rules', component: RulesComponent },
     { path: 'help', component: HelpComponent },
     { path: 'admin', component: AdminDashboardComponent,
+        canActivate: [adminGuard],
         children: [
             { path: 'races/record', component: RacesAwaitingCompletionComponent },
             { path: 'users/add', component: AddUserComponent },

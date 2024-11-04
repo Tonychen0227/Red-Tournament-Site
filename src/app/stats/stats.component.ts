@@ -33,10 +33,7 @@ export class StatsComponent implements OnInit {
     this.statsService.fetchStats().subscribe({
       next: (data: Stats) => {
         this.stats = data;
-        this.loading = false;
-        
-        console.log(data);
-        
+        this.loading = false;        
       },
       error: (err) => {
         console.error(err);

@@ -33,14 +33,21 @@ export class GroupsComponent implements OnInit {
 
   favourites: any[] = [];
 
+  private groupsLoaded: boolean = false;
+  private favouritesLoaded: boolean = false;
+
   rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals'];
   currentRound: string = 'Seeding'; 
 
   ngOnInit(): void {
+    // Fetch the current round
     this.tournamentService.getCurrentRound().subscribe((data: any) => {
       this.currentRound = data.currentRound;
       this.fetchGroups();
       this.fetchFavourites();
+    }, error => {
+      console.error('Error fetching current round:', error);
+      this.errorMessage = error.error || 'Failed to load current round.';
       this.loading = false;
     });
   }
@@ -49,14 +56,13 @@ export class GroupsComponent implements OnInit {
     this.groupService.getAllGroups().subscribe({
       next: (data) => {
         this.groups = data.groups;
-        this.filterGroupsByRound(this.currentRound);     
-
-        console.log(data);
-        
+        this.groupsLoaded = true;
+        this.mergeData();
       },
       error: (error) => {
         console.error('Error fetching groups:', error);
         this.errorMessage = error.error || 'Failed to load groups.';
+        this.loading = false;
       }
     });
   }
@@ -65,13 +71,45 @@ export class GroupsComponent implements OnInit {
     this.pickemsService.getFavorites().subscribe({
       next: (favourites) => {
         this.favourites = favourites;
-        console.log(favourites);
+        this.favouritesLoaded = true;
+        this.mergeData();
       },
       error: (err) => {
-        console.error('Error fetching groups:', err);
-        this.errorMessage = err.error || 'Failed to load groups.';
+        console.error('Error fetching favorites:', err);
+        this.errorMessage = err.error || 'Failed to load favorites.';
+        this.loading = false;
       },
     })
+  }
+
+  mergeData(): void {
+    if (this.groupsLoaded && this.favouritesLoaded) {
+      // Create a map for quick lookup: { 'Round 1': {1: favoriteData, 2: favoriteData, ...}, 'Round 2': {...}, ... }
+      const favouritesMap: { [round: string]: { [groupNumber: number]: any } } = {};
+
+      this.favourites.forEach((favRound: any) => {
+        favouritesMap[favRound.round] = {};
+        favRound.groups.forEach((favGroup: any) => {
+          favouritesMap[favRound.round][favGroup.groupNumber] = favGroup.favorite;
+        });
+      });
+
+      // Assign favorite data to each group
+      this.groups.forEach(group => {
+        const roundFavourites = favouritesMap[group.round];
+        if (roundFavourites && roundFavourites[group.groupNumber]) {
+          group.favorite = roundFavourites[group.groupNumber];
+        } else {
+          group.favorite = []; // No favorites for this group
+        }
+      });
+
+      // Now filter groups based on the current round
+      this.filterGroupsByRound(this.currentRound);
+
+      // Loading is complete
+      this.loading = false;
+    }
   }
 
   filterGroupsByRound(round: string): void {
@@ -82,5 +120,8 @@ export class GroupsComponent implements OnInit {
     this.currentRound = round;
     this.filterGroupsByRound(round);
   }
-  
+
+  isFavorite(memberId: string, favorites: any[]): boolean {
+    return favorites.some(fav => fav.userId === memberId);
+  }
 }

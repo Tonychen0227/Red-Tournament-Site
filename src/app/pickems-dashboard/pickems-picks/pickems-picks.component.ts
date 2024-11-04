@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { PickemsService } from '../../services/pickems.service';
 import { LoadingComponent } from '../../loading/loading.component';
 
@@ -36,18 +36,11 @@ export class PickemsPicksComponent {
     });
   }
 
-  formatTime(ms: number): string {
-    const hours = Math.floor(ms / 3600000); // 1 hour = 3600000 milliseconds
-    const minutes = Math.floor((ms % 3600000) / 60000); // 1 minute = 60000 milliseconds
-    const seconds = Math.floor((ms % 60000) / 1000); // 1 second = 1000 milliseconds
-    const milliseconds = ms % 1000; // Remaining milliseconds
-
-    // Pad hours, minutes, and seconds to always display 2 digits
-    const hoursStr = hours.toString().padStart(2, '0');
-    const minutesStr = minutes.toString().padStart(2, '0');
-    const secondsStr = seconds.toString().padStart(2, '0');
-    const millisecondsStr = milliseconds.toString().padStart(3, '0');
-
-    return `${hoursStr}:${minutesStr}:${secondsStr}:${millisecondsStr}`;
-  }
+  formatTime(milliseconds: number): string {
+    const ms = milliseconds % 1000;
+    const seconds = Math.floor((milliseconds / 1000) % 60);
+    const minutes = Math.floor((milliseconds / (1000 * 60)) % 60);
+    const hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24);
+    return `${hours}h ${minutes}m ${seconds}s ${ms}ms`;
+  } 
 }
