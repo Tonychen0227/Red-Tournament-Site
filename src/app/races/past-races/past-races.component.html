@@ -46,15 +46,11 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between w-100">
 
-                                <a [routerLink]="['/user', result.racer.discordUsername]" style="cursor: pointer" 
-                                        class="text-decoration-none badge m-1 p-2"
-                                        [ngClass]="{
-                                            'bg-primary': race.bracket === 'High',
-                                            'bg-success': race.bracket === 'Middle',
-                                            'bg-info': race.bracket === 'Low',
-                                            'bg-secondary': race.bracket === 'Seeding' || !race.bracket
-                                        }"
-                                        [title]="result.racer.discordUsername">
+                                <a [routerLink]="['/user', result.racer.discordUsername]" 
+                                   style="cursor: pointer" 
+                                   class="text-decoration-none badge m-1 p-2"
+                                   [ngClass]="getBadgeClass(race, result.racer)"
+                                   [title]="result.racer.discordUsername">
                                     {{ result.racer.displayName }}
                                 </a>
 
@@ -79,9 +75,10 @@
                             <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2">
                             <div class="commentators d-flex flex-wrap">
                                 @for (commentator of race.commentators; track commentator._id) {
-                                    <a [routerLink]="['/user', commentator.discordUsername]" style="cursor: pointer"  
-                                        class="text-decoration-none badge bg-dark m-1 py-1 px-2"
-                                        [title]="commentator.discordUsername">
+                                    <a [routerLink]="['/user', commentator.discordUsername]" 
+                                       style="cursor: pointer"  
+                                       class="text-decoration-none badge bg-dark m-1 py-1 px-2"
+                                       [title]="commentator.discordUsername">
                                         {{ commentator.displayName }}
                                     </a>
                                 }

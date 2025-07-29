@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RaceService } from '../../services/race.service';
-import { Race } from '../../../interfaces/race';
+import { Race } from '../../interfaces/race';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LoadingComponent } from '../../loading/loading.component';
-import { User } from '../../../interfaces/user';
+import { User } from '../../interfaces/user';
 
 import moment from 'moment'; 
 import { FormsModule } from '@angular/forms';

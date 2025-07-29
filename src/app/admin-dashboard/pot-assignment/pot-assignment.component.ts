@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../interfaces/user';
+import { User } from '../../interfaces/user';
 import { RunnersService } from '../../services/runners.service';
-import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../../loading/loading.component';
 import { FormsModule } from '@angular/forms';
 
@@ -36,7 +35,7 @@ export class PotAssignmentComponent implements OnInit {
     this.runnersService.getRunners().subscribe({
       next: (data) => {
         this.runners = data;
-        this.initializePotSelections();
+        this.initialisePotSelections();
         this.loading = false;        
       },
       error: (error) => {
@@ -47,7 +46,7 @@ export class PotAssignmentComponent implements OnInit {
     });
   }
 
-  initializePotSelections(): void {
+  initialisePotSelections(): void {
     this.runners.forEach(runner => {
       if (runner._id) {
         this.potSelections[runner._id] = runner.initialPot || '2';

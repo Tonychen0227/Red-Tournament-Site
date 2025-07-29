@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { User, UserCreationInterface } from '../../interfaces/user';
+import { User, UserCreationInterface } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +33,6 @@ export class RunnersService {
   }
 
   setInitialPots(userPots: { userId: string; pot: string }[]): Observable<any> {
-
-    console.log('userPots:', userPots); // Log the incoming data for debugging
-
     const headers = this.getHeaders();
     return this.http.post<any>(`${this.baseUrl}/admin/set-pots`, { userPots }, { headers, withCredentials: true });
   }

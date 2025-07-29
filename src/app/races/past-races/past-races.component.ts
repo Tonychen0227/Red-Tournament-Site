@@ -1,11 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { Race } from '../../../interfaces/race';
+import { Race } from '../../interfaces/race';
 import { RaceService } from '../../services/race.service';
 import { LoadingComponent } from "../../loading/loading.component";
 import { TournamentService } from '../../services/tournament.service';
 import { RouterLink } from '@angular/router';
-import { race } from 'rxjs';
 
 @Component({
   selector: 'app-past-races',
@@ -43,7 +42,7 @@ export class PastRacesComponent {
     this.raceService.getCompletedRaces().subscribe(
       (races: Race[]) => {
         this.races = races;
-        this.filterRacesByRound(this.currentRound);
+        this.filterRacesByRound(this.currentRound);        
         this.loading = false;        
       },
       (error) => {
@@ -63,5 +62,44 @@ export class PastRacesComponent {
   onRoundSelected(round: string): void {
     this.currentRound = round;
     this.filterRacesByRound(round);
+  }
+
+  getBadgeClass(race: any, racer: any): string {
+    if (race.bracket === 'Seeding') {
+      switch (racer.initialPot) {
+        case '1':
+          return 'bg-primary';
+        case '2':
+          return 'bg-success';
+        case '3':
+          return 'bg-info';
+        default:
+          return 'bg-secondary';
+      }
+    } else if (race.bracket === 'Semifinals') {
+      switch (racer.currentBracket) {
+        case 'High':
+          return 'bg-primary';
+        case 'Middle':
+          return 'bg-success';
+        case 'Low':
+          return 'bg-info';
+        default:
+          return 'bg-secondary';
+      }
+    } else if (race.bracket === 'Final') {
+      return 'bg-primary';
+    } else {
+      switch (race.bracket) {
+        case 'High':
+          return 'bg-primary';
+        case 'Middle':
+          return 'bg-success';
+        case 'Low':
+          return 'bg-info';
+        default:
+          return 'bg-secondary';
+      }
+    }
   }
 }

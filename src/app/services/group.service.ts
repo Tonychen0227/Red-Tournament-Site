@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class GroupService {
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
   
   private baseUrl = environment.apiUrl;
   private secretKey = environment.secretKey;

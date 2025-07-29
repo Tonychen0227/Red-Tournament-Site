@@ -27,7 +27,7 @@ export class PickemsPicksComponent {
     this.pickemsService.checkPickems().subscribe({
       next: (pickems) => {
         this.pickems = pickems;
-        this.loading = false;
+        this.loading = false;        
       },
       error: (err) => {
         console.error('Error fetching Pickems:', err);

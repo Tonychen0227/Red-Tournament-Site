@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
 import { RaceService } from '../services/race.service';
-import { Race } from '../../interfaces/race';
+import { Race } from '../interfaces/race';
 import { LoadingComponent } from '../loading/loading.component';
 import { PickemsService } from '../services/pickems.service';
 import { ActivatedRoute } from '@angular/router';
@@ -94,10 +94,7 @@ export class ProfileComponent implements OnInit {
     this.pickemsService.getPickemsByUserId(userId).subscribe({
       next: (data) => {
         this.pickems = data;
-        this.loading = false;
-
-        console.log(data);
-        
+        this.loading = false;        
       }
     });
   }

@@ -82,7 +82,6 @@ export class EndRoundComponent implements OnInit {
         this.errorMessage = '';
         this.loading = false;
 
-        // Refresh the tournament info to reflect the new round
         this.getTournamentInfo();
       },
       error: (error: { error: { error: string; }; }) => {

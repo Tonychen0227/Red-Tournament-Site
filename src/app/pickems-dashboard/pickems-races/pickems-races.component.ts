@@ -31,8 +31,8 @@ export class PickemsRacesComponent implements OnInit {
 
   selectedWinners: any[] = [];
   
-  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals'];
-  currentRound: string = 'Round 3';
+  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals', 'Final'];
+  currentRound: string = 'Final';
   
   hasSubmitted: boolean = false;
 
@@ -66,17 +66,26 @@ export class PickemsRacesComponent implements OnInit {
       'Round 2': 'round2Picks',
       'Round 3': 'round3Picks',
       'Semifinals': 'semiFinalsPicks',
+      'Final': 'finalPick'
     };
-
+  
     const roundField = roundFieldMap[round];
     if (!roundField) {
       console.warn(`Round "${round}" is not recognized.`);
       return false;
     }
-
-    return pickems[roundField] && pickems[roundField].length > 0;
+  
+    const singlePickRounds = ['Final'];
+  
+    if (singlePickRounds.includes(round)) {
+      // For single-pick rounds, check if the field is not null or undefined
+      return !!pickems[roundField];
+    } else {
+      // For multi-pick rounds, check if the array has elements
+      return Array.isArray(pickems[roundField]) && pickems[roundField].length > 0;
+    }
   }
-
+  
   fetchGroups(): void {
     this.groupService.getAllGroups().subscribe({
       next: (data) => {        
@@ -102,13 +111,12 @@ export class PickemsRacesComponent implements OnInit {
 
     // Filter groups where race hasn't started
     this.filteredGroups = this.filteredGroups.filter(group => {
-      if (!group.raceStartTime) return true; // Include groups with no raceStartTime
-      return group.raceStartTime >= currentTime; // Include if raceStartTime is in the future
+      if (!group.raceStartTime) return true;
+      return group.raceStartTime >= currentTime;
     });
   }
   
   onWinnerChange(groupId: string, runnerId: string): void {
-    // Find the group to which this runner belongs
     const group = this.filteredGroups.find(g => g._id === groupId);
     
     if (!group) {
@@ -120,22 +128,18 @@ export class PickemsRacesComponent implements OnInit {
     const existingRunnerId = group.members.find((runner: { _id: any; }) => this.selectedWinners.includes(runner._id))?._id;
 
     if (existingRunnerId) {
-      // Remove the existing runner from selectedWinners
       this.selectedWinners = this.selectedWinners.filter(id => id !== existingRunnerId);
     }
 
-    // Add the new runner ID
     this.selectedWinners.push(runnerId);
   }
 
 
   canSubmitWinners(): boolean {
-    // Ensure we have the same number of selected winners as there are groups
     return this.selectedWinners.length === this.filteredGroups.length;
   }
 
   saveWinners(): void {
-    // Submit the selected winners (array of runner IDs)
     this.pickemsService.submitRoundWinners(this.selectedWinners).subscribe({
       next: () => {
         this.successMessage = 'Picks submitted successfully!';

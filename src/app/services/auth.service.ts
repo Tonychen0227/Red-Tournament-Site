@@ -34,7 +34,6 @@ export class AuthService {
       }
     }
 
-    // Fetch fresh user data from the server
     return this.http.get(`${this.baseUrl}/auth-status`, { withCredentials: true }).pipe(
       tap(user => {
         sessionStorage.setItem('user', JSON.stringify(user));
@@ -42,7 +41,6 @@ export class AuthService {
         this.updateGlobals(user);        
       }),
       catchError(error => {
-        // Clear session storage and globals on error
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('userTimestamp');
         this.clearGlobals();

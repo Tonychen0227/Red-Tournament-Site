@@ -40,7 +40,7 @@ export class RaceDetailComponent {
   
 
   getFormattedDatetime(unixTimestamp: number): string {
-    const date = new Date(unixTimestamp * 1000); // Convert from seconds to milliseconds
-    return date.toLocaleString(); // Adjust this to your preferred date/time format
+    const date = new Date(unixTimestamp * 1000);
+    return date.toLocaleString();
   }
 }

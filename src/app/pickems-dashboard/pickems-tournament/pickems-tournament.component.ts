@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { User } from '../../../interfaces/user';
+import { User } from '../../interfaces/user';
 import { RunnersService } from '../../services/runners.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -70,14 +70,10 @@ export class PickemsTournamentComponent implements OnInit {
   }
   
   canSubmit(): boolean {
-    // Ensure all 9 runners are selected
     const allRunnersSelected = this.selectedRunners.every(runner => runner !== null);
-  
-    // Ensure winner and best time runner are selected
     const winnerSelected = this.selectedWinner !== null;
     const bestTimeRunnerSelected = this.selectedBestTimeRunner !== null;
   
-    // Ensure bestTime has valid values
     const bestTimeValid = 
       this.bestTime.hours > 0 &&
       this.bestTime.minutes >= 0 && this.bestTime.minutes <= 59 &&
@@ -88,7 +84,6 @@ export class PickemsTournamentComponent implements OnInit {
   }
   
   submitPickems() {
-
     this.clearAlert();
 
     const pickemsData = {
@@ -106,7 +101,7 @@ export class PickemsTournamentComponent implements OnInit {
           this.loading = true;
           this.router.navigate(['/pickems/picks']);
           window.location.reload();
-        }, 1000); // 1 second
+        }, 1000);
       },
       (error) => {
         this.errorMessage = 'Error submitting pickems. Please try again later.';

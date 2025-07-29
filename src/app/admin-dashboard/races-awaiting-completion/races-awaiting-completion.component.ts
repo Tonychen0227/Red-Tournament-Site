@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { RaceService } from '../../services/race.service';
-import { Race, RaceResult } from '../../../interfaces/race';
+import { Race, RaceResult } from '../../interfaces/race';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -109,32 +109,28 @@ export class RacesAwaitingCompletionComponent {
   canSubmitRaceResults(race: Race): boolean {
     const raceResults = this.raceResults[race._id];
 
-    // Check if raceTimeId is entered and not just whitespace
     const raceTimeIdEntered: boolean = race.raceTimeId != null && race.raceTimeId.trim() !== '';
 
-    // Ensure all results are valid
     const allResultsValid = raceResults.every(result => {
       if (result.status === 'Finished') {
         const { hours, minutes, seconds, milliseconds } = result.finishTime;
         return !(hours === 0 && minutes === 0 && seconds === 0 && milliseconds === 0);
       }
+
       return true; // For statuses other than 'Finished', no need to check time
     });
 
-    // Additional Validation: Unique DNF Orders
     const dnfResults = raceResults.filter(result => result.status === 'DNF');
     const dnfOrders = dnfResults.map(result => result.dnfOrder);
     const uniqueDnfOrders = new Set(dnfOrders);
 
     const dnfOrdersValid = dnfOrders.length === uniqueDnfOrders.size;
 
-    // Ensure all DNF racers have a dnfOrder
     const allDnfOrdersAssigned = dnfResults.every(result => result.dnfOrder !== null && result.dnfOrder > 0);
 
     return raceTimeIdEntered && allResultsValid && dnfOrdersValid && allDnfOrdersAssigned;
   }
 
-  
   completeRace(race: Race): void {
     this.clearAlert();
 

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RaceService } from '../../services/race.service';
 import { FormsModule } from '@angular/forms'; 
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { GroupService } from '../../services/group.service';
 import { Globals } from '../../services/globals';
@@ -74,34 +73,24 @@ export class SubmitRaceComponent {
     this.successMessage = '';
     this.errorMessage = '';
   
-    // Ensure that both date and time are provided
     if (!this.date || !this.time || !this.raceData.racer2) {
       this.errorMessage = 'All fields are required. Please fill them out and try again.';
       return;
     }
   
-    // Combine date and time into a single string
     const combinedDateTime = `${this.date}T${this.time}`;
-  
-    // Convert to local Date object
     const localDate = new Date(combinedDateTime);
-  
-    // Convert to UTC Unix timestamp
     const unixTimestamp = Math.floor(localDate.getTime() / 1000);
   
-    // Add the Unix timestamp to raceData
     this.raceData.raceDateTime = unixTimestamp;
   
-    // Submit the raceData with Unix timestamp
     this.raceService.submitRace(this.raceData).subscribe(response => {
       this.successMessage = response.message;
       this.errorMessage = '';
   
       setTimeout(() => {
-        // Redirect to the individual race page using the returned race ID
-        //this.router.navigate(['/race', response.id]);
         this.router.navigate(['/races/upcoming']);
-      }, 2000); // 2 seconds delay
+      }, 2000);
     }, error => {
       this.errorMessage = 'Something went wrong. Please refresh the page and try again.';
       this.successMessage = '';
@@ -111,8 +100,10 @@ export class SubmitRaceComponent {
   populateRacers(members: any[], userId: string) {
     // Filter out the current user and assign the remaining members
     const otherMembers = members.filter(member => member._id !== userId);
+
     this.raceData.racer2 = otherMembers[0]?._id || null; // Assign racer2
     this.raceData.racer3 = otherMembers[1]?._id || null; // Assign racer3 if applicable
+    
     this.runners = otherMembers;    
   }
 

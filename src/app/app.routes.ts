@@ -36,7 +36,6 @@ import { PickemsRacesComponent } from './pickems-dashboard/pickems-races/pickems
 import { PickemsTournamentComponent } from './pickems-dashboard/pickems-tournament/pickems-tournament.component';
 import { PickemsStatsComponent } from './pickems-dashboard/pickems-stats/pickems-stats.component';
 import { StatsComponent } from './stats/stats.component';
-// import { EditRaceResultsComponent } from './admin-dashboard/edit-race-results/edit-race-results.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },

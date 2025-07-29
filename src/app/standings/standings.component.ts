@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../interfaces/user';
+import { User } from '../interfaces/user';
 import { TournamentService } from '../services/tournament.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { CommonModule } from '@angular/common';
@@ -23,6 +23,8 @@ export class StandingsComponent implements OnInit {
 
   runners: User[] = [];
 
+  cutoffRank: number = 0;
+
   constructor(private tournamentService: TournamentService) {}
 
   ngOnInit(): void {
@@ -32,7 +34,11 @@ export class StandingsComponent implements OnInit {
   fetchStandings(): void {
     this.tournamentService.getStandings().subscribe({
       next: (data) => {
-        this.runners = this.computeRanks(data);
+        const { rankedRunners, cutoffRank } = this.computeRanks(data);
+
+        this.runners = rankedRunners;
+        this.cutoffRank = cutoffRank;
+        
         this.loading = false;           
       },
       error: (err) => {
@@ -43,50 +49,68 @@ export class StandingsComponent implements OnInit {
     });
   }
 
-  computeRanks(runners: User[]): User[] {
+  computeRanks(runners: User[]): { rankedRunners: User[]; cutoffRank: number } {
     if (!runners || runners.length === 0) {
-      return [];
+      return { rankedRunners: [], cutoffRank: 0 };
     }
 
-    // Sort runners if not already sorted
+    // Sort runners by points descending, then by tiebreaker descending
     runners.sort((a, b) => {
+      const pointsA = a.points ?? 0;
+      const pointsB = b.points ?? 0;
+      const tieA = a.tieBreakerValue ?? 0;
+      const tieB = b.tieBreakerValue ?? 0;
 
-      if (!a.tieBreakerValue || !b.tieBreakerValue ) {
-        return 0;
+      if (pointsB !== pointsA) {
+        return pointsB - pointsA;
       }
-
-      if (!a.points || !b.points ) {
-        return 0;
-      }
-
-      if (b.points !== a.points) {
-        return b.points - a.points;
-      }
-
-      return b.tieBreakerValue - a.tieBreakerValue;
+      return tieB - tieA;
     });
 
     let currentRank = 1;
-    let previousPoints = runners[0].points;
-    let previousTieBreaker = runners[0].tieBreakerValue;
-    runners[0].rank = currentRank;
+    const firstRunner = runners[0];
+    firstRunner.rank = currentRank;
+    let previousPoints = firstRunner.points ?? 0;
+    let previousTieBreaker = firstRunner.tieBreakerValue ?? 0;
 
     for (let i = 1; i < runners.length; i++) {
       const runner = runners[i];
-      if (
-        runner.points === previousPoints &&
-        runner.tieBreakerValue === previousTieBreaker
-      ) {
-        runner.rank = currentRank;
-      } else {
-        currentRank = i + 1;
-        runner.rank = currentRank;
-        previousPoints = runner.points;
-        previousTieBreaker = runner.tieBreakerValue;
-      }
-    }   
+      const currentPoints = runner.points ?? 0;
+      const currentTieBreaker = runner.tieBreakerValue ?? 0;
 
-    return runners;
+      if (
+        currentPoints === previousPoints &&
+        currentTieBreaker === previousTieBreaker
+      ) {
+        runner.rank = currentRank; // Same rank for tied runners
+      } else {
+        currentRank = i + 1; // Increment rank based on position
+        runner.rank = currentRank;
+        previousPoints = currentPoints;
+        previousTieBreaker = currentTieBreaker;
+      }
+    }
+
+    // Determine the cutoff rank for the top 9
+    let cutoffRank = 0;
+    for (let i = 0; i < runners.length; i++) {
+      if (runners[i].rank <= 9) {
+        cutoffRank = runners[i].rank;
+      } else {
+        break;
+      }
+    }
+
+    // Adjust for ties: include all runners with rank equal to cutoffRank
+    for (let i = 0; i < runners.length; i++) {
+      if (runners[i].rank === cutoffRank) {
+        cutoffRank = runners[i].rank;
+      } else if (runners[i].rank > cutoffRank) {
+        break;
+      }
+    }
+
+    return { rankedRunners: runners, cutoffRank };
   }
 
   clearAlert(): void {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { User } from '../../interfaces/user';
+import { User } from '../interfaces/user';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { PickemsTournamentComponent } from './pickems-tournament/pickems-tournament.component';
 import { PickemsService } from '../services/pickems.service';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Stats } from '../../interfaces/stats';
+import { Stats } from '../interfaces/stats';
 import { StatsService } from '../services/stats.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { CommonModule } from '@angular/common';

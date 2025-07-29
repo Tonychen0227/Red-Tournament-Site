@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Race } from '../../../interfaces/race';
+import { Race } from '../../interfaces/race';
 import { AuthService } from '../../services/auth.service';
 import { RaceService } from '../../services/race.service';
 import { LoadingComponent } from '../../loading/loading.component';

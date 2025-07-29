@@ -36,11 +36,10 @@ export class GroupsComponent implements OnInit {
   private groupsLoaded: boolean = false;
   private favouritesLoaded: boolean = false;
 
-  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals'];
+  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals', 'Final'];
   currentRound: string = 'Seeding'; 
 
   ngOnInit(): void {
-    // Fetch the current round
     this.tournamentService.getCurrentRound().subscribe((data: any) => {
       this.currentRound = data.currentRound;
       this.fetchGroups();
@@ -84,7 +83,6 @@ export class GroupsComponent implements OnInit {
 
   mergeData(): void {
     if (this.groupsLoaded && this.favouritesLoaded) {
-      // Create a map for quick lookup: { 'Round 1': {1: favoriteData, 2: favoriteData, ...}, 'Round 2': {...}, ... }
       const favouritesMap: { [round: string]: { [groupNumber: number]: any } } = {};
 
       this.favourites.forEach((favRound: any) => {
@@ -94,20 +92,17 @@ export class GroupsComponent implements OnInit {
         });
       });
 
-      // Assign favorite data to each group
       this.groups.forEach(group => {
         const roundFavourites = favouritesMap[group.round];
         if (roundFavourites && roundFavourites[group.groupNumber]) {
           group.favorite = roundFavourites[group.groupNumber];
         } else {
-          group.favorite = []; // No favorites for this group
+          group.favorite = [];
         }
       });
 
-      // Now filter groups based on the current round
       this.filterGroupsByRound(this.currentRound);
 
-      // Loading is complete
       this.loading = false;
     }
   }

@@ -36,12 +36,11 @@
                   </th>
                 </tr>
               </thead>
+
               <tbody>
                 @for (runner of runners; track runner.discordUsername) {
                   <tr>
-
                     <td class="text-center">{{ runner.rank }}</td>
-
                     <td>
                       <a [routerLink]="['/user', runner.discordUsername]" style="cursor: pointer" 
                         class="badge p-2 text-decoration-none"
@@ -55,12 +54,12 @@
                       {{ runner.displayName }}
                       </a>
                     </td>
-
                     <td class="text-center">{{ runner.points }}</td>
                     <td class="text-center">{{ runner.tieBreakerValue }}</td>
                   </tr>
-
-                  @if ($index === 8 && runners.length > 9) {
+              
+                  <!-- Check if the current runner is the last one with rank 9 -->
+                  @if (runner.rank === cutoffRank && (runners[$index + 1].rank !== cutoffRank || $index === runners.length - 1)) {
                     <td colspan="4">
                       <hr class="my-2">
                     </td>
@@ -68,7 +67,7 @@
                 }
                 @empty {
                   <tr>
-                    <td colspan="3" class="text-center">No runners available</td>
+                    <td colspan="4" class="text-center">No runners available</td>
                   </tr>
                 }
               </tbody>

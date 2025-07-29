@@ -3,7 +3,7 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, interval } from 'rxjs';
-import { User } from '../../interfaces/user';
+import { User } from '../interfaces/user';
 import { DatePipe } from '@angular/common';
 
 @Component({

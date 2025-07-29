@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { User } from '../../../interfaces/user';
+import { User } from '../../interfaces/user';
 
 import { RunnersService } from '../../services/runners.service';
 import { GroupService } from '../../services/group.service';
@@ -56,7 +56,6 @@ export class GroupCreationComponent implements OnInit {
       .pipe(
         tap(response => {
           this.successMessage = "Group successfully created"
-          // Reset the form
           this.groupData = { racer1: '', racer2: '', racer3: '' };
 
         }),

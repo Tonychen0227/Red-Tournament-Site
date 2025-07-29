@@ -4,19 +4,23 @@
     <h1>Upcoming Races</h1>
     <h4 class="mb-4">Date and time are shown in your local timezone ({{ userTimezoneLabel }})</h4>
 
+    <!-- Seeding round -->
+    <!--
+    <div class="d-flex align-items-center mb-3">
+        <h5 style="display: inline-block" class="me-2">Pot Key:</h5>
+        <span class="badge bg-primary me-2 px-3 py-2">Pot 1</span>
+        <span class="badge bg-success me-2 px-3 py-2">Pot 2</span>
+        <span class="badge bg-info me-2 px-3 py-2">Pot 3</span>
+    </div> 
+    -->
+
+    <!-- Post-seeding -->
     <div class="d-flex align-items-center mb-3">
         <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
         <span class="badge bg-primary me-2 px-3 py-2">High</span>
         <span class="badge bg-success me-2 px-3 py-2">Middle</span>
         <span class="badge bg-info me-2 px-3 py-2">Low</span>
     </div>
-
-    <!-- <div class="d-flex align-items-center mb-3">
-        <h5 style="display: inline-block" class="me-2">Pot Key:</h5>
-        <span class="badge bg-primary me-2 px-3 py-2">Pot 1</span>
-        <span class="badge bg-success me-2 px-3 py-2">Pot 2</span>
-        <span class="badge bg-info me-2 px-3 py-2">Pot 3</span>
-    </div> -->
 
     @if (errorMessage) {
         <div class="alert alert-disAmissible alert-primary mt-4">
@@ -47,87 +51,128 @@
                 @if (globals.isAdmin && race.restreamPlanned) {
 
                 }
-                
-
-                </div>
-                <div class="d-flex justify-content-start align-items-center flex-wrap">
-
-                    <a [routerLink]="['/user', race.racer1.discordUsername]" style="cursor: pointer" 
-                            class="text-decoration-none badge m-1 p-2"
-                            [ngClass]="{
-                                'bg-primary': race.racer1.currentBracket === 'High',
-                                'bg-success': race.racer1.currentBracket === 'Middle',
-                                'bg-info': race.racer1.currentBracket === 'Low',
-                                'bg-secondary': !race.racer1.currentBracket
-                            }"
-                            [title]="race.racer1.discordUsername">
-                        {{ race.racer1.displayName }}
-                    </a>
-
-                    <a [routerLink]="['/user', race.racer2.discordUsername]" style="cursor: pointer" 
-                            class="text-decoration-none badge m-1 p-2"
-                            [ngClass]="{
-                                'bg-primary': race.racer2.currentBracket === 'High',
-                                'bg-success': race.racer2.currentBracket === 'Middle',
-                                'bg-info': race.racer2.currentBracket === 'Low',
-                                'bg-secondary': !race.racer2.currentBracket
-                            }"
-                            [title]="race.racer2.discordUsername">
-                        {{ race.racer2.displayName }}
-                    </a>
+            </div>
             
-                                        
-                    @if (race.racer3) {
-                        <a [routerLink]="['/user', race.racer3.discordUsername]" style="cursor: pointer" 
-                            class="text-decoration-none badge m-1 p-2"
-                            [ngClass]="{
-                                'bg-primary': race.racer3.currentBracket === 'High',
-                                'bg-success': race.racer3.currentBracket === 'Middle',
-                                'bg-info': race.racer3.currentBracket === 'Low',
-                                'bg-secondary': !race.racer3.currentBracket
-                            }"
-                            [title]="race.racer3.discordUsername">
-                            {{ race.racer3.displayName }}
-                        </a>
-                    }
+            <div class="d-flex justify-content-start align-items-center flex-wrap">
 
-                    <!-- <a class="text-decoration-none badge m-1 p-2"
-                            [ngClass]="{
-                                'bg-primary': race.racer1.initialPot === '1',
-                                'bg-success': race.racer1.initialPot === '2',
-                                'bg-info': race.racer1.initialPot === '3',
-                                'bg-secondary': !race.racer1.initialPot
-                            }"
-                            [title]="race.racer1.discordUsername">
-                        {{ race.racer1.displayName }}
-                    </a>
-
-                    <a class="text-decoration-none badge m-1 p-2"
-                            [ngClass]="{
-                                'bg-primary': race.racer2.initialPot === '1',
-                                'bg-success': race.racer2.initialPot === '2',
-                                'bg-info': race.racer2.initialPot === '3',
-                                'bg-secondary': !race.racer2.initialPot
-                            }"
-                            [title]="race.racer2.discordUsername">
-                        {{ race.racer2.displayName }}
-                    </a>
-            
-                                        
-                    @if (race.racer3) {
-                        <a class="text-decoration-none badge m-1 p-2"
+                <a [routerLink]="['/user', race.racer1.discordUsername]" style="cursor: pointer" 
+                        class="text-decoration-none badge m-1 p-2"
                         [ngClass]="{
-                            'bg-primary': race.racer3.initialPot === '1',
-                            'bg-success': race.racer3.initialPot === '2',
-                            'bg-info': race.racer3.initialPot === '3',
-                            'bg-secondary': !race.racer3.initialPot
+                            'bg-primary': race.racer1.currentBracket === 'High',
+                            'bg-success': race.racer1.currentBracket === 'Middle',
+                            'bg-info': race.racer1.currentBracket === 'Low',
+                            'bg-secondary': !race.racer1.currentBracket
                         }"
-                            [title]="race.racer3.discordUsername">
-                            {{ race.racer3.displayName }}
-                        </a>
-                    } -->
+                        [title]="race.racer1.discordUsername">
+                    {{ race.racer1.displayName }}
+                </a>
 
-                </div>
+                <a [routerLink]="['/user', race.racer2.discordUsername]" style="cursor: pointer" 
+                        class="text-decoration-none badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer2.currentBracket === 'High',
+                            'bg-success': race.racer2.currentBracket === 'Middle',
+                            'bg-info': race.racer2.currentBracket === 'Low',
+                            'bg-secondary': !race.racer2.currentBracket
+                        }"
+                        [title]="race.racer2.discordUsername">
+                    {{ race.racer2.displayName }}
+                </a>
+        
+                                    
+                @if (race.racer3) {
+                    <a [routerLink]="['/user', race.racer3.discordUsername]" style="cursor: pointer" 
+                        class="text-decoration-none badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer3.currentBracket === 'High',
+                            'bg-success': race.racer3.currentBracket === 'Middle',
+                            'bg-info': race.racer3.currentBracket === 'Low',
+                            'bg-secondary': !race.racer3.currentBracket
+                        }"
+                        [title]="race.racer3.discordUsername">
+                        {{ race.racer3.displayName }}
+                    </a>
+                }
+
+                <!-- Seeding Round -->
+                <!-- <a class="text-decoration-none badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer1.initialPot === '1',
+                            'bg-success': race.racer1.initialPot === '2',
+                            'bg-info': race.racer1.initialPot === '3',
+                            'bg-secondary': !race.racer1.initialPot
+                        }"
+                        [title]="race.racer1.discordUsername">
+                    {{ race.racer1.displayName }}
+                </a>
+
+                <a class="text-decoration-none badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer2.initialPot === '1',
+                            'bg-success': race.racer2.initialPot === '2',
+                            'bg-info': race.racer2.initialPot === '3',
+                            'bg-secondary': !race.racer2.initialPot
+                        }"
+                        [title]="race.racer2.discordUsername">
+                    {{ race.racer2.displayName }}
+                </a>
+        
+                                    
+                @if (race.racer3) {
+                    <a class="text-decoration-none badge m-1 p-2"
+                    [ngClass]="{
+                        'bg-primary': race.racer3.initialPot === '1',
+                        'bg-success': race.racer3.initialPot === '2',
+                        'bg-info': race.racer3.initialPot === '3',
+                        'bg-secondary': !race.racer3.initialPot
+                    }"
+                        [title]="race.racer3.discordUsername">
+                        {{ race.racer3.displayName }}
+                    </a>
+                } -->
+
+                <!-- Semifinals -->
+                <!-- <a [routerLink]="['/user', race.racer1.discordUsername]" style="cursor: pointer" 
+                        class="text-decoration-none badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer1.semisBracket === 'High',
+                            'bg-success': race.racer1.semisBracket === 'Middle',
+                            'bg-info': race.racer1.semisBracket === 'Low',
+                            'bg-secondary': !race.racer1.semisBracket
+                        }"
+                        [title]="race.racer1.discordUsername">
+                    {{ race.racer1.displayName }}
+                </a>
+
+                <a [routerLink]="['/user', race.racer2.discordUsername]" style="cursor: pointer" 
+                        class="text-decoration-none badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer2.semisBracket === 'High',
+                            'bg-success': race.racer2.semisBracket === 'Middle',
+                            'bg-info': race.racer2.semisBracket === 'Low',
+                            'bg-secondary': !race.racer2.semisBracket
+                        }"
+                        [title]="race.racer2.discordUsername">
+                    {{ race.racer2.displayName }}
+                </a>
+
+                                    
+                @if (race.racer3) {
+                    <a [routerLink]="['/user', race.racer3.discordUsername]" style="cursor: pointer" 
+                        class="text-decoration-none badge m-1 p-2"
+                        [ngClass]="{
+                            'bg-primary': race.racer3.semisBracket === 'High',
+                            'bg-success': race.racer3.semisBracket === 'Middle',
+                            'bg-info': race.racer3.semisBracket === 'Low',
+                            'bg-secondary': !race.racer3.semisBracket
+                        }"
+                        [title]="race.racer3.discordUsername">
+                        {{ race.racer3.displayName }}
+                    </a>
+                } -->
+
+            </div>
+
                 <div class="d-flex align-items-center justify-content-between mt-2">
                     <div class="d-flex align-items-center flex-wrap">
                         <img src="/mic.png" alt="Microphone icon" style="height: 1.5rem" class="me-2">
@@ -136,9 +181,19 @@
 
                             @if (race.commentators.length > 0) {
                                 @if(race.round == 'Semifinals' || race.round == 'Final') {
-                                    <a class="text-decoration-none badge bg-dark m-1 py-1 px-2">
-                                        {{ race.commentators.length }} {{ race.commentators.length === 1 ? 'commentator' : 'commentators' }} signed up
-                                    </a>
+                                    @if (globals.isAdmin) {
+
+                                        @for (commentator of race.commentators; track commentator._id) {
+                                            <a [routerLink]="['/user', commentator.discordUsername]" style="cursor: pointer"  
+                                            class="text-decoration-none badge bg-dark m-1 py-1 px-2"
+                                            [title]="commentator.discordUsername">
+                                            {{ commentator.displayName }}
+                                        </a>                                        }
+                                    } @else {
+                                        <a class="text-decoration-none badge bg-dark m-1 py-1 px-2">
+                                            {{ race.commentators.length }} {{ race.commentators.length === 1 ? 'commentator' : 'commentators' }} signed up
+                                        </a>
+                                    }
                                 } @else {
                                     @for (commentator of race.commentators; track commentator._id) {
                                         <a [routerLink]="['/user', commentator.discordUsername]" style="cursor: pointer"  
@@ -158,12 +213,19 @@
                                 <button class="btn btn-danger btn-sm" (click)="pullOutFromCommentary(race._id)">
                                     Pull Out
                                 </button>
-                            } @else if (!race.cancelled && race.commentators.length < 2) {
-                                <!-- Show the 'Commentate' button if there are fewer than 2 commentators -->
-                                <button class="btn btn-dark btn-sm" (click)="signUpToCommentate(race._id)">
-                                    Commentate
-                                </button>
-                            }
+                            } @else if (!race.cancelled) {
+                                @if(race.round == 'Semifinals' || race.round == 'Final') {+
+                                    <!-- Allow any amount of commentators to sign up -->
+                                    <button class="btn btn-dark btn-sm" (click)="signUpToCommentate(race._id)">
+                                        Commentate
+                                    </button>
+                                } @else if (race.commentators.length < 2) {
+                                    <!-- Show the 'Commentate' button if there are fewer than 2 commentators -->
+                                    <button class="btn btn-dark btn-sm" (click)="signUpToCommentate(race._id)">
+                                        Commentate
+                                    </button>
+                                }
+                            } 
                         }
                     </div>
                 </div>
@@ -172,7 +234,6 @@
             <div class="restream-section mt-3">
                 @if (globals.isAdmin && !race.cancelled) {
                     <div class="d-flex align-items-center">
-                        <!-- Restream Channel Input -->
                         <input 
                             type="text" 
                             [(ngModel)]="race.restreamChannel" 
@@ -180,9 +241,7 @@
                             placeholder="Twitch Channel ID"
                             [disabled]="race.restreamPlanned">
                         
-                        <!-- Conditionally show restream buttons -->
                         @if (!race.restreamPlanned) {
-                            <!-- Enable button when channel is provided -->
                             <button 
                                 class="btn btn-primary btn-sm" 
                                 (click)="signUpForRestream(race._id)" 
@@ -196,7 +255,6 @@
                                 {{ race.restreamer?.displayName }}
                             </span>
 
-                            <!-- Cancel Restream Button -->
                             <button 
                                 class="btn btn-danger btn-sm" 
                                 (click)="cancelRestream(race._id)">
@@ -206,11 +264,10 @@
                     </div>
                 }
             </div>
-
-            </div>
-        }
-        @empty {
-            <p class="text-center mt-4"><strong>No upcoming races</strong></p>
-        }
-    </div>
+        </div>
+    }
+    @empty {
+        <p class="text-center mt-4"><strong>No upcoming races</strong></p>
+    }
+</div>
 }

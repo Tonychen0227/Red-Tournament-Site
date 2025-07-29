@@ -116,5 +116,22 @@
         </div>
       </div>
     }
-    
+
+    <!-- Card for Each Round's Picks -->
+    @if (pickems.finalPick) {
+      <div class="card mb-3">
+        <div class="card-header">
+          <h5 class="card-title">Final Pick</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6 col-md-4 mb-2">
+              <div class="list-group-item text-center">
+                <span class="badge bg-dark p-2">{{ pickems.finalPick.displayName }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
 }
