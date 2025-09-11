@@ -15,9 +15,10 @@
 
       <div class="d-flex align-items-center mb-3">
           <h5 style="display: inline-block" class="me-2">Current Bracket:</h5>
-          <span class="badge bg-primary me-2 px-3 py-2">Exhibition</span>
+          <span class="badge bg-primary me-2 px-3 py-2">Playoffs</span>
           <span class="badge bg-success me-2 px-3 py-2">Ascension</span>
           <span class="badge bg-info me-2 px-3 py-2">Normal</span>
+          <span class="badge bg-dark me-2 px-3 py-2">Exhibition</span>
       </div>
 
 
@@ -45,9 +46,10 @@
                       <a [routerLink]="['/user', runner.discordUsername]" style="cursor: pointer" 
                         class="badge p-2 text-decoration-none"
                         [ngClass]="{
-                            'bg-primary': runner.currentBracket === 'Exhibition',
+                            'bg-primary': runner.currentBracket === 'Playoffs',
                             'bg-success': runner.currentBracket === 'Ascension',
                             'bg-info': runner.currentBracket === 'Normal',
+                            'bg-dark': runner.currentBracket === 'Exhibition',
                             'bg-secondary': !runner.currentBracket
                         }"
                         [title]="runner.discordUsername">

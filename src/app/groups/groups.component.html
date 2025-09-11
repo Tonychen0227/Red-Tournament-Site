@@ -2,9 +2,10 @@
 
 <div class="d-flex align-items-center mb-3">
     <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
-    <span class="badge bg-primary me-2 px-3 py-2">High</span>
-    <span class="badge bg-success me-2 px-3 py-2">Middle</span>
-    <span class="badge bg-info me-2 px-3 py-2">Low</span>
+    <span class="badge bg-primary me-2 px-3 py-2">Playoffs</span>
+    <span class="badge bg-success me-2 px-3 py-2">Ascension</span>
+    <span class="badge bg-info me-2 px-3 py-2">Normal</span>
+    <span class="badge bg-dark me-2 px-3 py-2">Exhibition</span>
 </div>
 
 
@@ -47,8 +48,8 @@
                         <div class="card-header text-light d-flex justify-content-between" 
                             [ngClass]="{
                                 'bg-primary': group.bracket === 'Playoffs',
-                                'bg-success': group.bracket === 'Normal',
                                 'bg-info': group.bracket === 'Ascension',
+                                'bg-success': group.bracket === 'Normal',
                                 'bg-dark': group.bracket === 'Exhibition'
                             }">
                             

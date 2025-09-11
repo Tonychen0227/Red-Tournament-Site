@@ -65,38 +65,18 @@ export class PastRacesComponent {
   }
 
   getBadgeClass(race: any, racer: any): string {
-    if (race.bracket === 'Seeding') {
-      switch (racer.initialPot) {
-        case '1':
-          return 'bg-primary';
-        case '2':
-          return 'bg-success';
-        case '3':
-          return 'bg-info';
-        default:
-          return 'bg-secondary';
-      }
-    } else if (race.bracket === 'Semifinals') {
-      switch (racer.currentBracket) {
-        case 'High':
-          return 'bg-primary';
-        case 'Middle':
-          return 'bg-success';
-        case 'Low':
-          return 'bg-info';
-        default:
-          return 'bg-secondary';
-      }
-    } else if (race.bracket === 'Final') {
+    if (race.bracket === 'Semifinals' || race.bracket === "Quarterfinals" || race.bracket === 'Final') {
       return 'bg-primary';
     } else {
       switch (race.bracket) {
-        case 'High':
+        case 'Playoffs':
           return 'bg-primary';
-        case 'Middle':
+        case 'Ascension':
           return 'bg-success';
-        case 'Low':
+        case 'Normal':
           return 'bg-info';
+        case 'Exhibition':
+          return 'bg-dark';
         default:
           return 'bg-secondary';
       }
