@@ -20,7 +20,7 @@ export class AddUserComponent {
 
   discordUsername: string = '';
   displayName: string = '';
-  role: string = 'runner';
+  role: 'runner' | 'commentator' = 'runner';
   isAdmin: boolean = false;
   pronouns: string | null = null
 
@@ -50,5 +50,6 @@ export class AddUserComponent {
   clearForm() {
     this.discordUsername = '';
     this.displayName = '';
+    this.pronouns = null;
   }
 }

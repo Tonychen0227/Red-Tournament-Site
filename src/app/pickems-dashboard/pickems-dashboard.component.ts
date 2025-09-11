@@ -5,6 +5,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { PickemsTournamentComponent } from './pickems-tournament/pickems-tournament.component';
 import { PickemsService } from '../services/pickems.service';
 import { LoadingComponent } from '../loading/loading.component';
+import { Pickems } from '../interfaces/pickems';
 
 @Component({
   selector: 'app-pickems-dashboard',
@@ -28,7 +29,7 @@ export class PickemsDashboardComponent implements OnInit {
   loading: boolean = true;
 
   user: User | null = null; 
-  pickems: any = null;
+  pickems: Pickems | null = null;
 
 
   ngOnInit(): void {

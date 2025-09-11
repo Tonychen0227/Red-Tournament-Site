@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { catchError, Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Group } from '../interfaces/group';
 
 @Injectable({
   providedIn: 'root'

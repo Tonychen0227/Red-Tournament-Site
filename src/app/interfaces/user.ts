@@ -1,22 +1,23 @@
 export interface User {
   _id: string;
   discordUsername: string;
-  displayName: string;
-  role: string;
+  displayName?: string;
+  role: 'runner' | 'commentator';
   isAdmin: boolean;
-  pronouns?:string | null;
-  currentBracket?: string;
-  initialPot?: string
+  pronouns?: string | null;
+  currentBracket?: 'Playoffs' | 'Exhibition' | 'Ascension' | 'Normal';
   points?: number;
-  tieBreakerValue?: number;
-  currentGroup?: string;
+  bestTournamentTimeMilliseconds?: number;
+  currentGroup?: string; // ObjectId as string
+  // Frontend-only properties (not in backend model)
   setFirstPickems?: boolean;
-  rank: number;
+  rank?: number;
 }
 
 export interface UserCreationInterface {
   discordUsername: string;
-  displayName: string;
-  role: string;
+  displayName?: string;
+  role: 'runner' | 'commentator';
   isAdmin: boolean;
+  pronouns?: string | null;
 }

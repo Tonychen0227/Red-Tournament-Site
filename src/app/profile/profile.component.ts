@@ -7,6 +7,7 @@ import { LoadingComponent } from '../loading/loading.component';
 import { PickemsService } from '../services/pickems.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { Pickems } from '../interfaces/pickems';
 
 @Component({
   selector: 'app-profile',
@@ -29,7 +30,7 @@ export class ProfileComponent implements OnInit {
   racesParticipatedIn: Race[] = [];
   racesCommentated: Race[] = [];
 
-  pickems: any = null;
+  pickems: Pickems | null = null;
 
   errorMessage: string | null = null;
 

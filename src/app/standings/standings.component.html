@@ -15,9 +15,9 @@
 
       <div class="d-flex align-items-center mb-3">
           <h5 style="display: inline-block" class="me-2">Current Bracket:</h5>
-          <span class="badge bg-primary me-2 px-3 py-2">High</span>
-          <span class="badge bg-success me-2 px-3 py-2">Middle</span>
-          <span class="badge bg-info me-2 px-3 py-2">Low</span>
+          <span class="badge bg-primary me-2 px-3 py-2">Exhibition</span>
+          <span class="badge bg-success me-2 px-3 py-2">Ascension</span>
+          <span class="badge bg-info me-2 px-3 py-2">Normal</span>
       </div>
 
 
@@ -45,9 +45,9 @@
                       <a [routerLink]="['/user', runner.discordUsername]" style="cursor: pointer" 
                         class="badge p-2 text-decoration-none"
                         [ngClass]="{
-                            'bg-primary': runner.currentBracket === 'High',
-                            'bg-success': runner.currentBracket === 'Middle',
-                            'bg-info': runner.currentBracket === 'Low',
+                            'bg-primary': runner.currentBracket === 'Exhibition',
+                            'bg-success': runner.currentBracket === 'Ascension',
+                            'bg-info': runner.currentBracket === 'Normal',
                             'bg-secondary': !runner.currentBracket
                         }"
                         [title]="runner.discordUsername">
@@ -55,7 +55,7 @@
                       </a>
                     </td>
                     <td class="text-center">{{ runner.points }}</td>
-                    <td class="text-center">{{ runner.tieBreakerValue }}</td>
+                    <td class="text-center">{{ runner.bestTournamentTimeMilliseconds }}</td>
                   </tr>
               
                   <!-- Check if the current runner is the last one with rank 9 -->

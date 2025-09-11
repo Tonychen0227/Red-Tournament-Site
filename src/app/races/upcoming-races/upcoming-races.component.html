@@ -58,9 +58,10 @@
                 <a [routerLink]="['/user', race.racer1.discordUsername]" style="cursor: pointer" 
                         class="text-decoration-none badge m-1 p-2"
                         [ngClass]="{
-                            'bg-primary': race.racer1.currentBracket === 'High',
-                            'bg-success': race.racer1.currentBracket === 'Middle',
-                            'bg-info': race.racer1.currentBracket === 'Low',
+                            'bg-primary': race.racer1.currentBracket === 'Playoffs',
+                            'bg-success': race.racer1.currentBracket === 'Normal',
+                            'bg-info': race.racer1.currentBracket === 'Ascension',
+                            'bg-warning': race.racer1.currentBracket === 'Exhibition',
                             'bg-secondary': !race.racer1.currentBracket
                         }"
                         [title]="race.racer1.discordUsername">
@@ -70,9 +71,10 @@
                 <a [routerLink]="['/user', race.racer2.discordUsername]" style="cursor: pointer" 
                         class="text-decoration-none badge m-1 p-2"
                         [ngClass]="{
-                            'bg-primary': race.racer2.currentBracket === 'High',
-                            'bg-success': race.racer2.currentBracket === 'Middle',
-                            'bg-info': race.racer2.currentBracket === 'Low',
+                            'bg-primary': race.racer2.currentBracket === 'Playoffs',
+                            'bg-success': race.racer2.currentBracket === 'Normal',
+                            'bg-info': race.racer2.currentBracket === 'Ascension',
+                            'bg-warning': race.racer2.currentBracket === 'Exhibition',
                             'bg-secondary': !race.racer2.currentBracket
                         }"
                         [title]="race.racer2.discordUsername">
@@ -84,9 +86,10 @@
                     <a [routerLink]="['/user', race.racer3.discordUsername]" style="cursor: pointer" 
                         class="text-decoration-none badge m-1 p-2"
                         [ngClass]="{
-                            'bg-primary': race.racer3.currentBracket === 'High',
-                            'bg-success': race.racer3.currentBracket === 'Middle',
-                            'bg-info': race.racer3.currentBracket === 'Low',
+                            'bg-primary': race.racer3.currentBracket === 'Playoffs',
+                            'bg-success': race.racer3.currentBracket === 'Normal',
+                            'bg-info': race.racer3.currentBracket === 'Ascension',
+                            'bg-warning': race.racer3.currentBracket === 'Exhibition',
                             'bg-secondary': !race.racer3.currentBracket
                         }"
                         [title]="race.racer3.discordUsername">

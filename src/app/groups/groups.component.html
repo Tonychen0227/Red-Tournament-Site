@@ -46,10 +46,10 @@
                     <div class="card h-100">
                         <div class="card-header text-light d-flex justify-content-between" 
                             [ngClass]="{
-                                'bg-primary': group.bracket === 'High',
-                                'bg-success': group.bracket === 'Middle',
-                                'bg-info': group.bracket === 'Low',
-                                'bg-dark': group.bracket === 'Seeding'
+                                'bg-primary': group.bracket === 'Playoffs',
+                                'bg-success': group.bracket === 'Normal',
+                                'bg-info': group.bracket === 'Ascension',
+                                'bg-dark': group.bracket === 'Exhibition'
                             }">
                             
                             <strong>Group {{ group.groupNumber }}</strong>
@@ -71,8 +71,8 @@
                                     style="cursor: pointer" 
                                     class="bg-dark text-decoration-none badge p-2"
                                     [ngClass]="{
-                                        'text-white': !isFavorite(member._id, group.favorite),
-                                        'text-success': isFavorite(member._id, group.favorite)
+                                        'text-white': !isFavorite(member._id, group.favorite || []),
+                                        'text-success': isFavorite(member._id, group.favorite || [])
                                     }"
                                 >
                                     {{ member.displayName }}

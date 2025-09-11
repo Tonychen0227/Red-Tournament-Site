@@ -126,7 +126,7 @@ export class RacesAwaitingCompletionComponent {
 
     const dnfOrdersValid = dnfOrders.length === uniqueDnfOrders.size;
 
-    const allDnfOrdersAssigned = dnfResults.every(result => result.dnfOrder !== null && result.dnfOrder > 0);
+    const allDnfOrdersAssigned = dnfResults.every(result => result.dnfOrder !== null && result.dnfOrder !== undefined && result.dnfOrder > 0);
 
     return raceTimeIdEntered && allResultsValid && dnfOrdersValid && allDnfOrdersAssigned;
   }

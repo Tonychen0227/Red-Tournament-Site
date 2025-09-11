@@ -29,7 +29,7 @@ export class PastRacesComponent {
   
   currentRound: string = 'All';
   
-  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals', 'Final', 'All'];
+  rounds: string[] = ['Round 1', 'Round 2', 'Round 3', 'Quarterfinals', 'Semifinals', 'Final', 'All'];
 
   ngOnInit(): void {
     this.tournamentService.getCurrentRound().subscribe((data: any) => {

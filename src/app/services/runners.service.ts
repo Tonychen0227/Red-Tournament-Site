@@ -31,10 +31,4 @@ export class RunnersService {
 
     return this.http.post<any>(`${this.baseUrl}/admin/add-user`, user, { headers, withCredentials: true });
   }
-
-  setInitialPots(userPots: { userId: string; pot: string }[]): Observable<any> {
-    const headers = this.getHeaders();
-    return this.http.post<any>(`${this.baseUrl}/admin/set-pots`, { userPots }, { headers, withCredentials: true });
-  }
-  
 }

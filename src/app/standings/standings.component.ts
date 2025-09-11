@@ -54,29 +54,29 @@ export class StandingsComponent implements OnInit {
       return { rankedRunners: [], cutoffRank: 0 };
     }
 
-    // Sort runners by points descending, then by tiebreaker descending
+    // Sort runners by points descending, then by best time ascending
     runners.sort((a, b) => {
       const pointsA = a.points ?? 0;
       const pointsB = b.points ?? 0;
-      const tieA = a.tieBreakerValue ?? 0;
-      const tieB = b.tieBreakerValue ?? 0;
+      const tieA = a.bestTournamentTimeMilliseconds ?? 9000000;
+      const tieB = b.bestTournamentTimeMilliseconds ?? 9000000;
 
       if (pointsB !== pointsA) {
         return pointsB - pointsA;
       }
-      return tieB - tieA;
+      return tieA - tieB;
     });
 
     let currentRank = 1;
     const firstRunner = runners[0];
     firstRunner.rank = currentRank;
     let previousPoints = firstRunner.points ?? 0;
-    let previousTieBreaker = firstRunner.tieBreakerValue ?? 0;
+    let previousTieBreaker = firstRunner.bestTournamentTimeMilliseconds ?? 9000000;
 
     for (let i = 1; i < runners.length; i++) {
       const runner = runners[i];
       const currentPoints = runner.points ?? 0;
-      const currentTieBreaker = runner.tieBreakerValue ?? 0;
+      const currentTieBreaker = runner.bestTournamentTimeMilliseconds ?? 9000000;
 
       if (
         currentPoints === previousPoints &&
@@ -94,8 +94,8 @@ export class StandingsComponent implements OnInit {
     // Determine the cutoff rank for the top 9
     let cutoffRank = 0;
     for (let i = 0; i < runners.length; i++) {
-      if (runners[i].rank <= 9) {
-        cutoffRank = runners[i].rank;
+      if (runners[i].rank != null && runners[i].rank! <= 9) {
+        cutoffRank = runners[i].rank!;
       } else {
         break;
       }
@@ -104,8 +104,8 @@ export class StandingsComponent implements OnInit {
     // Adjust for ties: include all runners with rank equal to cutoffRank
     for (let i = 0; i < runners.length; i++) {
       if (runners[i].rank === cutoffRank) {
-        cutoffRank = runners[i].rank;
-      } else if (runners[i].rank > cutoffRank) {
+        cutoffRank = runners[i].rank!;
+      } else if (runners[i].rank != null && runners[i].rank! > cutoffRank) {
         break;
       }
     }

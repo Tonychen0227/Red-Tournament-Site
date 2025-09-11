@@ -5,6 +5,12 @@ import { TournamentService } from '../services/tournament.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PickemsService } from '../services/pickems.service';
+import { Group } from '../interfaces/group';
+
+// Extended interface for frontend display with favorites
+interface GroupWithFavorites extends Group {
+  favorite?: any[];
+}
 
 @Component({
   selector: 'app-groups',
@@ -28,16 +34,16 @@ export class GroupsComponent implements OnInit {
   loading: boolean = true;
   errorMessage: string = '';
 
-  groups: any[] = [];
-  filteredGroups: any[] = [];
+  groups: GroupWithFavorites[] = [];
+  filteredGroups: GroupWithFavorites[] = [];
 
   favourites: any[] = [];
 
   private groupsLoaded: boolean = false;
   private favouritesLoaded: boolean = false;
 
-  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals', 'Final'];
-  currentRound: string = 'Seeding'; 
+  rounds: string[] = ['Round 1', 'Round 2', 'Round 3', 'Quarterfinals', 'Semifinals', 'Final'];
+  currentRound: string = 'Round 1'; 
 
   ngOnInit(): void {
     this.tournamentService.getCurrentRound().subscribe((data: any) => {

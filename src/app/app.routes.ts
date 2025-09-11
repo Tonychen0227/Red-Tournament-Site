@@ -9,7 +9,6 @@ import { RacesAwaitingCompletionComponent } from './admin-dashboard/races-awaiti
 import { RacesComponent } from './races/races.component';
 import { AddUserComponent } from './admin-dashboard/add-user/add-user.component';
 import { EditRacesComponent } from './admin-dashboard/edit-races/edit-races.component';
-import { PotAssignmentComponent } from './admin-dashboard/pot-assignment/pot-assignment.component';
 import { EndRoundComponent } from './admin-dashboard/end-round/end-round.component';
 
 import { ProfileComponent } from './profile/profile.component';
@@ -51,7 +50,6 @@ export const routes: Routes = [
             { path: 'users/add', component: AddUserComponent },
             { path: 'races/upcoming/edit', component: EditRacesComponent },
             // { path: 'races/past/edit', component: EditRaceResultsComponent },
-            { path: 'users/pots', component: PotAssignmentComponent },
             { path: 'round/end', component: EndRoundComponent },
             { path: 'groups/add', component: GroupCreationComponent },
             { path: '', redirectTo: 'record', pathMatch: 'full' }

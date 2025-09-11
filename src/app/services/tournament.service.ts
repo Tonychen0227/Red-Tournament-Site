@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../interfaces/user';
+import { Tournament } from '../interfaces/tournament';
 
 @Injectable({
   providedIn: 'root'

@@ -31,14 +31,6 @@
             <div class="col-12 col-md-6 mb-3">
                 <h2>Average Time Per Round</h2>
                 <ul class="list-group">
-                    @if (stats.averageTimePerRound['Seeding']) {
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Seeding
-                            <span class="badge bg-dark rounded-pill p-2">
-                                {{ formatTime(stats.averageTimePerRound['Seeding']) }}
-                            </span>
-                        </li>
-                    }
                     @if (stats.averageTimePerRound['Round 1']) {
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Round 1
@@ -60,6 +52,14 @@
                             Round 3
                             <span class="badge bg-dark rounded-pill p-2">
                                 {{ formatTime(stats.averageTimePerRound['Round 3']) }}
+                            </span>
+                        </li>
+                    }
+                    @if (stats.averageTimePerRound['Quarterfinals']) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Quarterfinals
+                            <span class="badge bg-dark rounded-pill p-2">
+                                {{ formatTime(stats.averageTimePerRound['Quarterfinals']) }}
                             </span>
                         </li>
                     }

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Pickems } from '../interfaces/pickems';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,13 @@ export class PickemsService {
   private baseUrl = `${environment.apiUrl}/pickems`;
   private secretKey = environment.secretKey;
 
-  private pickems: any = null;
+  private pickems: Pickems | null = null;
 
-  setPickems(data: any) {
+  setPickems(data: Pickems) {
     this.pickems = data;
   }
 
-  getPickems() {
+  getPickems(): Pickems | null {
     return this.pickems;
   }
 
@@ -32,14 +33,14 @@ export class PickemsService {
     return this.http.post(`${this.baseUrl}/submit-one-off`, picksData, { headers, withCredentials: true });
   }
 
-  checkPickems(): Observable<any> {
+  checkPickems(): Observable<Pickems> {
     const headers = this.getHeaders();
-    return this.http.get<any>(`${this.baseUrl}`, { headers, withCredentials: true });
+    return this.http.get<Pickems>(`${this.baseUrl}`, { headers, withCredentials: true });
   }
 
-  getPickemsByUserId(userId: string): Observable<any> {
+  getPickemsByUserId(userId: string): Observable<Pickems> {
     const headers = this.getHeaders();
-    return this.http.get<any>(`${this.baseUrl}/${userId}`, { headers, withCredentials: true });
+    return this.http.get<Pickems>(`${this.baseUrl}/${userId}`, { headers, withCredentials: true });
   }
   
   getLeaderboard(): Observable<any> {

@@ -31,7 +31,7 @@ export class PickemsRacesComponent implements OnInit {
 
   selectedWinners: any[] = [];
   
-  rounds: string[] = ['Seeding', 'Round 1', 'Round 2', 'Round 3', 'Semifinals', 'Final'];
+  rounds: string[] = ['Round 1', 'Round 2', 'Round 3', 'Quarterfinals', 'Semifinals', 'Final'];
   currentRound: string = 'Final';
   
   hasSubmitted: boolean = false;
