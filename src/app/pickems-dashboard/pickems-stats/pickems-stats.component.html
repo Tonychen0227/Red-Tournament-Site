@@ -68,9 +68,9 @@
     <div class="row">
       <!-- Top 9 Column -->
       <div class="col-12 mb-3">
-        <h2>Top 9</h2>
+        <h2>Top 27</h2>
         <ul class="list-group">
-          @for (pick of top9Picks; track pick.userId) {
+          @for (pick of top27Picks; track pick.userId) {
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <a [routerLink]="['/user', pick.discordUsername]" 
               style="cursor: pointer" class="text-decoration-none badge p-2"
