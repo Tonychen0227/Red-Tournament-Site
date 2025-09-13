@@ -32,7 +32,7 @@
                   <th scope="col">Name</th>
                   <th scope="col" class="text-center">Points</th>
                   <th scope="col" class="text-center">
-                    <span class="d-none d-lg-inline">Tiebreaker</span>
+                    <span class="d-none d-lg-inline">Tiebreaker (Tournament PB)</span>
                     <span class="d-inline d-lg-none">Tie</span>
                   </th>
                 </tr>
@@ -57,7 +57,7 @@
                       </a>
                     </td>
                     <td class="text-center">{{ runner.points }}</td>
-                    <td class="text-center">{{ runner.bestTournamentTimeMilliseconds }}</td>
+                    <td class="text-center">{{ runnerTimeString[runner._id] }}</td>
                   </tr>
               
                   <!-- Check if the current runner is the last one with rank 9 -->

@@ -34,7 +34,7 @@ export class PickemsRacesComponent implements OnInit {
   selectedWinners: any[] = [];
   
   rounds: string[] = ['Round 1', 'Round 2', 'Round 3', 'Quarterfinals', 'Semifinals', 'Final'];
-  currentRound: string | null = 'Round 1';
+  currentRound: string = 'Round 1';
   
   hasSubmitted: boolean = false;
 
@@ -53,7 +53,7 @@ export class PickemsRacesComponent implements OnInit {
 
   fetchPickemsAndGroups(): void {
     this.pickemsService.checkPickems().subscribe({
-      next: (pickems: any) => {      
+      next: (pickems: any) => {
         // Determine if the user has already submitted picks for the current round
         if (pickems && this.isRoundSubmitted(pickems, this.currentRound)) {
           this.hasSubmitted = true;

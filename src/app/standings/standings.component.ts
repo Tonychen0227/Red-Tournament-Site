@@ -22,6 +22,7 @@ export class StandingsComponent implements OnInit {
   errorMessage: string | null = null;
 
   runners: User[] = [];
+  runnerTimeString: Record<string, string> = {};
 
   cutoffRank: number = 0;
 
@@ -37,6 +38,25 @@ export class StandingsComponent implements OnInit {
         const { rankedRunners, cutoffRank } = this.computeRanks(data);
 
         this.runners = rankedRunners;
+
+        for (const runner of this.runners) {
+          let bestTime = runner.bestTournamentTimeMilliseconds ?? 9000000;
+
+          let hours = Math.floor(bestTime / (1000 * 60 * 60));
+          bestTime = bestTime - (hours * (1000 * 60 * 60));
+          let minutes = Math.floor(bestTime / (1000 * 60));
+          bestTime = bestTime - (minutes * (1000 * 60));
+          let seconds = Math.floor(bestTime / (1000));
+          bestTime = bestTime - (seconds * 1000);
+          let milliseconds = bestTime;
+          let millisecondsString = `${milliseconds}`;
+
+          while (millisecondsString.length < 3) {
+            millisecondsString = `0${millisecondsString}`;
+          }
+
+          this.runnerTimeString[runner._id] = `${hours}:${minutes >= 10 ? minutes : `0${minutes}`}:${seconds >= 10 ? seconds : `0${seconds}`}.${millisecondsString}`;
+        }
         this.cutoffRank = cutoffRank;
         
         this.loading = false;           
@@ -91,10 +111,10 @@ export class StandingsComponent implements OnInit {
       }
     }
 
-    // Determine the cutoff rank for the top 9
+    // Determine the cutoff rank for the top 27
     let cutoffRank = 0;
     for (let i = 0; i < runners.length; i++) {
-      if (runners[i].rank != null && runners[i].rank! <= 9) {
+      if (runners[i].rank != null && runners[i].rank! <= 27) {
         cutoffRank = runners[i].rank!;
       } else {
         break;
