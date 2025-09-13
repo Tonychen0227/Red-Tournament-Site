@@ -6,6 +6,7 @@ import { PickemsTournamentComponent } from './pickems-tournament/pickems-tournam
 import { PickemsService } from '../services/pickems.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { Pickems } from '../interfaces/pickems';
+import { TournamentService } from '../services/tournament.service';
 
 @Component({
   selector: 'app-pickems-dashboard',
@@ -24,29 +25,40 @@ export class PickemsDashboardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private pickemsService: PickemsService,
+    private tournamentService: TournamentService
   ) {}
 
   loading: boolean = true;
 
   user: User | null = null; 
   pickems: Pickems | null = null;
+  currentRound: string | null = null;
 
 
   ngOnInit(): void {
-    this.authService.checkAuthStatus().subscribe({
-      next: (user) => {
-        this.user = user;
+    this.tournamentService.getCurrentRound().subscribe({
+      next: (result) => {
+        this.currentRound = result.currentRound;
+        
+        this.authService.checkAuthStatus().subscribe({
+          next: (user) => {
+            this.user = user;
 
-        if (user) {
-          this.checkPickems();
-        } else {
-          this.loading = false;
-        }
+            if (user) {
+              this.checkPickems();
+            } else {
+              this.loading = false;
+            }
+          },
+          error: (err) => {
+            console.error('Error fetching authentication status:', err);
+          }
+        });
       },
       error: (err) => {
-        console.error('Error fetching authentication status:', err);
+        console.error('Error fetching current round:', err);
       }
-    });
+    })
   }
 
   checkPickems() {

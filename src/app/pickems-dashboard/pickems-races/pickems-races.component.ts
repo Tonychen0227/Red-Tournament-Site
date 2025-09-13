@@ -3,6 +3,7 @@ import { GroupService } from '../../services/group.service';
 import { PickemsService } from '../../services/pickems.service';
 import { LoadingComponent } from '../../loading/loading.component';
 import { Router } from '@angular/router';
+import { TournamentService } from '../../services/tournament.service';
 
 @Component({
   selector: 'app-pickems-races',
@@ -17,6 +18,7 @@ export class PickemsRacesComponent implements OnInit {
 
   constructor(
     private pickemsService: PickemsService,
+    private tournamentService: TournamentService,
     private groupService: GroupService, 
     private router: Router
   ) { }
@@ -32,12 +34,21 @@ export class PickemsRacesComponent implements OnInit {
   selectedWinners: any[] = [];
   
   rounds: string[] = ['Round 1', 'Round 2', 'Round 3', 'Quarterfinals', 'Semifinals', 'Final'];
-  currentRound: string = 'Final';
+  currentRound: string | null = 'Round 1';
   
   hasSubmitted: boolean = false;
 
   ngOnInit(): void {    
-    this.fetchPickemsAndGroups();
+    this.tournamentService.getCurrentRound().subscribe({
+      next: (result) => {
+        this.currentRound = result.currentRound;
+        
+        this.fetchPickemsAndGroups();
+      },
+      error: (err) => {
+        console.error('Error fetching current round:', err);
+      }
+    })
   }
 
   fetchPickemsAndGroups(): void {
@@ -65,6 +76,7 @@ export class PickemsRacesComponent implements OnInit {
       'Round 1': 'round1Picks',
       'Round 2': 'round2Picks',
       'Round 3': 'round3Picks',
+      'Quarterfinals': 'quarterFinalsPicks',
       'Semifinals': 'semiFinalsPicks',
       'Final': 'finalPick'
     };

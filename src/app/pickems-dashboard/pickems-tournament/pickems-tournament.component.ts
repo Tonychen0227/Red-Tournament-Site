@@ -24,7 +24,8 @@ export class PickemsTournamentComponent implements OnInit {
 
   runners: User[] = [];
 
-  selectedRunners: (User | null)[] = new Array(9).fill(null);
+  selectedRunners: (User | null)[] = new Array(27).fill(null);
+  ultraSelectedRunners: (User | null)[] = new Array(9).fill(null);
   selectedWinner: User | null = null;
   selectedBestTimeRunner : User | null = null;
 
@@ -68,9 +69,17 @@ export class PickemsTournamentComponent implements OnInit {
   
     return this.runners.filter(runner => !selectedIds.includes(runner._id));
   }
+
+  getAvailableUltraRunners(pickIndex: number): User[] {
+    const selectedIds = this.ultraSelectedRunners
+      .filter((runner: User | null, index: number): runner is User => runner !== null && index !== pickIndex)
+      .map((runner: User) => runner._id);
+  
+    return this.runners.filter(runner => !selectedIds.includes(runner._id));
+  }
   
   canSubmit(): boolean {
-    const allRunnersSelected = this.selectedRunners.every(runner => runner !== null);
+    const allRunnersSelected = this.selectedRunners.every(runner => runner !== null) && this.ultraSelectedRunners.every(runner => runner !== null);
     const winnerSelected = this.selectedWinner !== null;
     const bestTimeRunnerSelected = this.selectedBestTimeRunner !== null;
   
@@ -88,6 +97,7 @@ export class PickemsTournamentComponent implements OnInit {
 
     const pickemsData = {
       selectedRunners: this.selectedRunners,
+      ultraSelectedRunners: this.ultraSelectedRunners,
       selectedWinner: this.selectedWinner,
       selectedBestTimeRunner: this.selectedBestTimeRunner,
       bestTime: this.bestTime

@@ -5,6 +5,7 @@ export interface Pickems {
   userId: string; // ObjectId as string
   
   top27: User[];
+  top9: User[];
   
   overallWinner?: User;
   
@@ -21,4 +22,5 @@ export interface Pickems {
   
   points: number;
   top27PointsAwarded: boolean;
+  top9PointsAwarded: boolean;
 }

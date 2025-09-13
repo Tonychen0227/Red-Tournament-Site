@@ -6,8 +6,8 @@
 <hr>
 
 <!-- Top 9 -->
-<h2 class="text-center mt-4">Top 9 Cut</h2>
-<p class="text-center mb-4">Each one correct will net you <strong>20 points</strong>.</p>
+<h2 class="text-center mt-4">Top 27 Cut</h2>
+<p class="text-center mb-4">Each one correct will net you <strong>10 points</strong>.</p>
 
 <div class="container">
     <div class="row">
@@ -17,6 +17,28 @@
                 <select class="form-select" [(ngModel)]="selectedRunners[$index]">
                     <option [ngValue]="null">Select a runner</option>
                     @for (availableRunner of getAvailableRunners($index); track availableRunner._id) {
+                        <option [ngValue]="availableRunner">{{availableRunner.displayName}}</option>
+                    }
+                </select>
+            </div>
+        }
+    </div>
+</div>
+
+<hr>
+
+<!-- Top 9 -->
+<h2 class="text-center mt-4">Top 9 Cut</h2>
+<p class="text-center mb-4">Each one correct will net you <strong>20 points</strong>.</p>
+
+<div class="container">
+    <div class="row">
+        @for (runner of ultraSelectedRunners; track $index) {
+            <div class="col-md-4 mb-3">
+                <!-- <label class="form-label">Pick {{$index + 1}}:</label> -->
+                <select class="form-select" [(ngModel)]="ultraSelectedRunners[$index]">
+                    <option [ngValue]="null">Select a runner</option>
+                    @for (availableRunner of getAvailableUltraRunners($index); track availableRunner._id) {
                         <option [ngValue]="availableRunner">{{availableRunner.displayName}}</option>
                     }
                 </select>

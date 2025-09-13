@@ -79,21 +79,27 @@
                 <h2>Average Time Per Bracket</h2>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        High
+                        Playoffs
                         <span class="badge bg-primary rounded-pill p-2">
-                            {{ stats.averageTimePerBracket['High'] ? formatTime(stats.averageTimePerBracket['High']) : 'N/A' }}
+                            {{ stats.averageTimePerBracket['Playoffs'] ? formatTime(stats.averageTimePerBracket['Playoffs']) : 'N/A' }}
                         </span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Middle
+                        Ascension
                         <span class="badge bg-success rounded-pill p-2">
-                            {{ stats.averageTimePerBracket['Middle'] ? formatTime(stats.averageTimePerBracket['Middle']) : 'N/A' }}
+                            {{ stats.averageTimePerBracket['Ascension'] ? formatTime(stats.averageTimePerBracket['Ascension']) : 'N/A' }}
                         </span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Low
+                        Normal
                         <span class="badge bg-info rounded-pill p-2">
-                            {{ stats.averageTimePerBracket['Low'] ? formatTime(stats.averageTimePerBracket['Low']) : 'N/A' }}
+                            {{ stats.averageTimePerBracket['Normal'] ? formatTime(stats.averageTimePerBracket['Normal']) : 'N/A' }}
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Exhibition
+                        <span class="badge bg-dark rounded-pill p-2">
+                            {{ stats.averageTimePerBracket['Exhibition'] ? formatTime(stats.averageTimePerBracket['Exhibition']) : 'N/A' }}
                         </span>
                     </li>
                 </ul>

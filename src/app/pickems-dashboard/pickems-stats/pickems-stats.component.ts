@@ -22,6 +22,7 @@ export class PickemsStatsComponent implements OnInit {
   topOverallWinners: any[] = [];
   topBestTimePicks: any[] = [];
   top27Picks: any[] = [];
+  top9Picks: any[] = [];
 
   topPicksByRound: any = {};
 
@@ -40,6 +41,7 @@ export class PickemsStatsComponent implements OnInit {
         this.topOverallWinners = data.topOverallWinners;
         this.topBestTimePicks = data.topBestTimePicks;
         this.top27Picks = data.top27Picks;
+        this.top9Picks = data.top9Picks;
         this.topPicksByRound = data.topPicksByRound;
 
         this.loading = false;        

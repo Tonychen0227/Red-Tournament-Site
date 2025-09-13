@@ -36,6 +36,24 @@
       </div>
     </div>
   </div>
+
+  <!-- Card for Top 9 Picks -->
+  <div class="card mb-3">
+    <div class="card-header">
+      <h5 class="card-title">Top 9</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        @for (pick of pickems.top9; track pick._id) {
+          <div class="col-6 col-md-4 mb-2">
+            <div class="list-group-item text-center">
+              <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
   
   <!-- Card for Each Round's Picks -->
   @if (pickems.round1Picks.length > 0) {

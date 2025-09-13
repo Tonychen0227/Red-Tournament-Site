@@ -92,6 +92,33 @@
       </div>
     </div>
 
+    <div class="row">
+      <!-- Top 9 Column -->
+      <div class="col-12 mb-3">
+        <h2>Top 9</h2>
+        <ul class="list-group">
+          @for (pick of top9Picks; track pick.userId) {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <a [routerLink]="['/user', pick.discordUsername]" 
+              style="cursor: pointer" class="text-decoration-none badge p-2"
+                  [ngClass]="{
+                    'bg-primary': pick.currentBracket === 'Playoffs',
+                    'bg-success': pick.currentBracket === 'Ascension',
+                    'bg-info': pick.currentBracket === 'Normal',
+                    'bg-dark': pick.currentBracket === 'Exhibition',
+                    'bg-secondary': !pick.currentBracket
+                }">
+                {{ pick.displayName }}
+              </a>
+              <span class="badge bg-dark rounded-pill">
+                {{ pick.pickCount }}
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
     <h2 class="mt-4">Round Picks</h2>
 
     <div class="row">
