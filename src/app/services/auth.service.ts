@@ -10,7 +10,8 @@ import { Globals } from './globals';
 })
 export class AuthService {
 
-  private baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl.replace('/api', ''); // For auth endpoints (login, logout, auth-status)
+  private apiUrl = environment.apiUrl; // For other API endpoints
   
   private user: any = null;
   private cacheDuration = 5 * 60 * 1000; // 5 minutes
