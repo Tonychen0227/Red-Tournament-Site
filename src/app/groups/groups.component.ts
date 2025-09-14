@@ -46,14 +46,17 @@ export class GroupsComponent implements OnInit {
   currentRound: string = 'Round 1'; 
 
   ngOnInit(): void {
-    this.tournamentService.getCurrentRound().subscribe((data: any) => {
-      this.currentRound = data.currentRound;
-      this.fetchGroups();
-      this.fetchFavourites();
-    }, error => {
-      console.error('Error fetching current round:', error);
-      this.errorMessage = error.error || 'Failed to load current round.';
-      this.loading = false;
+    this.tournamentService.getCurrentRound().subscribe({
+      next: (data) => {
+        this.currentRound = data.currentRound;
+        this.fetchGroups();
+        this.fetchFavourites();
+      },
+      error: (error) => {
+        console.error('Error fetching current round:', error);
+        this.errorMessage = error.error || 'Failed to load current round.';
+        this.loading = false;
+      }
     });
   }
 
@@ -91,12 +94,15 @@ export class GroupsComponent implements OnInit {
     if (this.groupsLoaded && this.favouritesLoaded) {
       const favouritesMap: { [round: string]: { [groupNumber: number]: any } } = {};
 
-      this.favourites.forEach((favRound: any) => {
-        favouritesMap[favRound.round] = {};
-        favRound.groups.forEach((favGroup: any) => {
-          favouritesMap[favRound.round][favGroup.groupNumber] = favGroup.favorite;
-        });
+      this.favourites.forEach((favorite: any) => {
+        if (!favouritesMap[favorite.round]) {
+          favouritesMap[favorite.round] = {};
+        }
+
+        favouritesMap[favorite.round][favorite.groupNumber] = favorite.favorite;
       });
+
+      console.log(JSON.stringify(favouritesMap));
 
       this.groups.forEach(group => {
         const roundFavourites = favouritesMap[group.round];
