@@ -55,7 +55,7 @@ export class StandingsComponent implements OnInit {
             millisecondsString = `0${millisecondsString}`;
           }
 
-          this.runnerTimeString[runner._id] = `${hours}:${minutes >= 10 ? minutes : `0${minutes}`}:${seconds >= 10 ? seconds : `0${seconds}`}.${millisecondsString}`;
+          this.runnerTimeString[runner.discordUsername] = `${hours}:${minutes >= 10 ? minutes : `0${minutes}`}:${seconds >= 10 ? seconds : `0${seconds}`}.${millisecondsString}`;
         }
         this.cutoffRank = cutoffRank;
         

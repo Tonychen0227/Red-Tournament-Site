@@ -26,15 +26,11 @@ export class AuthService {
     const cachedUser = sessionStorage.getItem('user');
     const cachedTimestamp = sessionStorage.getItem('userTimestamp');
 
-    console.log(`FEKAR: Checking auth status. Cached user: ${cachedUser} with timestamp ${cachedTimestamp}`);
-
     if (cachedUser && cachedTimestamp && !forceRefresh) {
       const isCacheValid = (new Date().getTime() - parseInt(cachedTimestamp)) < this.cacheDuration;
       if (isCacheValid) {
         const user = JSON.parse(cachedUser);
         this.updateGlobals(user);
-
-        console.log(`FEKAR: User authenticated via cache. Data: ${JSON.stringify(user)}`);
         return of(user);
       }
     }
@@ -43,15 +39,12 @@ export class AuthService {
       tap(user => {
         sessionStorage.setItem('user', JSON.stringify(user));
         sessionStorage.setItem('userTimestamp', new Date().getTime().toString());
-
-        console.log(`FEKAR: Auth successful. Data: ${JSON.stringify(user)}`);
         this.updateGlobals(user);        
       }),
       catchError(error => {
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('userTimestamp');
         this.clearGlobals();
-        console.log(`FEKAR: Auth failed with error ${JSON.stringify(error)}`);
         return of(null);
       })
     );

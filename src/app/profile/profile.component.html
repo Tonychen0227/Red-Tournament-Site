@@ -5,6 +5,9 @@
     <div class="card p-3 mb-4">
       <div class="row">
         <h3 class="mb-3 text-center">{{ user.displayName }}</h3>
+        @if (user.pronouns) {
+          <h4 class="mb-3 text-center">({{ user.pronouns }})</h4>
+        }
       </div>
 
       <!-- User Avatar -->
