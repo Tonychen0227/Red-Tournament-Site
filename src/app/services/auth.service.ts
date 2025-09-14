@@ -50,7 +50,7 @@ export class AuthService {
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('userTimestamp');
         this.clearGlobals();
-        console.log(`FEKAR: Auth failed with error ${error}`);
+        console.log(`FEKAR: Auth failed with error ${JSON.stringify(error)}`);
         return of(null);
       })
     );
