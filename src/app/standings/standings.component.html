@@ -53,7 +53,7 @@
                             'bg-secondary': !runner.currentBracket
                         }"
                         [title]="runner.discordUsername">
-                      {{ runner.displayName }}
+                      <app-country-flag [countryCode]="runner.country"></app-country-flag>{{ runner.displayName }}
                       </a>
                     </td>
                     <td class="text-center">{{ runner.points }}</td>

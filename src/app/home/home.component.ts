@@ -4,14 +4,16 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { forkJoin } from 'rxjs';
 import { LoadingComponent } from "../loading/loading.component";
+import { CountryFlagComponent } from '../country-flag/country-flag.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     RouterLink,
-    LoadingComponent
-],
+    LoadingComponent,
+    CountryFlagComponent
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

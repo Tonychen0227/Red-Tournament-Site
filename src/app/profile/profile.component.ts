@@ -8,6 +8,7 @@ import { PickemsService } from '../services/pickems.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { Pickems } from '../interfaces/pickems';
+import { CountryFlagComponent } from '../country-flag/country-flag.component';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,8 @@ import { Pickems } from '../interfaces/pickems';
     DatePipe,
     TitleCasePipe,
     LoadingComponent,
-    CommonModule
+    CommonModule,
+    CountryFlagComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'

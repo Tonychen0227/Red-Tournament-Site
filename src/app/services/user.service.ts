@@ -48,6 +48,20 @@ export class UserService {
         })
       );
   }
+
+  updateCountry(country: string | null): Observable<any> {
+    const headers = this.getHeaders();
+    
+    return this.http.post<any>(`${this.baseUrl}/user/country`, { country }, { headers, withCredentials: true })
+      .pipe(
+        tap(() => {
+          this.authService.checkAuthStatus(true).subscribe();
+        }),
+        catchError(error => {
+          return this.handleError('updateCountry')(error);
+        })
+      );
+  }
   
   private handleError(operation = 'operation') {
     return (error: any): Observable<never> => {

@@ -5,6 +5,7 @@ export interface User {
   role: 'runner' | 'commentator';
   isAdmin: boolean;
   pronouns?: string | null;
+  country?: string | null | undefined; // ISO 3166-1 alpha-2 country code
   currentBracket?: 'Playoffs' | 'Exhibition' | 'Ascension' | 'Normal';
   points?: number;
   bestTournamentTimeMilliseconds?: number;
@@ -20,4 +21,5 @@ export interface UserCreationInterface {
   role: 'runner' | 'commentator';
   isAdmin: boolean;
   pronouns?: string | null;
+  country?: string | null | undefined; // ISO 3166-1 alpha-2 country code
 }

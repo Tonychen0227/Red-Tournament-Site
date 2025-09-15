@@ -30,6 +30,12 @@
         <input type="text" id="pronouns" class="form-control" name="pronouns" [(ngModel)]="pronouns" placeholder="e.g., they/them, she/her, he/him">
     </div>
 
+    <app-country-selector 
+        [selectedCountry]="country" 
+        (countryChange)="onCountryChange($event)"
+        label="Country">
+    </app-country-selector>
+
     <div class="mb-3">
         <label for="role" class="form-label">Role</label>
         <select id="role" class="form-select" name="role" [(ngModel)]="role" required>
@@ -37,5 +43,13 @@
         <option value="commentator">Commentator</option>
         </select>
     </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input type="checkbox" id="isAdmin" class="form-check-input" name="isAdmin" [(ngModel)]="isAdmin">
+            <label for="isAdmin" class="form-check-label">Admin User</label>
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">Add User</button>
 </form>

@@ -4,6 +4,7 @@ import { TournamentService } from '../services/tournament.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { CountryFlagComponent } from '../country-flag/country-flag.component';
 
 @Component({
   selector: 'app-standings',
@@ -11,7 +12,8 @@ import { RouterLink } from '@angular/router';
   imports: [
     CommonModule,
     RouterLink,
-    LoadingComponent
+    LoadingComponent,
+    CountryFlagComponent
   ],
   templateUrl: './standings.component.html',
   styleUrl: './standings.component.css'

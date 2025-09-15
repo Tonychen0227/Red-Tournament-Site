@@ -38,6 +38,12 @@
                     name="pronouns">
             </div>
 
+            <app-country-selector 
+                [selectedCountry]="user.country" 
+                (countryChange)="onCountryChange($event)"
+                label="Country">
+            </app-country-selector>
+
             <button class="btn btn-primary mt-3" type="submit">Save Changes</button>
         </form>
     </div>

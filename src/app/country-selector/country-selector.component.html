@@ -1,0 +1,29 @@
+<div class="country-selector">
+  <label [for]="'country-' + label" class="col-form-label mt-4">
+    {{ label }}
+    @if (selectedCountry) {
+      <span class="flag-display ms-2">{{ getCountryFlag(selectedCountry) }}</span>
+    }
+  </label>
+  <select 
+    [id]="'country-' + label"
+    class="form-select"
+    [value]="selectedCountry || ''"
+    (change)="onCountryChange($event)"
+    [required]="required">
+    @for (country of countries; track country.code) {
+      <option [value]="country.code">
+        @if (country.flag) {
+          {{ country.flag }} {{ country.name }}
+        } @else {
+          {{ country.name }}
+        }
+      </option>
+    }
+  </select>
+  @if (selectedCountry) {
+    <small class="form-text text-muted">
+      Selected: {{ getSelectedCountryName() }} {{ getCountryFlag(selectedCountry) }}
+    </small>
+  }
+</div>

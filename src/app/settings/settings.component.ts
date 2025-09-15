@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { forkJoin, interval } from 'rxjs';
 import { User } from '../interfaces/user';
 import { DatePipe } from '@angular/common';
+import { CountrySelectorComponent } from '../country-selector/country-selector.component';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
   imports: [
     FormsModule,
-    DatePipe
+    DatePipe,
+    CountrySelectorComponent
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
@@ -48,6 +50,7 @@ export class SettingsComponent implements OnInit {
       }
 
       observables.push(this.userService.updatePronouns(this.user.pronouns || ''));
+      observables.push(this.userService.updateCountry(this.user.country || null));
 
       if (observables.length > 0) {
         forkJoin(observables).subscribe({
@@ -62,5 +65,9 @@ export class SettingsComponent implements OnInit {
         });
       }
     }
+  }
+
+  onCountryChange(country: string | null) {
+    this.user.country = country;
   }
 }

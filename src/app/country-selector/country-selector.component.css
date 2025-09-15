@@ -1,0 +1,15 @@
+.country-selector {
+  margin-bottom: 1rem;
+}
+
+.flag-display {
+  font-size: 1.2em;
+}
+
+.form-select option {
+  font-size: 14px;
+}
+
+.form-text {
+  margin-top: 0.25rem;
+}

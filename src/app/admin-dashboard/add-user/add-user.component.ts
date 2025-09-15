@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { RunnersService } from '../../services/runners.service';
 import { FormsModule } from '@angular/forms';
+import { CountrySelectorComponent } from '../../country-selector/country-selector.component';
 
 @Component({
   selector: 'app-add-user',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    CountrySelectorComponent
   ],
   templateUrl: './add-user.component.html',
   styleUrl: './add-user.component.css'
@@ -22,7 +24,8 @@ export class AddUserComponent {
   displayName: string = '';
   role: 'runner' | 'commentator' = 'runner';
   isAdmin: boolean = false;
-  pronouns: string | null = null
+  pronouns: string | null = null;
+  country: string | null = null;
 
   addUser() {
     const newUser = {
@@ -30,7 +33,8 @@ export class AddUserComponent {
       displayName: this.displayName,
       role: this.role,
       isAdmin: this.isAdmin,
-      pronouns: this.pronouns
+      pronouns: this.pronouns,
+      country: this.country
     };
 
     this.runnersService.addUser(newUser).subscribe(
@@ -50,6 +54,13 @@ export class AddUserComponent {
   clearForm() {
     this.discordUsername = '';
     this.displayName = '';
+    this.role = 'runner';
+    this.isAdmin = false;
     this.pronouns = null;
+    this.country = null;
+  }
+
+  onCountryChange(country: string | null) {
+    this.country = country;
   }
 }

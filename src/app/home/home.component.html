@@ -68,7 +68,7 @@
           @for (runner of runners; track runner._id) {
             <div class="col-md-4 col-6 d-flex justify-content-center align-items-center">
               <li class="list-group-item text-center">
-                {{ runner.displayName }}
+                <app-country-flag [countryCode]="runner.country"></app-country-flag>{{ runner.displayName }}
               </li>
             </div>
           }
