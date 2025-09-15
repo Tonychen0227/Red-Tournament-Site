@@ -43,7 +43,7 @@
                   <tr>
                     <td class="text-center">{{ runner.rank }}</td>
                     <td>
-                      <a [routerLink]="['/user', runner.discordUsername]" style="cursor: pointer" 
+                      <app-country-flag [countryCode]="runner.country"></app-country-flag><a [routerLink]="['/user', runner.discordUsername]" style="cursor: pointer" 
                         class="badge p-2 text-decoration-none"
                         [ngClass]="{
                             'bg-primary': runner.currentBracket === 'Playoffs',
@@ -53,7 +53,7 @@
                             'bg-secondary': !runner.currentBracket
                         }"
                         [title]="runner.discordUsername">
-                      <app-country-flag [countryCode]="runner.country"></app-country-flag>{{ runner.displayName }}
+                      {{ runner.displayName }}
                       </a>
                     </td>
                     <td class="text-center">{{ runner.points }}</td>
@@ -61,10 +61,12 @@
                   </tr>
               
                   <!-- Check if the current runner is the last one with rank 9 -->
-                  @if (runner.rank === cutoffRank && (runners[$index + 1].rank !== cutoffRank || $index === runners.length - 1)) {
-                    <td colspan="4">
-                      <hr class="my-2">
-                    </td>
+                  @if (runner.rank === cutoffRank && (runners[$index + 1]?.rank !== cutoffRank || $index === runners.length - 1)) {
+                    <tr>
+                      <td colspan="4">
+                        <hr class="my-2">
+                      </td>
+                    </tr>
                   }
                 }
                 @empty {

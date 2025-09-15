@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PickemsService } from '../services/pickems.service';
 import { Group } from '../interfaces/group';
+import { CountryFlagComponent } from '../country-flag/country-flag.component';
 
 // Extended interface for frontend display with favorites
 interface GroupWithFavorites extends Group {
@@ -18,7 +19,8 @@ interface GroupWithFavorites extends Group {
   imports: [
     CommonModule,
     RouterLink,
-    LoadingComponent
+    LoadingComponent,
+    CountryFlagComponent
   ],
   templateUrl: './groups.component.html',
   styleUrl: './groups.component.css'

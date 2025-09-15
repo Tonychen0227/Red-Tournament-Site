@@ -19,9 +19,15 @@ export interface MostActiveCommentator {
     commentatedRaces: number;
 }
 
+export interface CountryStat {
+    country: string;
+    count: number;
+}
+
 export interface Stats {
     topTimes: BestTime[];
     averageTimePerRound: AverageTimePerRound;
     averageTimePerBracket: AverageTimePerBracket;
     mostActiveCommentators: MostActiveCommentator[];
+    countryStats: CountryStat[];
 }

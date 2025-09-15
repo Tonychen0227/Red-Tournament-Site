@@ -214,6 +214,7 @@ export class CountryFlagComponent {
     'PW': { name: 'Palau', flag: 'https://flagcdn.com/w20/pw.png' },
     'PY': { name: 'Paraguay', flag: 'https://flagcdn.com/w20/py.png' },
     'QA': { name: 'Qatar', flag: 'https://flagcdn.com/w20/qa.png' },
+    'QC': { name: 'Quebec', flag: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Quebec_flag.png' },
     'RE': { name: 'Réunion', flag: 'https://flagcdn.com/w20/re.png' },
     'RO': { name: 'Romania', flag: 'https://flagcdn.com/w20/ro.png' },
     'RS': { name: 'Serbia', flag: 'https://flagcdn.com/w20/rs.png' },
@@ -279,9 +280,11 @@ export class CountryFlagComponent {
   };
 
   isValidCountryCode(): boolean {
-    return !!(this.countryCode && 
-              this.countryCode.trim() && 
-              this.countries[this.countryCode.trim().toUpperCase()]);
+    if (!this.countryCode || !this.countryCode.trim()) {
+      return false;
+    }
+    const code = this.countryCode.trim().toUpperCase();
+    return !!this.countries[code];
   }
 
   getCountryFlag(countryCode: string | undefined | null): string {

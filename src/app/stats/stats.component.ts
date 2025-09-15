@@ -4,6 +4,7 @@ import { StatsService } from '../services/stats.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { CountryFlagComponent } from '../country-flag/country-flag.component';
 
 @Component({
   selector: 'app-stats',
@@ -11,7 +12,8 @@ import { RouterLink } from '@angular/router';
   imports: [
     CommonModule,
     RouterLink,
-    LoadingComponent
+    LoadingComponent,
+    CountryFlagComponent
   ],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.css'

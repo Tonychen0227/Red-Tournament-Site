@@ -128,5 +128,29 @@
             </div>
         </div>
 
+        <!-- Country Statistics Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>Runners by Country</h2>
+                <ul class="list-group">
+                    @for (countryStat of stats.countryStats; track countryStat.country) {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <app-country-flag [countryCode]="countryStat.country"></app-country-flag>
+                            </div>
+                            <span class="badge bg-primary rounded-pill p-2">
+                                {{ countryStat.count }}
+                            </span>
+                        </li>
+                    }
+                    @if (stats.countryStats.length === 0) {
+                        <li class="list-group-item">
+                            No country data available
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
     }
 }

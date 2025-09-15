@@ -209,6 +209,7 @@ export class CountrySelectorComponent {
     { code: 'PW', name: 'Palau', flag: '🇵🇼' },
     { code: 'PY', name: 'Paraguay', flag: '🇵🇾' },
     { code: 'QA', name: 'Qatar', flag: '🇶🇦' },
+    { code: 'QC', name: 'Quebec', flag: 'QC' },
     { code: 'RE', name: 'Réunion', flag: '🇷🇪' },
     { code: 'RO', name: 'Romania', flag: '🇷🇴' },
     { code: 'RS', name: 'Serbia', flag: '🇷🇸' },
