@@ -2,7 +2,16 @@
     <app-loading></app-loading>
 } @else {
     <h1>Upcoming Races</h1>
-    <h4 class="mb-4">Date and time are shown in your local timezone ({{ userTimezoneLabel }})</h4>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">Date and time are shown in your local timezone ({{ userTimezoneLabel }})</h4>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="timeFormatSwitch" 
+                   [(ngModel)]="use24HourFormat" (change)="onTimeFormatChange()">
+            <label class="form-check-label" for="timeFormatSwitch">
+                24-hour format
+            </label>
+        </div>
+    </div>
 
     <!-- Seeding round -->
     <!--
@@ -15,12 +24,12 @@
     -->
 
     <!-- Post-seeding -->
-    <div class="d-flex align-items-center mb-3">
-        <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
-        <span class="badge bg-primary me-2 px-3 py-2">Playoffs</span>
-        <span class="badge bg-success me-2 px-3 py-2">Ascension</span>
-        <span class="badge bg-info me-2 px-3 py-2">Normal</span>
-        <span class="badge bg-dark me-2 px-3 py-2">Exhibition</span>
+    <div class="d-flex align-items-center flex-wrap mb-3">
+        <h5 style="display: inline-block" class="me-2 mb-2">Bracket Key:</h5>
+        <span class="badge bg-primary me-2 mb-2 px-3 py-2">Playoffs</span>
+        <span class="badge bg-success me-2 mb-2 px-3 py-2">Ascension</span>
+        <span class="badge bg-info me-2 mb-2 px-3 py-2">Normal</span>
+        <span class="badge bg-dark me-2 mb-2 px-3 py-2">Exhibition</span>
     </div>
 
     @if (errorMessage) {
@@ -38,7 +47,7 @@
                 <div class="d-flex justify-content-between align-items-center">
 
                 <div>
-                    <h5 class="race-date">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:'shortTime' }} (<span class="text-body-secondary">{{ timeUntilRace(race.raceDateTime) }}</span>)</h5>
+                    <h5 class="race-date" [title]="(race.raceDateTime * 1000 | date:getTimeFormat())">{{ race.raceDateTime * 1000 | date:'shortDate' }} - {{ race.raceDateTime * 1000 | date:getShortTimeFormat() }} (<span class="text-body-secondary">{{ timeUntilRace(race.raceDateTime) }}</span>)</h5>
                 </div>
 
                 @if (race.cancelled) {

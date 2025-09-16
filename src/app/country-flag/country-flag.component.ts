@@ -27,6 +27,7 @@ export class CountryFlagComponent {
   @Input() countryCode: string | null | undefined = null;
 
   private countries: { [key: string]: { name: string; flag: string } } = {
+    '': { name: 'Non-Representing', flag: '/blankPokeball.png' },
     'AD': { name: 'Andorra', flag: 'https://flagcdn.com/w20/ad.png' },
     'AE': { name: 'United Arab Emirates', flag: 'https://flagcdn.com/w20/ae.png' },
     'AF': { name: 'Afghanistan', flag: 'https://flagcdn.com/w20/af.png' },
@@ -255,6 +256,10 @@ export class CountryFlagComponent {
     'TR': { name: 'Turkey', flag: 'https://flagcdn.com/w20/tr.png' },
     'TT': { name: 'Trinidad and Tobago', flag: 'https://flagcdn.com/w20/tt.png' },
     'TV': { name: 'Tuvalu', flag: 'https://flagcdn.com/w20/tv.png' },
+    'ENG': { name: 'England', flag: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/be/Flag_of_England.svg/20px-Flag_of_England.svg.png' },
+    'SCO': { name: 'Scotland', flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/20px-Flag_of_Scotland.svg.png' },
+    'WAL': { name: 'Wales', flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Flag_of_Wales.svg/20px-Flag_of_Wales.svg.png' },
+    'NIR': { name: 'Northern Ireland', flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Flag_of_Northern_Ireland_%281953%E2%80%931972%29.svg/2560px-Flag_of_Northern_Ireland_%281953%E2%80%931972%29.svg.png' },
     'TW': { name: 'Taiwan', flag: 'https://flagcdn.com/w20/tw.png' },
     'TZ': { name: 'Tanzania', flag: 'https://flagcdn.com/w20/tz.png' },
     'UA': { name: 'Ukraine', flag: 'https://flagcdn.com/w20/ua.png' },
@@ -280,11 +285,8 @@ export class CountryFlagComponent {
   };
 
   isValidCountryCode(): boolean {
-    if (!this.countryCode || !this.countryCode.trim()) {
-      return false;
-    }
-    const code = this.countryCode.trim().toUpperCase();
-    return !!this.countries[code];
+    const code = this.countryCode?.trim().toUpperCase();
+    return !!this.countries[code || ''];
   }
 
   getCountryFlag(countryCode: string | undefined | null): string {

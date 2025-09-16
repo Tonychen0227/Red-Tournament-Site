@@ -33,12 +33,23 @@ export class UpcomingRacesComponent {
 
   user: User | null = null; 
   userTimezoneLabel: string = '';
+  use24HourFormat: boolean = false;
 
   races: Race[] = [];
   
   ngOnInit(): void {
+    this.loadTimeFormatPreference();
     this.setUserTimezoneLabel();
     this.getRaces();
+  }
+
+  loadTimeFormatPreference(): void {
+    const saved = localStorage.getItem('timeFormat24Hour');
+    this.use24HourFormat = saved === 'true';
+  }
+
+  onTimeFormatChange(): void {
+    localStorage.setItem('timeFormat24Hour', this.use24HourFormat.toString());
   }
 
   setUserTimezoneLabel() {
@@ -119,5 +130,13 @@ export class UpcomingRacesComponent {
 
   timeUntilRace(raceDateTime: number): string {
     return moment(raceDateTime * 1000).fromNow();
+  }
+
+  getTimeFormat(): string {
+    return this.use24HourFormat ? 'HH:mm' : 'h:mm a';
+  }
+
+  getShortTimeFormat(): string {
+    return this.use24HourFormat ? 'HH:mm' : 'shortTime';
   }
 }

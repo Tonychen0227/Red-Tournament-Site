@@ -22,7 +22,7 @@ export class CountrySelectorComponent {
 
   countries: Country[] = [
     { code: '', name: 'No country selected', flag: '' },
-    { code: 'AD', name: 'Andorra', flag: '🇦🇩' },
+    ... [{ code: 'AD', name: 'Andorra', flag: '🇦🇩' },
     { code: 'AE', name: 'United Arab Emirates', flag: '🇦🇪' },
     { code: 'AF', name: 'Afghanistan', flag: '🇦🇫' },
     { code: 'AG', name: 'Antigua and Barbuda', flag: '🇦🇬' },
@@ -250,6 +250,10 @@ export class CountrySelectorComponent {
     { code: 'TR', name: 'Turkey', flag: '🇹🇷' },
     { code: 'TT', name: 'Trinidad and Tobago', flag: '🇹🇹' },
     { code: 'TV', name: 'Tuvalu', flag: '🇹🇻' },
+    { code: 'ENG', name: 'England', flag: 'ENG' },
+    { code: 'SCO', name: 'Scotland', flag: 'SCO' },
+    { code: 'WAL', name: 'Wales', flag: 'WAL' },
+    { code: 'NIR', name: 'Northern Ireland', flag: 'NIR' },
     { code: 'TW', name: 'Taiwan', flag: '🇹🇼' },
     { code: 'TZ', name: 'Tanzania', flag: '🇹🇿' },
     { code: 'UA', name: 'Ukraine', flag: '🇺🇦' },
@@ -272,7 +276,7 @@ export class CountrySelectorComponent {
     { code: 'ZA', name: 'South Africa', flag: '🇿🇦' },
     { code: 'ZM', name: 'Zambia', flag: '🇿🇲' },
     { code: 'ZW', name: 'Zimbabwe', flag: '🇿🇼' }
-  ];
+  ].sort((a, b) => a.name.localeCompare(b.name))];
 
   onCountryChange(event: any) {
     const countryCode = event.target.value === '' ? null : event.target.value;

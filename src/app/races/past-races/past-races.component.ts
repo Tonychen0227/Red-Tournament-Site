@@ -5,6 +5,7 @@ import { RaceService } from '../../services/race.service';
 import { LoadingComponent } from "../../loading/loading.component";
 import { TournamentService } from '../../services/tournament.service';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-past-races',
@@ -13,7 +14,8 @@ import { RouterLink } from '@angular/router';
     DatePipe,
     LoadingComponent,
     RouterLink,
-    CommonModule
+    CommonModule,
+    FormsModule
 ],
   templateUrl: './past-races.component.html',
   styleUrl: './past-races.component.css'
@@ -23,6 +25,7 @@ export class PastRacesComponent {
   constructor(private raceService: RaceService, private tournamentService: TournamentService) {}
   
   loading: boolean = true;
+  use24HourFormat: boolean = false;
 
   races: Race[] = [];
   filteredRaces: Race[] = [];
@@ -32,10 +35,20 @@ export class PastRacesComponent {
   rounds: string[] = ['Round 1', 'Round 2', 'Round 3', 'Quarterfinals', 'Semifinals', 'Final', 'All'];
 
   ngOnInit(): void {
+    this.loadTimeFormatPreference();
     this.tournamentService.getCurrentRound().subscribe((data: any) => {
       this.currentRound = data.currentRound || 'All';
       this.fetchRaces();
     });
+  }
+
+  loadTimeFormatPreference(): void {
+    const saved = localStorage.getItem('timeFormat24Hour');
+    this.use24HourFormat = saved === 'true';
+  }
+
+  onTimeFormatChange(): void {
+    localStorage.setItem('timeFormat24Hour', this.use24HourFormat.toString());
   }
 
   fetchRaces(): void {
@@ -81,5 +94,13 @@ export class PastRacesComponent {
           return 'bg-secondary';
       }
     }
+  }
+
+  getTimeFormat(): string {
+    return this.use24HourFormat ? 'HH:mm' : 'h:mm a';
+  }
+
+  getShortTimeFormat(): string {
+    return this.use24HourFormat ? 'HH:mm' : 'shortTime';
   }
 }

@@ -3,12 +3,22 @@
 } @else {
     <h1>Past Races</h1>
 
-    <div class="d-flex align-items-center mb-3">
-        <h5 style="display: inline-block" class="me-2">Bracket Key:</h5>
-        <span class="badge bg-primary me-2 px-3 py-2">Playoffs</span>
-        <span class="badge bg-success me-2 px-3 py-2">Ascension</span>
-        <span class="badge bg-info me-2 px-3 py-2">Normal</span>
-        <span class="badge bg-dark me-2 px-3 py-2">Exhibition</span>
+    <div class="d-flex justify-content-end mb-3">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="timeFormatSwitch" 
+                   [(ngModel)]="use24HourFormat" (change)="onTimeFormatChange()">
+            <label class="form-check-label" for="timeFormatSwitch">
+                24-hour format
+            </label>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center flex-wrap mb-3">
+        <h5 style="display: inline-block" class="me-2 mb-2">Bracket Key:</h5>
+        <span class="badge bg-primary me-2 mb-2 px-3 py-2">Playoffs</span>
+        <span class="badge bg-success me-2 mb-2 px-3 py-2">Ascension</span>
+        <span class="badge bg-info me-2 mb-2 px-3 py-2">Normal</span>
+        <span class="badge bg-dark me-2 mb-2 px-3 py-2">Exhibition</span>
     </div>
 
     <div class="btn-group mb-3 flex-wrap gap-1 w-100" role="group" aria-label="Round selection radio group">
@@ -34,7 +44,7 @@
             <div class="card-header pt-3">
                 <h4 class="d-flex justify-content-between">
                     <a [href]="'https://racetime.gg/pkmnredblue/' + race.raceTimeId" class="text-dark" style="text-decoration: none;">
-                        {{ race.raceDateTime * 1000 | date:'fullDate' }} at {{ race.raceDateTime * 1000 | date:'shortTime' }}
+                        {{ race.raceDateTime * 1000 | date:'fullDate' }} at {{ race.raceDateTime * 1000 | date:getShortTimeFormat() }}
                     </a>
 
                     <span class="badge bg-dark">{{ race.round }}</span>
