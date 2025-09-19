@@ -6,6 +6,19 @@
       <div class="row">
         <h3 class="mb-3 text-center">
           <app-country-flag [countryCode]="user.country"></app-country-flag>{{ user.displayName }}
+          @if (trophies.length > 0) {
+            <span class="ms-2">
+              @for (trophy of trophies; track trophy.year) {
+                <span 
+                  class="trophy-emoji" 
+                  [title]="trophy.position + ' place in ' + trophy.year"
+                  style="font-size: 1.2em; margin-left: 4px;"
+                >
+                  {{ trophy.emoji }}
+                </span>
+              }
+            </span>
+          }
         </h3>
         @if (user.pronouns) {
           <h4 class="mb-3 text-center">({{ user.pronouns }})</h4>
@@ -16,7 +29,7 @@
       @if (user.photos) {
         <div class="text-center mb-3">
           <img
-            [src]="user.photos[0]?.value || '/assets/default-avatar.png'"
+            [src]="user.photos[0]?.value || '/blankPokeball.png'"
             class="profile-avatar img-fluid rounded-circle mb-2"
             alt="User Avatar"
           />
@@ -43,6 +56,22 @@
           <span class="badge bg-info">Pickems</span>
         }
       </div>
+
+      <!-- Tournament Trophies Section -->
+      @if (trophies.length > 0) {
+        <div class="mt-4">
+          <h5 class="text-center mb-3">Tournament Achievements</h5>
+          <div class="d-flex justify-content-center flex-wrap gap-3">
+            @for (trophy of trophies; track trophy.year) {
+              <div class="trophy-card text-center p-3 border rounded">
+                <div style="font-size: 2rem;">{{ trophy.emoji }}</div>
+                <div class="fw-bold">{{ trophy.year }}</div>
+                <div class="text-muted small">{{ trophy.position | titlecase }} Place</div>
+              </div>
+            }
+          </div>
+        </div>
+      }
     </div>
 
     <!-- Pickems Section -->

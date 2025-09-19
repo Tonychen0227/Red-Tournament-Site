@@ -1,0 +1,55 @@
+<div class="hall-of-fame-container">
+  <div class="hall-of-fame-header">
+    <h1>🏆 Hall of Fame 🏆</h1>
+    <p>Celebrating the champions of past Red Tournaments</p>
+  </div>
+
+  <app-loading *ngIf="loading"></app-loading>
+
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="clearAlert()"></button>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage" class="tournament-list">
+    <div *ngFor="let result of pastResults" class="tournament-item">
+      <h2 class="tournament-year">{{ result.tournamentYear }}</h2>
+      <ul class="winners-list">
+        <li class="winner gold">
+          <span class="medal">🥇</span>
+          <span class="name">{{ result.gold.name }}</span>
+          <span class="position">Champion</span>
+        </li>
+        <li class="winner silver">
+          <span class="medal">🥈</span>
+          <span class="name">{{ result.silver.name }}</span>
+          <span class="position">Runner-up</span>
+        </li>
+        <li class="winner bronze">
+          <span class="medal">🥉</span>
+          <span class="name">{{ result.bronze.name }}</span>
+          <span class="position">Third Place</span>
+        </li>
+      </ul>
+      
+      <div *ngIf="result.spotlightVideos && result.spotlightVideos.length > 0" class="videos-section">
+        <h4>📹 Spotlight Videos</h4>
+        <div class="videos-grid">
+          <div *ngFor="let video of result.spotlightVideos; let i = index" class="video-container">
+            <iframe 
+              [src]="getYouTubeEmbedUrl(video)" 
+              [title]="'Spotlight Video ' + (i + 1) + ' - ' + result.tournamentYear"
+              frameborder="0" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage && pastResults.length === 0" class="no-results">
+    <h3>No past results available</h3>
+    <p>Check back later for tournament history!</p>
+  </div>
+</div>

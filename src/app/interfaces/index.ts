@@ -5,3 +5,4 @@ export * from './group';
 export * from './tournament';
 export * from './pickems';
 export * from './stats';
+export * from './past-results';

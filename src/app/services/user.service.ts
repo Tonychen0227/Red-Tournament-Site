@@ -23,6 +23,11 @@ export class UserService {
     return this.http.get<any>(`${this.baseUrl}/user/${userId}`, { headers, withCredentials: true });
   }
 
+  getCurrentUserProfile(): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.get<any>(`${this.baseUrl}/user/profile/me`, { headers, withCredentials: true });
+  }
+
   updateDisplayName(displayName: string): Observable<any> {
     const headers = this.getHeaders();
 

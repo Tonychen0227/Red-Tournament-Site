@@ -36,6 +36,8 @@ export class ProfileComponent implements OnInit {
 
   errorMessage: string | null = null;
 
+  trophies: any[] = [];
+
   constructor(
     private authService: AuthService, 
     private userService: UserService, 
@@ -52,17 +54,29 @@ export class ProfileComponent implements OnInit {
       if (discordUsername) {
         this.fetchUserProfile(discordUsername);
       } else {
-        this.authService.checkAuthStatus().subscribe({
+        // Use the new service method that includes trophies
+        this.userService.getCurrentUserProfile().subscribe({
           next: (user) => {
-            if (user) {
-              this.user = user;
-              this.getUserRaces(user._id);
-              this.getUserPickems(user._id);
-            } else {
-              // User is not authenticated
-              this.errorMessage = 'Please log in to view your profile';
-            }
+            this.user = user;
+            this.trophies = user.trophies || [];
+            this.getUserRaces(user._id);
+            this.getUserPickems(user._id);
             this.loading = false;
+          },
+          error: (error) => {
+            // Fallback to auth service if the new endpoint fails
+            this.authService.checkAuthStatus().subscribe({
+              next: (user) => {
+                if (user) {
+                  this.user = user;
+                  this.getUserRaces(user._id);
+                  this.getUserPickems(user._id);
+                } else {
+                  this.errorMessage = 'Please log in to view your profile';
+                }
+                this.loading = false;
+              }
+            });
           }
         });
       }
@@ -73,6 +87,7 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserByDiscordUsername(discordUsername).subscribe({
       next: (userData) => {
         this.user = userData;
+        this.trophies = userData.trophies || [];
 
         this.getUserRaces(userData._id);
         this.getUserPickems(userData._id);

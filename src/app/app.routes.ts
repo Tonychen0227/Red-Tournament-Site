@@ -35,11 +35,13 @@ import { PickemsRacesComponent } from './pickems-dashboard/pickems-races/pickems
 import { PickemsTournamentComponent } from './pickems-dashboard/pickems-tournament/pickems-tournament.component';
 import { PickemsStatsComponent } from './pickems-dashboard/pickems-stats/pickems-stats.component';
 import { StatsComponent } from './stats/stats.component';
+import { HallOfFameComponent } from './hall-of-fame/hall-of-fame.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'info', component: InfoComponent },
     { path: 'standings', component: StandingsComponent },
+    { path: 'hall-of-fame', component: HallOfFameComponent },
     { path: 'groups', component: GroupsComponent },
     { path: 'rules', component: RulesComponent },
     { path: 'help', component: HelpComponent },

@@ -1,0 +1,204 @@
+.hall-of-fame-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hall-of-fame-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.hall-of-fame-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.hall-of-fame-header p {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0;
+}
+
+.tournament-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tournament-item {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.tournament-year {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 1rem 0;
+  text-align: center;
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.winners-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.winner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #e9ecef;
+}
+
+.winner.gold {
+  border-left: 4px solid #ffd700;
+}
+
+.winner.silver {
+  border-left: 4px solid #c0c0c0;
+}
+
+.winner.bronze {
+  border-left: 4px solid #cd7f32;
+}
+
+.medal {
+  font-size: 1.5rem;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+  flex: 1;
+}
+
+.position {
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.videos-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.videos-section h4 {
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  color: #333;
+  text-align: center;
+}
+
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.no-results h3 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.alert {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  position: relative;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.btn-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+}
+
+.btn-close:hover {
+  opacity: 1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .hall-of-fame-container {
+    padding: 1rem;
+  }
+  
+  .hall-of-fame-header h1 {
+    font-size: 2rem;
+  }
+  
+  .tournament-item {
+    padding: 1rem;
+  }
+  
+  .winner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .winner .medal {
+    align-self: center;
+  }
+  
+  .videos-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .video-container {
+    margin-bottom: 1rem;
+  }
+}

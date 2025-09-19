@@ -1,0 +1,25 @@
+.trophy-card {
+  min-width: 100px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  transition: transform 0.2s ease-in-out;
+}
+
+.trophy-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trophy-emoji {
+  display: inline-block;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.profile-avatar {
+  max-width: 150px;
+  max-height: 150px;
+}
