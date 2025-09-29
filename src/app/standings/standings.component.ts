@@ -27,6 +27,8 @@ export class StandingsComponent implements OnInit {
   runnerTimeString: Record<string, string> = {};
 
   cutoffRank: number = 0;
+  bestTournamentTime: string = '';
+  bestTournamentTimeRunner: string = '';
 
   constructor(private tournamentService: TournamentService) {}
 
@@ -41,8 +43,18 @@ export class StandingsComponent implements OnInit {
 
         this.runners = rankedRunners;
 
+        // Track best tournament time and runner
+        let bestTimeMs = 9000000;
+        let bestTimeRunnerName = '';
+
         for (const runner of this.runners) {
           let bestTime = runner.bestTournamentTimeMilliseconds ?? 9000000;
+
+          // Check if this is the best time so far
+          if (bestTime < bestTimeMs) {
+            bestTimeMs = bestTime;
+            bestTimeRunnerName = runner.displayName || runner.discordUsername;
+          }
 
           let hours = Math.floor(bestTime / (1000 * 60 * 60));
           bestTime = bestTime - (hours * (1000 * 60 * 60));
@@ -58,6 +70,28 @@ export class StandingsComponent implements OnInit {
           }
 
           this.runnerTimeString[runner.discordUsername] = `${hours}:${minutes >= 10 ? minutes : `0${minutes}`}:${seconds >= 10 ? seconds : `0${seconds}`}.${millisecondsString}`;
+        }
+
+        // Set the best tournament time and runner
+        this.bestTournamentTimeRunner = bestTimeRunnerName;
+        if (bestTimeMs < 9000000) {
+          let bestTime = bestTimeMs;
+          let hours = Math.floor(bestTime / (1000 * 60 * 60));
+          bestTime = bestTime - (hours * (1000 * 60 * 60));
+          let minutes = Math.floor(bestTime / (1000 * 60));
+          bestTime = bestTime - (minutes * (1000 * 60));
+          let seconds = Math.floor(bestTime / (1000));
+          bestTime = bestTime - (seconds * 1000);
+          let milliseconds = bestTime;
+          let millisecondsString = `${milliseconds}`;
+
+          while (millisecondsString.length < 3) {
+            millisecondsString = `0${millisecondsString}`;
+          }
+
+          this.bestTournamentTime = `${hours}:${minutes >= 10 ? minutes : `0${minutes}`}:${seconds >= 10 ? seconds : `0${seconds}`}.${millisecondsString}`;
+        } else {
+          this.bestTournamentTime = 'No times recorded';
         }
         this.cutoffRank = cutoffRank;
         

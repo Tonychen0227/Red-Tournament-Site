@@ -67,4 +67,14 @@ export class PickemsService {
     const headers = this.getHeaders();
     return this.http.get<any>(`${this.baseUrl}/stats/favorites`, { headers, withCredentials: true });
   }
+
+  recalibratePickems(): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post<any>(`${environment.apiUrl}/admin/recalibrate-pickems`, {}, { headers, withCredentials: true });
+  }
+
+  previewRecalibratePickems(): Observable<any> {
+    const headers = this.getHeaders();
+    return this.http.post<any>(`${environment.apiUrl}/admin/recalibrate-pickems-preview`, {}, { headers, withCredentials: true });
+  }
 }

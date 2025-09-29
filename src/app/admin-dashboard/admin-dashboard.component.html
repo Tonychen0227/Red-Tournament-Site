@@ -8,6 +8,98 @@
     <!-- <button class="btn btn-primary" routerLink="/admin/users/pots">Set Initial Pots</button> -->
     <button class="btn btn-primary" routerLink="/admin/groups/add">Create Groups</button>
     <button class="btn btn-primary" routerLink="/admin/round/end">End Round</button>
+    <button 
+        class="btn btn-primary" 
+        (click)="previewRecalibrate()" 
+        [disabled]="isPreviewing || isRecalibrating || showPreview"
+    >
+        <span *ngIf="isPreviewing" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        {{ isPreviewing ? 'Previewing...' : 'Preview Pickems Recalibration' }}
+    </button>
+</div>
+
+<div *ngIf="recalibrateMessage" class="alert mb-3" [ngClass]="{'alert-success': !recalibrateMessage.includes('Error'), 'alert-danger': recalibrateMessage.includes('Error')}" role="alert">
+    {{ recalibrateMessage }}
+</div>
+
+<!-- Preview Results Section -->
+<div *ngIf="showPreview" class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Pickems Recalibration Preview</h5>
+        <div>
+            <button 
+                class="btn btn-success me-2" 
+                (click)="finalizeRecalibrate()" 
+                [disabled]="isRecalibrating"
+            >
+                <span *ngIf="isRecalibrating" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isRecalibrating ? 'Finalizing...' : 'Finalize Changes' }}
+            </button>
+            <button 
+                class="btn btn-secondary" 
+                (click)="cancelPreview()" 
+                [disabled]="isRecalibrating"
+            >
+                Cancel
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div *ngIf="pointsChanges.length === 0" class="text-muted text-center py-3">
+            No point changes detected.
+        </div>
+        
+        <div *ngIf="pointsChanges.length > 0">
+            <div class="mb-3">
+                <small class="text-muted">
+                    Showing {{ getUsersWithChanges() }} users with changes out of {{ pointsChanges.length }} total users
+                </small>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Current Points</th>
+                            <th>New Points</th>
+                            <th>Change</th>
+                            <th>Point Sources</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let change of pointsChanges" 
+                            [class]="change.pointsDifference > 0 ? 'table-success' : change.pointsDifference < 0 ? 'table-danger' : ''">
+                            <td>{{ change.userDisplayName }}</td>
+                            <td>{{ change.currentPoints }}</td>
+                            <td>{{ change.newPoints }}</td>
+                            <td>
+                                <span *ngIf="change.pointsDifference > 0" class="text-success">
+                                    +{{ change.pointsDifference }}
+                                </span>
+                                <span *ngIf="change.pointsDifference < 0" class="text-danger">
+                                    {{ change.pointsDifference }}
+                                </span>
+                                <span *ngIf="change.pointsDifference === 0" class="text-muted">
+                                    No change
+                                </span>
+                            </td>
+                            <td>
+                                <div *ngIf="hasBreakdownPoints(change.breakdown)">
+                                    <small class="d-block" *ngFor="let item of getBreakdownEntries(change.breakdown)">
+                                        {{ item.key }}: {{ item.value }} pts
+                                    </small>
+                                </div>
+                                <span *ngIf="!hasBreakdownPoints(change.breakdown)" class="text-muted">
+                                    <small>No points earned</small>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <router-outlet></router-outlet>

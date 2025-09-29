@@ -26,6 +26,15 @@ export class AppComponent {
   constructor(private authService: AuthService, public globals: Globals) {}
 
   ngOnInit(): void {
-    this.authService.checkAuthStatus();    
+    // Properly subscribe to authentication status to ensure it completes
+    this.authService.checkAuthStatus().subscribe({
+      next: (user) => {
+        // Authentication check completed successfully
+        console.log('Authentication status loaded:', user ? 'authenticated' : 'not authenticated');
+      },
+      error: (error) => {
+        console.error('Error checking authentication status:', error);
+      }
+    });
   }
 }

@@ -132,7 +132,6 @@
       </div>
     </div>
 
-    <!-- Round 1 Picks -->
     @if (pickems.round1Picks.length > 0) {
       <div class="card mb-3">
         <div class="card-header">
@@ -143,7 +142,10 @@
             @for (pick of pickems.round1Picks; track pick._id) {
               <div class="col-6 col-md-4 mb-2">
                 <div class="list-group-item text-center">
-                  <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+                  <span class="badge bg-dark p-2" [ngClass]="{
+                                              'text-white': !isWinningPick(pick._id, round1Winners),
+                                              'text-success': isWinningPick(pick._id, round1Winners)
+                                          }">{{ pick.displayName }}</span>
                 </div>
               </div>
             }
@@ -151,8 +153,7 @@
         </div>
       </div>
     }
-
-    <!-- Round 2 Picks -->
+  
     @if (pickems.round2Picks.length > 0) {
       <div class="card mb-3">
         <div class="card-header">
@@ -163,7 +164,10 @@
             @for (pick of pickems.round2Picks; track pick._id) {
               <div class="col-6 col-md-4 mb-2">
                 <div class="list-group-item text-center">
-                  <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+                <span class="badge bg-dark p-2" [ngClass]="{
+                                            'text-white': !isWinningPick(pick._id, round2Winners),
+                                            'text-success': isWinningPick(pick._id, round2Winners)
+                                        }">{{ pick.displayName }}</span>
                 </div>
               </div>
             }
@@ -171,8 +175,7 @@
         </div>
       </div>
     }
-
-    <!-- Round 3 Picks -->
+  
     @if (pickems.round3Picks.length > 0) {
       <div class="card mb-3">
         <div class="card-header">
@@ -183,7 +186,10 @@
             @for (pick of pickems.round3Picks; track pick._id) {
               <div class="col-6 col-md-4 mb-2">
                 <div class="list-group-item text-center">
-                  <span class="badge bg-dark p-2">{{ pick.displayName }}</span>
+                  <span class="badge bg-dark p-2" [ngClass]="{
+                                              'text-white': !isWinningPick(pick._id, round3Winners),
+                                              'text-success': isWinningPick(pick._id, round3Winners)
+                                          }">{{ pick.displayName }}</span>
                 </div>
               </div>
             }
